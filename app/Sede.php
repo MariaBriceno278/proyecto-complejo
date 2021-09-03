@@ -8,6 +8,6 @@ class Sede extends Model
 {
     protected $table = "SEDE";
     protected $primaryKey = "idSede";
-    protected $fillable = ['direccionSede', 'nombreSede'];
+    protected $fillable = ['direccionSede', 'nombreSede','estado'];
     public $timestamps = false;
 }

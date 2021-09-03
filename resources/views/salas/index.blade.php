@@ -15,8 +15,8 @@
             <table id="table_id" class="display">
                 <thead>
                     <tr>
-                        <th colspan="5" style="text-align: center;">
-                            <h3><strong>Sala</strong></h3>
+                        <th colspan="7" style="text-align: center;">
+                            <h3><strong>Salas</strong></h3>
                         </th>
                     </tr>
                     <tr class="table-primary" style="text-align: center;">
@@ -24,26 +24,41 @@
                         <th>Capacidad de la Sala</th>
                         <th>Bloque de la Sala</th>
                         <th>Piso de la Sala</th>
+                        <th>Sede</th>
+                        <th>Estado</th>
                         <th width='20%'> <a class="boton_personalizado" href="{{ route('salas.create') }}">Nuevo</a>
                         </th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($salas as $sala)
+                     @foreach ($salas as $sala)
                         <tr>
-                            <td>{{ $sala->numeroSala }}</td>
+                      <td>{{ $sala->numeroSala }}</td>
                             <td>{{ $sala->capacidadSala }}</td>
                             <td>{{ $sala->bloqueSala }}</td>
                             <td>{{ $sala->pisoSala }}</td>
+                            <td>{{ $sala->nombreSede }} - {{ $sala->direccionSede }}</td>
+
+                            @if ($sala->estado == 1)
+                            <td><a href="{{ route('salas.change.status', [$sala->idSala]) }}"
+                                    class="btn btn-sm btn-success">Activo</a>
+                            </td>
+                        @else
+                            <td><a href="{{ route('salas.change.status', [$sala->idSala]) }}"
+                                    class="btn btn-sm btn-danger">Inactivo</a>
+                            </td>
+                        @endif
+
                             <td style="text-align: center;">
                                 <!-- Edit -->
+
                                 <a href="{{ route('salas.edit', [$sala->idSala]) }}"
                                     class="btn btn-sm btn-info">Modificar</a>
-                                <a href="{{ route('salas.delete', $sala->idSala) }}"
-                                    class="btn btn-sm btn-danger">Eliminar</a>
+
                             </td>
                         </tr>
-                    @endforeach
+                     @endforeach
+
                 </tbody>
             </table>
 

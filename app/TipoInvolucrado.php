@@ -8,6 +8,6 @@ class TipoInvolucrado extends Model
 {
     protected $table = "TIPOINVOLUCRADO";
     protected $primaryKey = "idTipoInvolucrado";
-    protected $fillable = ['nombreTipoInvolucrado'];
+    protected $fillable = ['nombreTipoInvolucrado','estado'];
     public $timestamps = false;
 }

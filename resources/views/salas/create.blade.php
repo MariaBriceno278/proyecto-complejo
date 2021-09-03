@@ -19,7 +19,7 @@
                             Número de la Sala<span class="required"></span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <input id="numeroSala" class="form-control " name="numeroSala"
-                                placeholder="Ingrese el número de la sala" required="required" type="text">
+                                placeholder="Ingrese el número de la sala"  type="text">
 
                             @if ($errors->has('numeroSala'))
                                 <span class="errormsg">{{ $errors->first('numeroSala') }}</span>
@@ -32,7 +32,7 @@
                             Capacidad de la Sala<span class="required"></span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <input id="capacidadSala" class="form-control " name="capacidadSala"
-                                placeholder="Ingrese la capacidad de la sala" required="required" type="text">
+                                placeholder="Ingrese la capacidad de la sala"  type="text">
 
                             @if ($errors->has('capacidadSala'))
                                 <span class="errormsg">{{ $errors->first('capacidadSala') }}</span>
@@ -69,11 +69,33 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="idSedeFK">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="estado">Estado
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <select name="estado" class="form-control">
+                                <option value=""> -- Seleccione Estado --</option>
+                                <option value="1">Activo</option>
+                                <option value="0">Inactivo</option>
+                            </select>
+
+                            @if ($errors->has('estado'))
+                                <span class="errormsg">{{ $errors->first('estado') }}</span>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="idSede">
                             Sede</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input id="idSedeFK" class="form-control " name="idSedeFK" placeholder="Ingrese la sede"
-                                type="text">
+                            <select name="idSedeFK" class="form-control" >
+                                <option value=""> -- Seleccione Sede --</option>
+                                @foreach($salas_sedes as $sala_sede )
+                                    <option value="{{ $sala_sede->idSede }}">
+                                        {{ $sala_sede->nombreSede }}-{{ $sala_sede->direccionSede }}
+                                    </option>
+                                @endforeach
+                            </select>
+
 
 
                             @if ($errors->has('idSedeFK'))

@@ -8,6 +8,11 @@ class Rol extends Model
 {
     protected $table = "ROL";
     protected $primaryKey = "idRol";
-    protected $fillable = ['nombreRol', 'estadoRol'];
+    protected $fillable = ['nombreRol'];
     public $timestamps = false;
+
+    public function rols_usuarios()
+    {
+        return $this->hasMany('App\Usuario', 'idRolFK');
+    }
 }

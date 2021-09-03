@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Usuario;
+use App\Despacho;
+use App\Rol;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Validator as FacadesValidator;
+use Illuminate\Support\Facades\Validator;
 
 class UsuarioController extends Controller
 {
@@ -16,7 +18,7 @@ class UsuarioController extends Controller
      */
     public function index()
     {
-        $usuarios = Usuario::select('idUsuario', 'nombreUsuario', 'apellidoUsuario', 'correoUsuario', 'documentoUsuario', 'telefonoUsuario')->get();
+        $usuarios = Usuario::select('idUsuario', 'nombreUsuario', 'apellidoUsuario', 'correoUsuario', 'documentoUsuario', 'telefonoUsuario', 'estado')->get();
         return view('usuarios.index')->with('usuarios', $usuarios);
     }
 
@@ -27,8 +29,10 @@ class UsuarioController extends Controller
      */
     public function create()
     {
-        return view('usuarios.create');
-    }
+        $usuarios_despachos = Despacho::select(['numeroDespacho', 'nombreDespacho', 'idDespacho'])->get();
+        $usuarios_rols = Rol::select(['nombreRol', 'idRol'])->get();
+
+        return view('usuarios.create')->with('usuarios_despachos', $usuarios_despachos)->with('usuarios_rols', $usuarios_rols);    }
 
     /**
      * Store a newly created resource in storage.
@@ -40,17 +44,28 @@ class UsuarioController extends Controller
     {
         $data = $request->except('_method', '_token', 'submit');
 
-        $validator = FacadesValidator::make($request->all(), [
-            'nombreUsuario' => 'required|string|min:1',
-            'apellidoUsuario' => 'required|string|min:1',
-            'correoUsuario' => 'required|string|min:10',
-            'documentoUsuario' => 'required|int|min:10',
-            'telefonoUsuario' => 'required|int|min:6',
-            'idDespachoFK' => 'string',
-            'idRolFK' => 'string'
+        $mensajes =[
+            "unique" => "ya se encuntra registrado",
+            "required" => "Campo requerido ",
+            "alpha" => "Solo ingrese letras",
+            "numeric" => "Solo ingrese numeros",
+            "email" => "Solo correo electronico valido",
+
+            ];
+
+            $rules = [
+                'nombreUsuario' => 'required|string|min:3',
+            'apellidoUsuario' => 'required|string|min:3',
+            'correoUsuario' => 'required|email|unique:usuario,correoUsuario',
+            'documentoUsuario' => 'required|numeric|min:10|unique:usuario,documentoUsuario',
+            'telefonoUsuario' => 'required|numeric|min:6|unique:usuario,telefonoUsuario',
+            'idDespachoFK' => 'required',
+            'idRolFK' => 'required'
 
 
-        ]);
+            ];
+
+        $validator = Validator::make($request->all(), $rules,$mensajes);
 
         if ($validator->fails()) {
             return redirect()->Back()->withInput()->withErrors($validator);
@@ -91,7 +106,11 @@ class UsuarioController extends Controller
     {
         $usuarios = Usuario::find($idUsuario);
 
-        return view('usuarios.edit')->with('usuarios', $usuarios);
+        $usuarios_despachos = Despacho::select(['numeroDespacho', 'nombreDespacho', 'idDespacho'])->get();
+
+        $usuarios_rols = Rol::select(['nombreRol', 'idRol'])->get();
+
+        return view('usuarios.edit')->with('usuarios_despachos', $usuarios_despachos)->with('usuarios_rols', $usuarios_rols)->with('usuarios', $usuarios);
     }
 
     /**
@@ -105,16 +124,28 @@ class UsuarioController extends Controller
     {
         $data = $request->except('_method', '_token', 'submit');
 
-        $validator = FacadesValidator::make($request->all(), [
-            'nombreUsuario' => 'required|string|min:1',
-            'apellidoUsuario' => 'required|string|min:1',
-            'correoUsuario' => 'required|string|min:10',
-            'documentoUsuario' => 'required|int|min:10',
-            'telefonoUsuario' => 'required|int|min:6',
-            'idDespachoFK' => 'string',
-            'idRolFK' => 'string'
+        $mensajes =[
+            "unique" => "ya se encuntra registrado",
+            "required" => "Campo requerido ",
+            "alpha" => "Solo ingrese letras",
+            "numeric" => "Solo ingrese numeros",
+            "email" => "Solo correo electronico valido",
 
-        ]);
+            ];
+
+            $rules = [
+                'nombreUsuario' => 'required|string|min:3',
+            'apellidoUsuario' => 'required|string|min:3',
+            'correoUsuario' => 'required|email',
+            'documentoUsuario' => 'required|numeric|min:10',
+            'telefonoUsuario' => 'required|numeric|min:6',
+            'idDespachoFK' => 'required',
+            'idRolFK' => 'required'
+
+
+            ];
+
+        $validator = Validator::make($request->all(), $rules,$mensajes);
 
         if ($validator->fails()) {
             return redirect()->Back()->withInput()->withErrors($validator);
@@ -140,12 +171,15 @@ class UsuarioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function change_status($idUsuario)
     {
-        Usuario::destroy($id);
-
-        Session::flash('message', 'Eliminado con Exito!');
-        Session::flash('alert-class', 'alert-success');
-        return redirect()->route('usuarios');
+        $usuario = Usuario::find($idUsuario);
+        if ($usuario->estado == 1) {
+            $usuario->update(['estado' => 0]);
+            return redirect()->back();
+        } else {
+            $usuario->update(['estado' => 1]);
+            return redirect()->back();
+        }
     }
 }

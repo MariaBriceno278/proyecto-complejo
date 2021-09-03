@@ -30,10 +30,10 @@
 
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="fechaSolicitud">Fecha de la
-                                    Solicitud<span class="required"></span></label>
+                                    Solicitud</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <input id="fechaSolicitud" class="form-control col-md-12 col-xs-12"
-                                        name="fechaSolicitud" required="required" type="date"
+                                        name="fechaSolicitud" type="date" readonly
                                         value="{{ old('fechaSolicitud', $solicituds->fechaSolicitud) }}">
 
                                     @if ($errors->has('fechaSolicitud'))
@@ -44,11 +44,11 @@
 
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="capacidadRequerida">Capacidad
-                                    Requerida<span class="required"></span></label>
+                                    Requerida</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <input id="capacidadRequerida" class="form-control col-md-12 col-xs-12"
                                         name="capacidadRequerida" placeholder="Ingrese la capacidad requerida"
-                                        required="required" type="text"
+                                        type="text"
                                         value="{{ old('capacidadRequerida', $solicituds->capacidadRequerida) }}">
 
                                     @if ($errors->has('capacidadRequerida'))
@@ -62,7 +62,7 @@
                                     for="prioridadNormal">Notificación</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <input id="prioridadNormal" class="form-control col-md-12 col-xs-12"
-                                        name="prioridadNormal" placeholder="Ingrese la prioridad" required="required"
+                                        name="prioridadNormal" placeholder="Ingrese la prioridad"
                                         type="text" value="{{ old('prioridadNormal', $solicituds->prioridadNormal) }}">
 
                                     @if ($errors->has('prioridadNormal'))
@@ -70,6 +70,45 @@
                                     @endif
                                 </div>
                             </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12"  for="idCaso">
+                                    Caso </label><div class="col-md-6 col-sm-6 col-xs-12">
+                                    <select  disabled name="idCasoFK" class="form-control" >
+
+                                        @foreach ($solicitud_caso as $solicitud_caso)
+                                            <option value="{{ $solicitud_caso->idCaso }}"
+                                                {{ old('idCasoFK') == 1 ? 'select' : '' }}>
+                                                {{ $solicitud_caso->nReferenciaCaso }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+
+                                    @if ($errors->has('idCasoFK'))
+                                        <span class="errormsg">{{ $errors->first('idCasoFK') }}</span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12"  for="idUsuario">
+                                    Usuario </label><div class="col-md-6 col-sm-6 col-xs-12">
+                                    <select disabled name="idUsuarioFK" class="form-control">
+
+                                        @foreach ($solicitud_usuario as $solicitud_usuario)
+                                            <option  value="{{ $solicitud_usuario->idUsuario }}"
+                                                {{ old('idUsuarioFK') == 1 ? 'select' : '' }}>
+                                                {{ $solicitud_usuario->nombreUsuario }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+
+                                    @if ($errors->has('idUsuarioFK'))
+                                        <span class="errormsg">{{ $errors->first('idUsuarioFK') }}</span>
+                                    @endif
+                                </div>
+                            </div>
+
 
                             <div class="form-group">
                                 <div class="col-md-6">

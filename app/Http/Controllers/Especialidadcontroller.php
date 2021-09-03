@@ -16,7 +16,7 @@ class EspecialidadController extends Controller
      */
     public function index()
     {
-        $especialidads = Especialidad::select('idEspecialidad', 'denominacionEspecialidad')->get();
+        $especialidads = Especialidad::select('idEspecialidad', 'denominacionEspecialidad','estado')->get();
         return view('especialidads.index')->with('especialidads', $especialidads);
     }
 

@@ -16,7 +16,7 @@ class CasoController extends Controller
      */
     public function index()
     {
-        $casos = Caso::select('idCaso', 'nReferenciaCaso', 'fechaRegistro', 'estadoCaso')->get();
+        $casos = Caso::select('idCaso', 'nReferenciaCaso', 'fechaRegistro', 'estado')->get();
         return view('casos.index')->with('casos', $casos);
     }
 
@@ -38,13 +38,19 @@ class CasoController extends Controller
      */
     public function store(Request $request)
     {
+        $r=["fechaRegistro" => 'after:yesterday'];
+
         $data = $request->except('_method', '_token', 'submit');
 
         $validator = FacadesValidator::make($request->all(), [
             'nReferenciaCaso' => 'required|string',
-            'fechaRegistro' => 'required|string',
-            'estadoCaso' => 'required|string',
+            'estado' => 'string',
         ]);
+
+        $val = FacadesValidator::make($request->only("fechaRegistro") , $r);
+        if($val->fails()){
+            return redirect()->Back()->withInput()->withErrors($val);
+        }
 
         if ($validator->fails()) {
             return redirect()->Back()->withInput()->withErrors($validator);
@@ -95,13 +101,19 @@ class CasoController extends Controller
      */
     public function update(Request $request, $idCaso)
     {
+        $r=["fechaRegistro" => 'after:yesterday'];
+
         $data = $request->except('_method', '_token', 'submit');
 
         $validator = FacadesValidator::make($request->all(), [
             'nReferenciaCaso' => 'required|string',
-            'fechaRegistro' => 'required|string',
-            'estadoCaso' => 'required|string',
+            'estado' => 'required|string',
         ]);
+
+        $val = FacadesValidator::make($request->only("fechaRegistro") , $r);
+        if($val->fails()){
+            return redirect()->Back()->withInput()->withErrors($val);
+        }
 
         if ($validator->fails()) {
             return redirect()->Back()->withInput()->withErrors($validator);
@@ -127,12 +139,15 @@ class CasoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function change_status($idCaso)
     {
-        Caso::destroy($id);
-
-        Session::flash('message', 'Eliminado con Exito!');
-        Session::flash('alert-class', 'alert-success');
-        return redirect()->route('casos');
+        $caso = Caso::find($idCaso);
+        if ($caso->estado == 1) {
+            $caso->update(['estado' => 0]);
+            return redirect()->back();
+        } else {
+            $caso->update(['estado' => 1]);
+            return redirect()->back();
+        }
     }
 }

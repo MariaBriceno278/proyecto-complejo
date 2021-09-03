@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Audiencia;
+use App\Asignacion;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Validator as FacadesValidator;
+use Illuminate\Support\Facades\Validator;
 
 class AudienciaController extends Controller
 {
@@ -16,7 +18,9 @@ class AudienciaController extends Controller
      */
     public function index()
     {
-        $audiencias = Audiencia::select('idAudiencia', 'tiempoAudiencia', 'observacionesAudiencia')->get();
+        $audiencias = Audiencia::select('audiencia.idAudiencia', 'audiencia.tiempoAudiencia', 'audiencia.observacionesAudiencia','audiencia.estado','asignacion.notificacionEnviada')
+        ->join('asignacion','audiencia.idAsignacionFK','=','asignacion.idAsignacion')
+        ->get();
         return view('audiencias.index')->with('audiencias', $audiencias);
     }
 
@@ -27,7 +31,8 @@ class AudienciaController extends Controller
      */
     public function create()
     {
-        return view('audiencias.create');
+        $audeincia_asignacion = Asignacion::select(['fechaInicio','horaInicio','fechaFin','horaFin','notificacionEnviada','idAsignacion'])->get();
+        return view('audiencias.create')->with('audeincia_asignacion',$audeincia_asignacion);
     }
 
     /**
@@ -40,12 +45,24 @@ class AudienciaController extends Controller
     {
         $data = $request->except('_method', '_token', 'submit');
 
-        $validator = FacadesValidator::make($request->all(), [
-            'tiempoAudiencia' => 'required|string',
-            'observacionesAudiencia' => 'string',
-            'idAsignacionFK' => 'string',
+        $rules =  [
+            'tiempoAudiencia' => 'required',
+            'observacionesAudiencia' => 'required',
+            'estado' => 'required',
+            'idAsignacionFK'=>'required|unique:audiencia,idAsignacionFK',
 
-        ]);
+        ];
+        $mensajes =[
+            "unique" => "el la asignacion ya tine una audiencia registrada",
+            "required" => "Campo requerido ",
+
+
+            ];
+
+
+
+
+        $validator = Validator::make($request->all(), $rules,$mensajes);
 
         if ($validator->fails()) {
             return redirect()->Back()->withInput()->withErrors($validator);
@@ -85,8 +102,9 @@ class AudienciaController extends Controller
     public function edit($idAudiencia)
     {
         $audiencias = Audiencia::find($idAudiencia);
+        $audiencia_asignacion = Asignacion::select(['fechaInicio','horaInicio','fechaFin','horaFin','notificacionEnviada','idAsignacion'])->get();
 
-        return view('audiencias.edit')->with('audiencias', $audiencias);
+        return view('audiencias.edit')->with('audiencias', $audiencias)->with('audiencia_asignacion',$audiencia_asignacion);
     }
 
     /**
@@ -99,14 +117,24 @@ class AudienciaController extends Controller
     public function update(Request $request, $idAudiencia)
     {
         $data = $request->except('_method', '_token', 'submit');
+        $rules =  [
+            'tiempoAudiencia' => '',
+            'observacionesAudiencia' => 'required',
+            'estado' => '',
+            'idAsignacionFK'=>'',
 
-        $validator = FacadesValidator::make($request->all(), [
-            'tiempoAudiencia' => 'required|string',
-            'observacionesAudiencia' => 'string',
-            'idAsignacionFK' => 'string',
+        ];
+        $mensajes =[
 
-        ]);
+            "required" => "Campo requerido ",
 
+
+            ];
+
+
+
+
+        $validator = Validator::make($request->all(), $rules,$mensajes);
         if ($validator->fails()) {
             return redirect()->Back()->withInput()->withErrors($validator);
         }
@@ -131,12 +159,15 @@ class AudienciaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function change_status($idAudiencia)
     {
-        Audiencia::destroy($id);
-
-        Session::flash('message', 'Eliminado con Exito!');
-        Session::flash('alert-class', 'alert-success');
-        return redirect()->route('audiencias');
+        $audiencia = Audiencia::find($idAudiencia);
+        if ($audiencia->estado == 1) {
+            $audiencia->update(['estado' => 0]);
+            return redirect()->back();
+        } else {
+            $audiencia->update(['estado' => 1]);
+            return redirect()->back();
+        }
     }
 }

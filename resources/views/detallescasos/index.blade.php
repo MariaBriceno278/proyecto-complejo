@@ -15,43 +15,45 @@
             <table id="table_id" class="display">
                 <thead>
                     <tr>
-                        <th colspan="6" style="text-align: center;">
-                            <h3><strong>Despacho</strong></h3>
+                        <th colspan="7" style="text-align: center;">
+                            <h3><strong>Detalle Caso</strong></h3>
                         </th>
                     </tr>
                     <tr class="table-primary" style="text-align: center;">
-                        <th>Número de Despacho</th>
-                        <th>Nombre Despacho</th>
-                        <th>Teléfono</th>
-                        <th>Correo Electrónico</th>
+                        <th>Número del Caso</th>
+                        <th>Tipo de Involucrado</th>
+                        <th>Involucrado</th>
+                        <th>Correo Electrónio del Involucrado</th>
+                        <th>Observaciones</th>
                         <th>Estado</th>
 
-                        <th width='20%'> <a class="boton_personalizado" href="{{ route('despachos.create') }}">Nuevo</a>
-                        </th>
+                        <th width='20%'> <a class="boton_personalizado"
+                                href="{{ route('detallescasos.create') }}">Nuevo</a></th>
 
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($despachos as $despacho)
+                    @foreach ($detallescasos as $detallecaso)
                         <tr>
-                            <td>{{ $despacho->numeroDespacho }}</td>
-                            <td>{{ $despacho->nombreDespacho }}</td>
-                            <td>{{ $despacho->telefonoDespacho }}</td>
-                            <td>{{ $despacho->correoDespacho }}</td>
+                            <td>{{ $detallecaso->nReferenciaCaso }}</td>
+                            <td>{{ $detallecaso->nombreTipoInvolucrado }}</td>
+                            <td>{{ $detallecaso->nombreInvolucrado }}</td>
+                            <td>{{ $detallecaso->correoInvolucrado }} </td>
+                            <td>{{ $detallecaso->observacionesDetalleCaso }}</td>
 
-                            @if ($despacho->estado == 1)
-                                <td><a href="{{ route('despachos.change.status', [$despacho->idDespacho]) }}"
+                            @if ($detallecaso->estado == 1)
+                                <td><a href="{{ route('detallescasos.change.status', [$detallecaso->idDetalleCaso]) }}"
                                         class="btn btn-sm btn-success">Activo</a>
                                 </td>
                             @else
-                                <td><a href="{{ route('despachos.change.status', [$despacho->idDespacho]) }}"
+                                <td><a href="{{ route('detallescasos.change.status', [$detallecaso->idDetalleCaso]) }}"
                                         class="btn btn-sm btn-danger">Inactivo</a>
                                 </td>
                             @endif
 
                             <td style="text-align: center;">
                                 <!-- Edit -->
-                                <a href="{{ route('despachos.edit', [$despacho->idDespacho]) }}"
+                                <a href="{{ route('detallescasos.edit', [$detallecaso->idDetalleCaso]) }}"
                                     class="btn btn-sm btn-info">Modificar</a>
                             </td>
                         </tr>

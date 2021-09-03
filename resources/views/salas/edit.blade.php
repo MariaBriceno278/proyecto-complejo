@@ -83,19 +83,27 @@
                                     @endif
                                 </div>
                             </div>
-
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="idSedeFK">Sede</label>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="idSede">
+                                    Sede</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input id="idSedeFK" class="form-control col-md-12 col-xs-12" name="idSedeFK"
-                                        placeholder="Ingrese la sede" required="required" type="text"
-                                        value="{{ old('idSedeFK', $salas->idSedeFK) }}">
+                                     <select name="idSedeFK" class="form-control" >
+
+                                        @foreach($salas_sedes as $sala_sede )
+                                            <option value="{{ $sala_sede->idSede }}"  {{ old('idSedeFK')==1 ? 'select' : '' }}>
+                                                {{ $sala_sede->nombreSede }}-{{ $sala_sede->direccionSede }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+
+
 
                                     @if ($errors->has('idSedeFK'))
                                         <span class="errormsg">{{ $errors->first('idSedeFK') }}</span>
                                     @endif
                                 </div>
                             </div>
+
 
                             <div class="form-group">
                                 <div class="col-md-6">

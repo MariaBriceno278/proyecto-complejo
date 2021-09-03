@@ -89,6 +89,26 @@
                             </div>
 
                             <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="idEspecialidad">
+                                    Especialidad</label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <select name="idEspecialidadFK" class="form-control">
+
+                                        @foreach ($despachos_especialidads as $despacho_especialidad)
+                                            <option value="{{ $despacho_especialidad->idEspecialidad }}"
+                                                {{ old('idEspecialidadFK') == 1 ? 'select' : '' }}>
+                                                {{ $despacho_especialidad->denominacionEspecialidad }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+
+                                    @if ($errors->has('idEspecialidadFK'))
+                                        <span class="errormsg">{{ $errors->first('idEspecialidadFK') }}</span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="form-group">
                                 <div class="col-md-6">
                                     <input type="submit" name="submit" value='Guardar' class="boton_personalizado">
                                 </div>

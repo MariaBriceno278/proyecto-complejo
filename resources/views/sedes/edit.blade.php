@@ -30,10 +30,10 @@
 
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="direccionSede">Dirección de la
-                                    Sede<span class="required"></span></label>
+                                    Sede</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <input id="direccionSede" class="form-control col-md-12 col-xs-12" name="direccionSede"
-                                        placeholder="Ingrese la dirreción de la sede" required="required" type="text"
+                                        placeholder="Ingrese la dirreción de la sede" type="text"
                                         value="{{ old('direccionSede', $sedes->direccionSede) }}">
 
                                     @if ($errors->has('direccionSede'))
@@ -44,10 +44,10 @@
 
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nombreSede">Nombre de la
-                                    Sede<span class="required"></span></label>
+                                    Sede</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <input id="nombreSede" class="form-control col-md-12 col-xs-12" name="nombreSede"
-                                        placeholder="Ingrese el nombre de la sede" required="required" type="text"
+                                        placeholder="Ingrese el nombre de la sede" type="text"
                                         value="{{ old('nombreSede', $sedes->nombreSede) }}">
 
                                     @if ($errors->has('nombreSede'))

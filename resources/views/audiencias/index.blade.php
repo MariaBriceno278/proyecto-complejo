@@ -15,13 +15,15 @@
             <table id="table_id" class="display">
                 <thead>
                     <tr>
-                        <th colspan="3" style="text-align: center;">
+                        <th colspan="4" style="text-align: center;">
                             <h3><strong>Audiencia</strong></h3>
                         </th>
                     </tr>
                     <tr class="table-primary" style="text-align: center;">
                         <th>Tiempo de la Audiencia</th>
                         <th>Observación de la Audiencia</th>
+                        <th>Estado</th>
+
                         <th width='20%'> <a class="boton_personalizado" href="{{ route('audiencias.create') }}">Nuevo</a>
                         </th>
 
@@ -32,12 +34,19 @@
                         <tr>
                             <td>{{ $audiencia->tiempoAudiencia }}</td>
                             <td>{{ $audiencia->observacionesAudiencia }}</td>
+                            @if ($audiencia->estado == 1)
+                                <td><a href="{{ route('audiencias.change.status', [$audiencia->idAudiencia]) }}"
+                                        class="btn btn-sm btn-success">Activo</a>
+                                </td>
+                            @else
+                                <td><a href="{{ route('audiencias.change.status', [$audiencia->idAudiencia]) }}"
+                                        class="btn btn-sm btn-danger">Inactivo</a>
+                                </td>
+                            @endif
                             <td style="text-align: center;">
                                 <!-- Edit -->
                                 <a href="{{ route('audiencias.edit', [$audiencia->idAudiencia]) }}"
                                     class="btn btn-sm btn-info">Modificar</a>
-                                <a href="{{ route('audiencias.delete', $audiencia->idAudiencia) }}"
-                                    class="btn btn-sm btn-danger">Eliminar</a>
                             </td>
                         </tr>
                     @endforeach

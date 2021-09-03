@@ -30,29 +30,54 @@
                             {{ csrf_field() }}
 
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="fechaHoraInicio">Fecha y Hora
-                                    de Inicio<span class="required"></span></label>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="fechaInicio">Fecha de Inicio</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input id="fechaHoraInicio" class="form-control col-md-12 col-xs-12"
-                                        name="fechaHoraInicio" required="required" type="datetime-local"
-                                        value="{{ old('fechaHoraInicio', $asignacions->fechaHoraInicio) }}">
+                                    <input id="fechaInicio" class="form-control col-md-12 col-xs-12"
+                                        name="fechaInicio" type="date"
+                                        value="{{ old('fechaInicio', $asignacions->fechaInicio) }}">
 
-                                    @if ($errors->has('fechaHoraInicio'))
-                                        <span class="errormsg">{{ $errors->first('fechaHoraInicio') }}</span>
+                                    @if ($errors->has('fechaInicio'))
+                                        <span class="errormsg">{{ $errors->first('fechaInicio') }}</span>
                                     @endif
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="fechaHoraFin">Fecha y Hora
-                                    de Fin<span class="required"></span></label>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="horaInicio">Hora de Inicio</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input id="fechaHoraFin" class="form-control col-md-12 col-xs-12" name="fechaHoraFin"
-                                        required="required" type="datetime-local"
-                                        value="{{ old('fechaHoraFin', $asignacions->fechaHoraFin) }}">
+                                    <input id="horaInicio" class="form-control col-md-12 col-xs-12"
+                                        name="horaInicio" type="time"
+                                        value="{{ old('horaInicio', $asignacions->horaInicio) }}">
 
-                                    @if ($errors->has('fechaHoraFin'))
-                                        <span class="errormsg">{{ $errors->first('fechaHoraFin') }}</span>
+                                    @if ($errors->has('horaInicio'))
+                                        <span class="errormsg">{{ $errors->first('horaInicio') }}</span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="fechaFin">Fecha de Fin</label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="fechaFin" class="form-control col-md-12 col-xs-12"
+                                        name="fechaFin" type="date"
+                                        value="{{ old('fechaFin', $asignacions->fechaFin) }}">
+
+                                    @if ($errors->has('fechaFin'))
+                                        <span class="errormsg">{{ $errors->first('fechaFin') }}</span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="horaFin">Hora
+                                    de Fin</label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="horaFin" class="form-control col-md-12 col-xs-12" name="horaFin"
+                                        type="time"
+                                        value="{{ old('horaFin', $asignacions->horaFin) }}">
+
+                                    @if ($errors->has('horaFin'))
+                                        <span class="errormsg">{{ $errors->first('horaFin') }}</span>
                                     @endif
                                 </div>
                             </div>
@@ -62,12 +87,51 @@
                                     for="notificacionEnviada">Notificación</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <input id="notificacionEnviada" class="form-control col-md-12 col-xs-12"
-                                        name="notificacionEnviada" placeholder="Ingrese la notificación" required="required"
+                                        name="notificacionEnviada" placeholder="Ingrese la notificación"
                                         type="text"
                                         value="{{ old('notificacionEnviada', $asignacions->notificacionEnviada) }}">
 
                                     @if ($errors->has('notificacionEnviada'))
                                         <span class="errormsg">{{ $errors->first('notificacionEnviada') }}</span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12"
+                                    for="idSalaFK">Sala</label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <select disabled name="idSalaFK" class="form-control" >
+                                        @foreach($asignacion_sala as $a_s )
+                                            <option value="{{ old('idSala',$a_s->idSala) }}">
+                                               <strong>Numero Sala: </strong> {{ $a_s->numeroSala }}
+                                               <strong>Piso Sala: </strong>{{ $a_s->pisoSala }}
+                                               <strong>Bloque Sala: </strong>{{ $a_s->bloqueSala }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+
+                                    @if ($errors->has('idSalaFK'))
+                                    <strong class="alert-danger">{{ $errors->first('idSalaFK') }}</strong>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12"
+                                    for="idSolicitudFK">Solicitud</label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+
+                                        <select disabled name="idSolicitudFK" class="form-control" >
+
+                                            @foreach($asignacion_solicitud as $a_solicitud )
+                                                <option value="{{ old('idSolicitud',$a_solicitud->idSolucitud) }}">
+                                                   <strong>Fecha Solicitud: </strong> {{ $a_solicitud->fechaSolicitud }}
+
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    @if ($errors->has('idSolicitudFK'))
+                                    <strong class="alert-danger">{{ $errors->first('idSolicitudFK') }}</strong>
                                     @endif
                                 </div>
                             </div>

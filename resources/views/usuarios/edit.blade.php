@@ -105,6 +105,46 @@
                             </div>
 
                             <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="idDespacho">
+                                    Despacho</label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <select name="idDespachoFK" class="form-control">
+
+                                        @foreach ($usuarios_despachos as $usuario_despacho)
+                                            <option value="{{ $usuario_despacho->idDespacho }}"
+                                                {{ old('idDespachoFK') == 1 ? 'select' : '' }}>
+                                                {{ $usuario_despacho->numeroDespacho }}-{{ $usuario_despacho->nombreDespacho }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+
+                                    @if ($errors->has('idDespachoFK'))
+                                        <span class="errormsg">{{ $errors->first('idDespachoFK') }}</span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="idRol">
+                                    Rol</label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <select name="idRolFK" class="form-control">
+
+                                        @foreach ($usuarios_rols as $usuario_rol)
+                                            <option value="{{ $usuario_rol->idRol }}"
+                                                {{ old('idRolFK') == 1 ? 'select' : '' }}>
+                                                {{ $usuario_rol->nombreRol }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+
+                                    @if ($errors->has('idRolFK'))
+                                        <span class="errormsg">{{ $errors->first('idRolFK') }}</span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="form-group">
                                 <div class="col-md-6">
                                     <input type="submit" name="submit" value='Guardar' class="boton_personalizado">
                                 </div>

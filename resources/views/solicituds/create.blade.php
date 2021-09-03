@@ -53,12 +53,35 @@
                             @endif
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="estado">Estado
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <select name="estado" class="form-control">
+                                <option value=""> -- Seleccione Estado --</option>
+                                <option value="1">Activo</option>
+                                <option value="0">Inactivo</option>
+                            </select>
+
+                            @if ($errors->has('estado'))
+                                <span class="errormsg">{{ $errors->first('estado') }}</span>
+                            @endif
+                        </div>
+                    </div>
 
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="idCasoFK">Caso</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input id="idCasoFK" class="form-control" name="idCasoFK" placeholder="Ingrese el caso"
-                                required="required" type="text">
+
+                            <select name="idCasoFK" class="form-control" >
+                                <option value=""> -- Seleccione Caso --</option>
+                                @foreach($solicitud_caso as $s_c )
+                                    <option value="{{ $s_c->idCaso }}">
+                                       <strong>N Caso: </strong> {{ $s_c->nReferenciaCaso }}
+
+                                    </option>
+                                @endforeach
+                            </select>
 
 
                             @if ($errors->has('idCasoFK'))
@@ -70,8 +93,16 @@
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="idUsuarioFK">Usuario</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input id="idUsuarioFK" class="form-control" name="idUsuarioFK" placeholder="Ingrese el usuario"
-                                required="required" type="text">
+                            <select name="idUsuarioFK" class="form-control" >
+                                <option value=""> -- Seleccione Usuario --</option>
+                                @foreach($solicitud_usuario as $s_u )
+                                    <option value="{{ $s_u->idUsuario }}">
+                                       {{ $s_u->nombreUsuario }}
+
+                                    </option>
+                                @endforeach
+                            </select>
+
 
 
                             @if ($errors->has('idUsuarioFK'))

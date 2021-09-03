@@ -30,8 +30,8 @@ Route::post('asignacions/store', 'AsignacionController@store')->name('asignacion
 Route::get('asignacions/store/{idAsignacion}', 'AsignacionController@edit')->name('asignacions.edit');
 Route::post('asignacions/update/{idAsignacion}', 'AsignacionController@update')->name('asignacions.update');
 
-## Delete
-Route::get('asignacions/delete/{idAsignacion}', 'AsignacionController@destroy')->name('asignacions.delete');
+## Status
+Route::get('asignacions/change_status/{idAsignacion}', 'AsignacionController@change_status')->name('asignacions.change.status');
 
 /*AUDIENCIA*/
 
@@ -46,8 +46,8 @@ Route::post('audiencias/store', 'AudienciaController@store')->name('audiencias.s
 Route::get('audiencias/store/{idAudiencia}', 'AudienciaController@edit')->name('audiencias.edit');
 Route::post('audiencias/update/{idAudiencia}', 'AudienciaController@update')->name('audiencias.update');
 
-## Delete
-Route::get('audiencias/delete/{idAudiencia}', 'AudienciaController@destroy')->name('audiencias.delete');
+## Status
+Route::get('audiencias/change_status/{idAudiencia}', 'AudienciaController@change_status')->name('audiencias.change.status');
 
 /*CASO*/
 
@@ -62,8 +62,8 @@ Route::post('casos/store', 'CasoController@store')->name('casos.store');
 Route::get('casos/store/{idCaso}', 'CasoController@edit')->name('casos.edit');
 Route::post('casos/update/{idCaso}', 'CasoController@update')->name('casos.update');
 
-## Delete
-Route::get('casos/delete/{idCaso}', 'CasoController@destroy')->name('casos.delete');
+## Status
+Route::get('casos/change_status/{idCaso}', 'CasoController@change_status')->name('casos.change.status');
 
 /*DESPACHO*/
 
@@ -78,8 +78,24 @@ Route::post('despachos/store', 'DespachoController@store')->name('despachos.stor
 Route::get('despachos/store/{idDespacho}', 'DespachoController@edit')->name('despachos.edit');
 Route::post('despachos/update/{idDespacho}', 'DespachoController@update')->name('despachos.update');
 
-## Delete
-Route::get('despachos/delete/{idDespacho}', 'DespachoController@destroy')->name('despachos.delete');
+## Status
+Route::get('despachos/change_status/{idDespacho}', 'DespachoController@change_status')->name('despachos.change.status');
+
+/*DETALLE CASO*/
+
+## View
+Route::get('detallescasos', 'DetalleCasoController@index')->name('detallescasos');
+
+## Create
+Route::get('detallescasos/create', 'DetalleCasoController@create')->name('detallescasos.create');
+Route::post('detallescasos/store', 'DetalleCasoController@store')->name('detallescasos.store');
+
+## Update
+Route::get('detallescasos/store/{idDetalleCaso}', 'DetalleCasoController@edit')->name('detallescasos.edit');
+Route::post('detallescasos/update/{idDetalleCaso}', 'DetalleCasoController@update')->name('detallescasos.update');
+
+## Status
+Route::get('detallescasos/change_status/{idDetalleCaso}', 'DetalleCasoController@change_status')->name('detallescasos.change.status');
 
 /*ESPECIALIDAD*/
 
@@ -99,8 +115,8 @@ Route::post('involucrados/store', 'InvolucradoController@store')->name('involucr
 Route::get('involucrados/store/{idInvolucrado}', 'InvolucradoController@edit')->name('involucrados.edit');
 Route::post('involucrados/update/{idInvolucrado}', 'InvolucradoController@update')->name('involucrados.update');
 
-## Delete
-Route::get('involucrados/delete/{idInvolucrado}', 'InvolucradoController@destroy')->name('involucrados.delete');
+## Status
+Route::get('involucrados/change_status/{idInvolucrado}', 'InvolucradoController@change_status')->name('involucrados.change.status');
 
 /*ROL*/
 
@@ -112,8 +128,6 @@ Route::get('rols', 'RolController@index')->name('rols');
 ## Update
 Route::get('rols/store/{idCaso}', 'RolController@edit')->name('rols.edit');
 Route::post('rols/update/{idCaso}', 'RolController@update')->name('rols.update');
-
-## Delete
 
 /*SALA*/
 
@@ -128,8 +142,8 @@ Route::post('salas/store', 'SalaController@store')->name('salas.store');
 Route::get('salas/store/{idSala}', 'SalaController@edit')->name('salas.edit');
 Route::post('salas/update/{idSala}', 'SalaController@update')->name('salas.update');
 
-## Delete
-Route::get('salas/delete/{idSala}', 'SalaController@destroy')->name('salas.delete');
+## Status
+Route::get('salas/change_status/{idSala}', 'SalaController@change_status')->name('salas.change.status');
 
 /*SEDE*/
 
@@ -144,8 +158,8 @@ Route::post('sedes/store', 'SedeController@store')->name('sedes.store');
 Route::get('sedes/store/{idSede}', 'SedeController@edit')->name('sedes.edit');
 Route::post('sedes/update/{idSede}', 'SedeController@update')->name('sedes.update');
 
-## Delete
-Route::get('sedes/delete/{idSede}', 'SedeController@destroy')->name('sedes.delete');
+## Status
+Route::get('sedes/change_status/{idSede}', 'SedeController@change_status')->name('sedes.change.status');
 
 /*SOLICITUD*/
 
@@ -160,8 +174,8 @@ Route::post('solicituds/store', 'SolicitudController@store')->name('solicituds.s
 Route::get('solicituds/store/{idSolicitud}', 'SolicitudController@edit')->name('solicituds.edit');
 Route::post('solicituds/update/{idSolicitud}', 'SolicitudController@update')->name('solicituds.update');
 
-## Delete
-Route::get('solicituds/delete/{idSolicitud}', 'SolicitudController@destroy')->name('solicituds.delete');
+## Status
+Route::get('solicituds/change_status/{idSolicitud}', 'SolicitudController@change_status')->name('solicituds.change.status');
 
 /*TIPO INVOLUCRADO*/
 
@@ -176,8 +190,8 @@ Route::post('tiposinvolucrados/store', 'TipoInvolucradoController@store')->name(
 Route::get('tiposinvolucrados/store/{idTipoInvolucrado}', 'TipoInvolucradoController@edit')->name('tiposinvolucrados.edit');
 Route::post('tiposinvolucrados/update/{idTipoInvolucrado}', 'TipoInvolucradoController@update')->name('tiposinvolucrados.update');
 
-## Delete
-Route::get('tiposinvolucrados/delete/{idTipoInvolucrado}', 'TipoInvolucradoController@destroy')->name('tiposinvolucrados.delete');
+## Status
+Route::get('tiposinvolucrados/change_status/{idTipoInvolucrado}', 'TipoInvolucradoController@change_status')->name('tiposinvolucrados.change.status');
 
 /*USUARIO*/
 
@@ -193,4 +207,13 @@ Route::get('usuarios/store/{idUsuario}', 'UsuarioController@edit')->name('usuari
 Route::post('usuarios/update/{idUsuario}', 'UsuarioController@update')->name('usuarios.update');
 
 ## Delete
-Route::get('usuarios/delete/{idUsuario}', 'UsuarioController@destroy')->name('usuarios.delete');
+Route::get('usuarios/change_status/{idUsuario}', 'UsuarioController@change_status')->name('usuarios.change.status');
+
+/*DETALLE CAS*/
+
+## View
+Route::get('detallescasos', 'DetalleCasoController@index')->name('detallescasos');
+
+## Create
+Route::get('detallescasos/create', 'DetalleCasoController@create')->name('detallescasos.create');
+Route::post('detallescasos/store', 'DetalleCasoController@store')->name('detallescasos.store');

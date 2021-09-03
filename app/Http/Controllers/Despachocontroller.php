@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Despacho;
+use App\Especialidad;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Validator as FacadesValidator;
+use Illuminate\Support\Facades\Validator;
 
 class DespachoController extends Controller
 {
@@ -16,7 +17,7 @@ class DespachoController extends Controller
      */
     public function index()
     {
-        $despachos = Despacho::select('idDespacho', 'numeroDespacho', 'nombreDespacho', 'telefonoDespacho', 'correoDespacho')->get();
+        $despachos = Despacho::select('idDespacho', 'numeroDespacho', 'nombreDespacho', 'telefonoDespacho', 'correoDespacho', 'estado')->get();
         return view('despachos.index')->with('despachos', $despachos);
     }
 
@@ -27,7 +28,10 @@ class DespachoController extends Controller
      */
     public function create()
     {
-        return view('despachos.create');
+        $despachos_especialidads = Especialidad::select(['denominacionEspecialidad', 'idEspecialidad'])->get();
+        //$despachos_especialidads = Especialidad::pluck['denominacionEspecialidad','idEspecialidad'];
+
+        return view('despachos.create')->with('despachos_especialidads', $despachos_especialidads);
     }
 
     /**
@@ -40,15 +44,23 @@ class DespachoController extends Controller
     {
         $data = $request->except('_method', '_token', 'submit');
 
-        $validator = FacadesValidator::make($request->all(), [
-            'numeroDespacho' => 'required|string|min:1',
-            'nombreDespacho' => 'required|string|min:1',
-            'telefonoDespacho' => 'required|string|min:6',
-            'correoDespacho' => 'required|string|min:1',
-            'idEspecialidadFK' => 'string',
+        $rules = [
+            'numeroDespacho' => 'required|numeric|min:1|unique:despacho,numerodespacho',
+            'nombreDespacho' => 'required|string|min:1|unique:despacho,nombredespacho',
+            'telefonoDespacho' => 'required|numeric|min:6|unique:despacho,telefonoDespacho',
+            'correoDespacho' => 'required|email|unique:despacho,correoDespacho',
+            'idEspecialidadFK' => 'required',
 
-        ]);
+        ];
+                $mensajes =[
+            "unique" => "ya se encuntra registrado",
+            "required" => "Campo requerido ",
+            "alpha" => "Solo ingrese letras",
+            "numeric" => "Solo ingrese numeros",
+            "email" => "Solo correo electronico valido",
 
+            ];
+            $validator = Validator::make($request->all(), $rules,$mensajes);
         if ($validator->fails()) {
             return redirect()->Back()->withInput()->withErrors($validator);
         }
@@ -88,7 +100,11 @@ class DespachoController extends Controller
     {
         $despachos = Despacho::find($idDespacho);
 
-        return view('despachos.edit')->with('despachos', $despachos);
+        $despachos_especialidads = Especialidad::select(['denominacionEspecialidad', 'idEspecialidad'])
+
+            ->get();
+
+        return view('despachos.edit', compact('despachos_especialidads', $despachos_especialidads))->with('despachos', $despachos);
     }
 
     /**
@@ -102,18 +118,24 @@ class DespachoController extends Controller
     {
         $data = $request->except('_method', '_token', 'submit');
 
-        $validator = FacadesValidator::make($request->all(), [
-            'numeroDespacho' => 'required|string|min:1',
-            'nombreDespacho' => 'required|string|min:1',
-            'telefonoDespacho' => 'required|string|min:6',
-            'correoDespacho' => 'required|string|min:1',
-            'idEspecialidadFK' => 'string',
+        $mensajes =[
 
-        ]);
+            "required" => "Campo requerido ",
+            "numeric" => "Solo ingrese numeros",
+            "email" => "Solo correo electronico valido",
 
-        if ($validator->fails()) {
-            return redirect()->Back()->withInput()->withErrors($validator);
-        }
+            ];
+
+            $rules = [
+                'numeroDespacho' => 'required|numeric|min:1',
+                'nombreDespacho' => 'required|string|min:1',
+                'telefonoDespacho' => 'required|numeric|min:6',
+                'correoDespacho' => 'required|email',
+                'estado' => 'required|string',
+
+
+            ];
+            $validator = Validator::make($request->all(), $rules,$mensajes);
         $despachos = Despacho::find($idDespacho);
 
         if ($despachos->update($data)) {
@@ -135,12 +157,15 @@ class DespachoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function change_status($idDespacho)
     {
-        Despacho::destroy($id);
-
-        Session::flash('message', 'Eliminado con Exito!');
-        Session::flash('alert-class', 'alert-success');
-        return redirect()->route('despachos');
+        $despacho = Despacho::find($idDespacho);
+        if ($despacho->estado == 1) {
+            $despacho->update(['estado' => 0]);
+            return redirect()->back();
+        } else {
+            $despacho->update(['estado' => 1]);
+            return redirect()->back();
+        }
     }
 }

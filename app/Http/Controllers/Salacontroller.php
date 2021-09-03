@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Sala;
+use App\Sede;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Validator as FacadesValidator;
+use Illuminate\Support\Facades\Validator;
+
 
 class SalaController extends Controller
 {
@@ -16,7 +18,10 @@ class SalaController extends Controller
      */
     public function index()
     {
-        $salas = Sala::select('idSala', 'numeroSala', 'capacidadSala', 'bloqueSala', 'pisoSala', 'idSedeFK')->get();
+
+        $salas = Sala::select('sala.idSala', 'sala.numeroSala', 'sala.capacidadSala', 'sala.bloqueSala', 'sala.pisoSala','sala.estado', 'sede.nombreSede','sede.direccionSede')
+                        ->join('sede','sala.idSedeFK','=','sede.idSede')
+                        ->get();
         return view('salas.index')->with('salas', $salas);
     }
 
@@ -27,7 +32,10 @@ class SalaController extends Controller
      */
     public function create()
     {
-        return view('salas.create');
+        $salas_sedes = Sede::select(['nombreSede', 'direccionSede','idSede'])->get();
+        //$salas_sedes = Sede::pluck['nombreSede','direccionSede','idSede'];
+
+        return view('salas.create')->with('salas_sedes',$salas_sedes);
     }
 
     /**
@@ -40,14 +48,24 @@ class SalaController extends Controller
     {
         $data = $request->except('_method', '_token', 'submit');
 
-        $validator = FacadesValidator::make($request->all(), [
-            'numeroSala' => 'required|string',
-            'capacidadSala' => 'string',
-            'bloqueSala' => 'string',
-            'pisoSala' => 'string',
-            'idSedeFK' => 'string',
-        ]);
+        $mensajes =[
+            "required" => "Campo requerido ",
+            "alpha" => "solo letras",
+            'unique' => 'Numero de Sala ya registrado',
 
+            ];
+
+        $rules =[
+            'numeroSala' => 'required|numeric|unique:sala,numeroSala',
+            'capacidadSala' => 'required|string',
+            'bloqueSala' => 'required|string',
+            'pisoSala' => 'required|string',
+            'estado' => 'required|string',
+            'idSedeFK' => 'required|string',
+        ];
+
+
+        $validator = Validator::make($request->all(), $rules,$mensajes);
         if ($validator->fails()) {
             return redirect()->Back()->withInput()->withErrors($validator);
         }
@@ -83,9 +101,15 @@ class SalaController extends Controller
      */
     public function edit($idSala)
     {
+
+
         $salas = Sala::find($idSala);
 
-        return view('salas.edit')->with('salas', $salas);
+        $salas_sedes = Sede::select(['nombreSede', 'direccionSede','idSede'])
+
+                            ->get();
+
+        return view('salas.edit',compact('salas_sedes',$salas_sedes))->with('salas', $salas);
     }
 
     /**
@@ -98,13 +122,22 @@ class SalaController extends Controller
     public function update(Request $request, $idSala)
     {
         $data = $request->except('_method', '_token', 'submit');
+        $mensajes =[
+            "required" => "Campo requerido ",
 
-        $validator = FacadesValidator::make($request->all(), [
-            'numeroSala' => 'required|string',
-            'capacidadSala' => 'string',
-            'bloqueSala' => 'string',
-            'pisoSala' => 'string',
-        ]);
+
+            ];
+
+        $rules =[
+            'numeroSala' => 'required|numeric',
+            'capacidadSala' => 'required|string',
+            'bloqueSala' => 'required|string',
+            'pisoSala' => 'required|string',
+            'idSedeFK' => 'required|string',
+        ];
+
+
+        $validator = Validator::make($request->all(), $rules,$mensajes);
 
         if ($validator->fails()) {
             return redirect()->Back()->withInput()->withErrors($validator);
@@ -130,12 +163,15 @@ class SalaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function change_status($idSala)
     {
-        Sala::destroy($id);
-
-        Session::flash('message', 'Eliminado con exito!');
-        Session::flash('alert-class', 'alert-success');
-        return redirect()->route('salas');
+        $sala = Sala::find($idSala);
+        if ($sala->estado == 1) {
+            $sala->update(['estado' => 0]);
+            return redirect()->back();
+        } else {
+            $sala->update(['estado' => 1]);
+            return redirect()->back();
+        }
     }
 }

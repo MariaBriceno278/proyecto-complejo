@@ -14,13 +14,15 @@
             <table id="table_id" class="display">
                 <thead>
                     <tr>
-                        <th colspan="3" style="text-align: center;">
+                        <th colspan="4" style="text-align: center;">
                             <h3><strong>Sede</strong></h3>
                         </th>
                     </tr>
                     <tr class="table-primary" style="text-align: center;">
                         <th>Dirección de Sede</th>
                         <th>Nombre de Sede</th>
+                        <th>Estado</th>
+
                         <th width='20%'> <a class="boton_personalizado" href="{{ route('sedes.create') }}">Nuevo</a></th>
 
                     </tr>
@@ -30,12 +32,21 @@
                         <tr>
                             <td>{{ $sede->direccionSede }}</td>
                             <td>{{ $sede->nombreSede }}</td>
+
+                            @if ($sede->estado == 1)
+                                <td><a href="{{ route('sedes.change.status', [$sede->idSede]) }}"
+                                        class="btn btn-sm btn-success">Activo</a>
+                                </td>
+                            @else
+                                <td><a href="{{ route('sedes.change.status', [$sede->idSede]) }}"
+                                        class="btn btn-sm btn-danger">Inactivo</a>
+                                </td>
+                            @endif
+
                             <td style="text-align: center;">
                                 <!-- Edit -->
                                 <a href="{{ route('sedes.edit', [$sede->idSede]) }}"
                                     class="btn btn-sm btn-info">Modificar</a>
-                                <a href="{{ route('sedes.delete', $sede->idSede) }}"
-                                    class="btn btn-sm btn-danger">Eliminar</a>
                             </td>
 
                         </tr>

@@ -8,6 +8,6 @@ class Especialidad extends Model
 {
     protected $table = "ESPECIALIDAD";
     protected $primaryKey = "idEspecialidad";
-    protected $fillable = ['denominacionEspecialidad'];
+    protected $fillable = ['denominacionEspecialidad','estado'];
     public $timestamps = false;
 }

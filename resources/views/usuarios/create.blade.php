@@ -14,29 +14,28 @@
 
                 <form action="{{ route('usuarios.store') }}" method="post">
                     {{ csrf_field() }}
-
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nombreUsuario">Nombre del Usuario<span
-                                class="required"></span></label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nombreUsuario">Nombre del
+                            Usuario</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <input id="nombreUsuario" class="form-control " name="nombreUsuario"
-                                placeholder="Ingrese el nombre del usuario" required="required" type="text">
+                                placeholder="Ingrese el apellido del usuario" type="text">
 
                             @if ($errors->has('nombreUsuario'))
-                                <span class="errormsg">{{ $errors->first('nombreUsuario') }}</span>
+                                <span class="alert-danger">{{ $errors->first('nombreUsuario') }}</span>
                             @endif
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="apellidoUsuario">Apellido del
-                            Usuario<span class="required"></span></label>
+                            Usuario</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <input id="apellidoUsuario" class="form-control " name="apellidoUsuario"
-                                placeholder="Ingrese el apellido del usuario" required="required" type="text">
+                                placeholder="Ingrese el apellido del usuario" type="text">
 
                             @if ($errors->has('apellidoUsuario'))
-                                <span class="errormsg">{{ $errors->first('apellidoUsuario') }}</span>
+                                <span class="alert-danger">{{ $errors->first('apellidoUsuario') }}</span>
                             @endif
                         </div>
                     </div>
@@ -46,65 +45,91 @@
                             Electrónico</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <input id="correoUsuario" class="form-control " name="correoUsuario"
-                                placeholder="Ingrese el correo electrónico" required="required" type="text">
+                                placeholder="Ingrese el correo electrónico" type="text">
 
 
                             @if ($errors->has('correoUsuario'))
-                                <span class="errormsg">{{ $errors->first('correoUsuario') }}</span>
+                                <span class="alert-danger">{{ $errors->first('correoUsuario') }}</span>
                             @endif
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="documentoUsuario">Documento del
-                            Usuario<span class="required"></span></label>
+                            Usuario</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <input id="documentoUsuario" class="form-control " name="documentoUsuario"
-                                placeholder="Ingrese el documento del usuario" required="required" type="text">
+                                placeholder="Ingrese el documento del usuario" type="text">
 
                             @if ($errors->has('documentoUsuario'))
-                                <span class="errormsg">{{ $errors->first('documentoUsuario') }}</span>
+                                <span class="alert-danger">{{ $errors->first('documentoUsuario') }}</span>
                             @endif
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="telefonoUsuario">Teléfono del
-                            Usuario<span class="required"></span></label>
+                            Usuario</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <input id="telefonoUsuario" class="form-control " name="telefonoUsuario"
-                                placeholder="Ingrese el teléfono del usuario" required="required" type="int">
+                                placeholder="Ingrese el teléfono del usuario" type="int">
 
                             @if ($errors->has('telefonoUsuario'))
-                                <span class="errormsg">{{ $errors->first('telefonoUsuario') }}</span>
+                                <span class="alert-danger">{{ $errors->first('telefonoUsuario') }}</span>
                             @endif
                         </div>
                     </div>
 
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="estado">Estado
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <select name="estado" class="form-control">
+                                <option value=""> -- Seleccione Estado --</option>
+                                <option value="1">Activo</option>
+                                <option value="0">Inactivo</option>
+                            </select>
+
+                            @if ($errors->has('estado'))
+                                <span class="errormsg">{{ $errors->first('estado') }}</span>
+                            @endif
+                        </div>
+                    </div>
 
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="idDespachoFK">Número del Despacho<span
-                                class="required"></span></label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="idDespacho">
+                            Despacho</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input id="idDespachoFK" class="form-control " name="idDespachoFK"
-                                placeholder="Ingrese el número del despacho" required="required" type="int">
+                            <select name="idDespachoFK" class="form-control">
+                                <option value=""> -- Seleccione Despacho --</option>
+                                @foreach ($usuarios_despachos as $usuario_despacho)
+                                    <option value="{{ $usuario_despacho->idDespacho }}">
+                                        {{ $usuario_despacho->numeroDespacho }}-{{ $usuario_despacho->nombreDespacho }}
+                                    </option>
+                                @endforeach
+                            </select>
 
                             @if ($errors->has('idDespachoFK'))
-                                <span class="errormsg">{{ $errors->first('idDespachoFK') }}</span>
+                                <span class="alert-danger">{{ $errors->first('idDespachoFK') }}</span>
                             @endif
                         </div>
                     </div>
 
-
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="idRolFK">Rol<span
-                                class="required"></span></label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="idRol">
+                            Rol</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input id="idRolFK" class="form-control " name="idRolFK" placeholder="Ingrese el rol"
-                                required="required" type="int">
+                            <select name="idRolFK" class="form-control">
+                                <option value=""> -- Seleccione Rol --</option>
+                                @foreach ($usuarios_rols as $usuario_rol)
+                                    <option value="{{ $usuario_rol->idRol }}">
+                                        {{ $usuario_rol->nombreRol }}
+                                    </option>
+                                @endforeach
+                            </select>
 
                             @if ($errors->has('idRolFK'))
-                                <span class="errormsg">{{ $errors->first('idRolFK') }}</span>
+                                <span class="alert-danger">{{ $errors->first('idRolFK') }}</span>
                             @endif
                         </div>
                     </div>

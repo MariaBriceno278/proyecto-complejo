@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Sede;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Validator as FacadesValidator;
+use Illuminate\Support\Facades\Validator;
 
 class SedeController extends Controller
 {
@@ -16,7 +16,7 @@ class SedeController extends Controller
      */
     public function index()
     {
-        $sedes = Sede::select('idSede', 'direccionSede', 'nombreSede')->get();
+        $sedes = Sede::select('idSede', 'direccionSede', 'nombreSede','estado')->get();
         return view('sedes.index')->with('sedes', $sedes);
     }
 
@@ -40,13 +40,21 @@ class SedeController extends Controller
     {
         $data = $request->except('_method', '_token', 'submit');
 
-        $validator = FacadesValidator::make($request->all(), [
-            'direccionSede' => 'required|string|min:3',
+
+        $rules=[
+            'direccionSede' => 'required|string|min:3|unique:sede,direccionSede',
             'nombreSede' => 'required|string|min:3',
-        ]);
 
+        ];
 
+        $mensajes =[
+            "required" => "Campo requerido ",
+            "string" => "solo letras",
+            'unique' => 'Sede ya registrada',
 
+            ];
+
+            $validator = Validator::make($request->all(), $rules,$mensajes);
         if ($validator->fails()) {
             return redirect()->Back()->withInput()->withErrors($validator);
         }
@@ -98,10 +106,23 @@ class SedeController extends Controller
     {
         $data = $request->except('_method', '_token', 'submit');
 
-        $validator = FacadesValidator::make($request->all(), [
-            'direccionSede' => 'required|string|min:3',
+
+        $rules=[
+            'direccionSede' => 'required|string|min:3|unique:sede,direccionSede',
             'nombreSede' => 'required|string|min:3',
-        ]);
+
+        ];
+
+
+
+        $mensajes =[
+            "required" => "Campo requerido ",
+            "string" => "solo letras",
+            'unique' => 'Sede ya registrada',
+
+            ];
+
+            $validator = Validator::make($request->all(), $rules,$mensajes);
 
         if ($validator->fails()) {
             return redirect()->Back()->withInput()->withErrors($validator);
@@ -127,12 +148,15 @@ class SedeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function change_status($idSede)
     {
-        Sede::destroy($id);
-
-        Session::flash('message', 'Eliminado con exito!');
-        Session::flash('alert-class', 'alert-success');
-        return redirect()->route('sedes');
+        $sede = Sede::find($idSede);
+        if ($sede->estado == 1) {
+            $sede->update(['estado' => 0]);
+            return redirect()->back();
+        } else {
+            $sede->update(['estado' => 1]);
+            return redirect()->back();
+        }
     }
 }

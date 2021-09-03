@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\TipoInvolucrado;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Validator as FacadesValidator;
+use Illuminate\Support\Facades\Validator;
 
 class TipoInvolucradoController extends Controller
 {
@@ -16,7 +16,7 @@ class TipoInvolucradoController extends Controller
      */
     public function index()
     {
-        $tiposinvolucrados = TipoInvolucrado::select('idTipoInvolucrado', 'nombreTipoInvolucrado')->get();
+        $tiposinvolucrados = TipoInvolucrado::select('idTipoInvolucrado', 'nombreTipoInvolucrado' , 'estado')->get();
         return view('tiposinvolucrados.index')->with('tiposinvolucrados', $tiposinvolucrados);
     }
 
@@ -39,10 +39,21 @@ class TipoInvolucradoController extends Controller
     public function store(Request $request)
     {
         $data = $request->except('_method', '_token', 'submit');
+        $mensajes =[
+            "unique" => "Este tipo de involucrado ya se encuentra registardo",
+            "required" => "Campo requerido ",
+            "string" => "Solo ingrese letras",
 
-        $validator = FacadesValidator::make($request->all(), [
-            'nombreTipoInvolucrado' => 'required|string|min:3',
-        ]);
+            ];
+        $rules = [
+            'nombreTipoInvolucrado' => 'required|string|min:3|unique:TipoInvolucrado,nombreTipoInvolucrado',
+            'estado' => 'required'
+
+
+        ];
+
+
+        $validator = Validator::make($request->all(), $rules,$mensajes);
 
         if ($validator->fails()) {
             return redirect()->Back()->withInput()->withErrors($validator);
@@ -95,28 +106,7 @@ class TipoInvolucradoController extends Controller
      */
     public function update(Request $request, $idTipoInvolucrado)
     {
-        $data = $request->except('_method', '_token', 'submit');
 
-        $validator = FacadesValidator::make($request->all(), [
-            'nombreTipoInvolucrado' => 'required|string|min:3',
-        ]);
-
-        if ($validator->fails()) {
-            return redirect()->Back()->withInput()->withErrors($validator);
-        }
-        $tiposinvolucrados = TipoInvolucrado::find($idTipoInvolucrado);
-
-        if ($tiposinvolucrados->update($data)) {
-
-            Session::flash('message', 'Modificado con Exito!');
-            Session::flash('alert-class', 'alert-success');
-            return redirect()->route('tiposinvolucrados');
-        } else {
-            Session::flash('message', 'No se pudo modificar!');
-            Session::flash('alert-class', 'alert-danger');
-        }
-
-        return Back()->withInput();
     }
 
     /**
@@ -125,12 +115,15 @@ class TipoInvolucradoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function change_status($idTipoInvolucrado)
     {
-        TipoInvolucrado::destroy($id);
-
-        Session::flash('message', 'Eliminado con Exito!');
-        Session::flash('alert-class', 'alert-success');
-        return redirect()->route('tiposinvolucrados');
+        $tipoinvolucrado = TipoInvolucrado::find($idTipoInvolucrado);
+        if ($tipoinvolucrado->estado == 1) {
+            $tipoinvolucrado->update(['estado' => 0]);
+            return redirect()->back();
+        } else {
+            $tipoinvolucrado->update(['estado' => 1]);
+            return redirect()->back();
+        }
     }
 }

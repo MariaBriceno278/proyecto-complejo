@@ -30,11 +30,11 @@
 
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nReferenciaCaso">Número de
-                                    Referencia<span class="required">*</span></label>
+                                    Referencia</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <input id="nReferenciaCaso" class="form-control col-md-12 col-xs-12"
                                         name="nReferenciaCaso" placeholder="Ingrese el número de referencia"
-                                        required="required" type="int"
+                                         type="int"
                                         value="{{ old('nReferenciaCaso', $casos->nReferenciaCaso) }}">
 
                                     @if ($errors->has('nReferenciaCaso'))
@@ -48,7 +48,7 @@
                                     Registro</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <input id="fechaRegistro" class="form-control col-md-12 col-xs-12" name="fechaRegistro"
-                                        required="required" type="date"
+                                         type="date"
                                         value="{{ old('fechaRegistro', $casos->fechaRegistro) }}">
 
                                     @if ($errors->has('fechaRegistro'))

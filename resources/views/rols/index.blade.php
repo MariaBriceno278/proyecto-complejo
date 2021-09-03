@@ -15,26 +15,18 @@
             <table id="table_id" class="display">
                 <thead>
                     <tr>
-                        <th colspan="3" style="text-align: center;">
+                        <th colspan="1" style="text-align: center;">
                             <h3><strong>Rol</strong></h3>
                         </th>
                     </tr>
                     <tr class="table-primary" style="text-align: center;">
                         <th>Nombre del Rol</th>
-                        <th>Estado</th>
-                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($rols as $rol)
                         <tr>
                             <td>{{ $rol->nombreRol }}</td>
-                            <td>{{ $rol->estadoRol }}</td>
-                            <td style="text-align: center;">
-                                <!-- Edit -->
-                                <a href="{{ route('rols.edit', [$rol->idRol]) }}" class="btn btn-sm btn-info">
-                                    Modificar</a>
-                            </td>
                         </tr>
                     @endforeach
                 </tbody>

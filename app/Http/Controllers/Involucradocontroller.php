@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Involucrado;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Validator as FacadesValidator;
+use Illuminate\Support\Facades\Validator;
 
 class InvolucradoController extends Controller
 {
@@ -16,7 +16,7 @@ class InvolucradoController extends Controller
      */
     public function index()
     {
-        $involucrados = Involucrado::select('idInvolucrado', 'nombreInvolucrado', 'correoInvolucrado')->get();
+        $involucrados = Involucrado::select('idInvolucrado', 'nombreInvolucrado', 'correoInvolucrado', 'estado')->get();
         return view('involucrados.index')->with('involucrados', $involucrados);
     }
 
@@ -39,11 +39,21 @@ class InvolucradoController extends Controller
     public function store(Request $request)
     {
         $data = $request->except('_method', '_token', 'submit');
+        $mensajes =[
+            "unique" => "el correo ya se encuntra registrado, ingrese otro correo",
+            "required" => "Campo requerido ",
+            "string" => "Solo ingrese letras",
 
-        $validator = FacadesValidator::make($request->all(), [
+            ];
+        $rules = [
             'nombreInvolucrado' => 'required|string|min:3',
-            'correoInvolucrado' => 'required|string|min:3',
-        ]);
+            'correoInvolucrado' => 'required|email|unique:involucrado,correoInvolucrado',
+
+
+        ];
+
+
+        $validator = Validator::make($request->all(), $rules,$mensajes);
 
         if ($validator->fails()) {
             return redirect()->Back()->withInput()->withErrors($validator);
@@ -98,7 +108,7 @@ class InvolucradoController extends Controller
     {
         $data = $request->except('_method', '_token', 'submit');
 
-        $validator = FacadesValidator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'nombreInvolucrado' => 'required|string|min:3',
             'correoInvolucrado' => 'required|string|min:3',
         ]);
@@ -127,12 +137,15 @@ class InvolucradoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function change_status($idInvolucrado)
     {
-        Involucrado::destroy($id);
-
-        Session::flash('message', 'Eliminado con Exito!');
-        Session::flash('alert-class', 'alert-success');
-        return redirect()->route('involucrados');
+        $involucrado = Involucrado::find($idInvolucrado);
+        if ($involucrado->estado == 1) {
+            $involucrado->update(['estado' => 0]);
+            return redirect()->back();
+        } else {
+            $involucrado->update(['estado' => 1]);
+            return redirect()->back();
+        }
     }
 }

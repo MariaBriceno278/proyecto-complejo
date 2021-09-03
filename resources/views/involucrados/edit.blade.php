@@ -30,11 +30,11 @@
 
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nombreInvolucrado">Nombre del
-                                    Involucrado<span class="required"></span></label>
+                                    Involucrado</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <input id="nombreInvolucrado" class="form-control col-md-12 col-xs-12"
                                         name="nombreInvolucrado" placeholder="Ingrese el nombre del involucrado"
-                                        required="required" type="text"
+                                        type="text"
                                         value="{{ old('nombreInvolucrado', $involucrados->nombreInvolucrado) }}">
 
                                     @if ($errors->has('nombreInvolucrado'))
@@ -49,7 +49,7 @@
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <input id="correoInvolucrado" class="form-control col-md-12 col-xs-12"
                                         name="correoInvolucrado" placeholder="Ingrese el correo del Involucrado"
-                                        required="required" type="text"
+                                        type="text"
                                         value="{{ old('correoInvolucrado', $involucrados->correoInvolucrado) }}">
 
                                     @if ($errors->has('correoInvolucrado'))

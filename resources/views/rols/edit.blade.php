@@ -30,11 +30,10 @@
                             {{ csrf_field() }}
 
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="estadoRol">Estado del Rol<span
-                                        class="required"></span></label>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="estadoRol">Estado del Rol</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <input id="estadoRol" class="form-control col-md-12 col-xs-12" name="estadoRol"
-                                        placeholder="Ingrese el estado del rol" required="required" type="text"
+                                        placeholder="Ingrese el estado del rol" type="text"
                                         value="{{ old('estadoRol', $rols->estadoRol) }}">
 
                                     @if ($errors->has('estadoRol'))

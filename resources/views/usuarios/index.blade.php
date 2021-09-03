@@ -15,7 +15,7 @@
             <table id="table_id" class="display">
                 <thead>
                     <tr>
-                        <th colspan="6" style="text-align: center;">
+                        <th colspan="7" style="text-align: center;">
                             <h3><strong>Usuario</strong></h3>
                         </th>
                     </tr>
@@ -25,6 +25,7 @@
                         <th>Correo Electrónico</th>
                         <th>Número de Documento</th>
                         <th>Teléfono del Usuario</th>
+                        <th>Estado</th>
 
                         <th width='20%'> <a class="boton_personalizado" href="{{ route('usuarios.create') }}">Nuevo</a>
                         </th>
@@ -40,12 +41,20 @@
                             <td>{{ $usuario->documentoUsuario }}</td>
                             <td>{{ $usuario->telefonoUsuario }}</td>
 
+                            @if ($usuario->estado == 1)
+                                <td><a href="{{ route('usuarios.change.status', [$usuario->idUsuario]) }}"
+                                        class="btn btn-sm btn-success">Activo</a>
+                                </td>
+                            @else
+                                <td><a href="{{ route('usuarios.change.status', [$usuario->idUsuario]) }}"
+                                        class="btn btn-sm btn-danger">Inactivo</a>
+                                </td>
+                            @endif
+
                             <td style="text-align: center;">
                                 <!-- Edit -->
                                 <a href="{{ route('usuarios.edit', [$usuario->idUsuario]) }}"
                                     class="btn btn-sm btn-info">Modificar</a>
-                                <a href="{{ route('usuarios.delete', $usuario->idUsuario) }}"
-                                    class="btn btn-sm btn-danger">Eliminar</a>
                             </td>
                         </tr>
 

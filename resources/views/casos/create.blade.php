@@ -31,9 +31,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="fechaRegistro">
                             Fecha de Registro</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input id="fechaRegistro" class="form-control " name="fechaRegistro" required="required"
-                                type="date">
-
+                            <input id="fechaRegistro" class="form-control" name="fechaRegistro" type="date">
 
                             @if ($errors->has('fechaRegistro'))
                                 <span class="errormsg">{{ $errors->first('fechaRegistro') }}</span>
@@ -42,18 +40,20 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="estadoCaso">Estado</label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="estado">Estado
+                        </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input id="estadoCaso" class="form-control " name="estadoCaso" placeholder="Ingrese el estado"
-                                required="required" type="text">
+                            <select name="estado" class="form-control">
+                                <option value=""> -- Seleccione Estado --</option>
+                                <option value="1">Activo</option>
+                                <option value="0">Inactivo</option>
+                            </select>
 
-
-                            @if ($errors->has('estadoCaso'))
-                                <span class="errormsg">{{ $errors->first('estadoCaso') }}</span>
+                            @if ($errors->has('estado'))
+                                <span class="errormsg">{{ $errors->first('estado') }}</span>
                             @endif
                         </div>
                     </div>
-
                     <div class="form-group">
                         <div class="col-md-6">
 

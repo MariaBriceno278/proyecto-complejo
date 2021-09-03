@@ -10,4 +10,9 @@ class Caso extends Model
     protected $primaryKey = "idCaso";
     protected $fillable = ['nReferenciaCaso', 'fechaRegistro', 'estadoCaso'];
     public $timestamps = false;
+
+    public function caso_solicitud()
+    {
+        return $this->hasMany('App\Solocitud','idCasoFK');
+    }
 }

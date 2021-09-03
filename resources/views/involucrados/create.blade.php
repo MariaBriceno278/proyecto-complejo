@@ -16,10 +16,10 @@
 
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nombreInvolucrado">Nombre del
-                            Involucrado<span class="required"></span></label>
+                            Involucrado</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <input id="nombreInvolucrado" class="form-control" name="nombreInvolucrado"
-                                placeholder="Ingrese el nombre del involucrado" required="required" type="text">
+                                placeholder="Ingrese el nombre del involucrado"  type="text">
 
                             @if ($errors->has('nombreInvolucrado'))
                                 <span class="errormsg">{{ $errors->first('nombreInvolucrado') }}</span>
@@ -32,11 +32,27 @@
                             Involucrado</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <input id="correoInvolucrado" class="form-control" name="correoInvolucrado"
-                                placeholder="Ingrese el correo del involucrado" required="required" type="text">
+                                placeholder="Ingrese el correo del involucrado"  type="text">
 
 
                             @if ($errors->has('correoInvolucrado'))
                                 <span class="errormsg">{{ $errors->first('correoInvolucrado') }}</span>
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="estado">Estado
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <select name="estado" class="form-control">
+                                <option value=""> -- Seleccione Estado --</option>
+                                <option value="1">Activo</option>
+                                <option value="0">Inactivo</option>
+                            </select>
+
+                            @if ($errors->has('estado'))
+                                <span class="errormsg">{{ $errors->first('estado') }}</span>
                             @endif
                         </div>
                     </div>

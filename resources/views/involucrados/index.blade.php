@@ -15,13 +15,15 @@
             <table id="table_id" class="display">
                 <thead>
                     <tr>
-                        <th colspan="3" style="text-align: center;">
+                        <th colspan="4" style="text-align: center;">
                             <h3><strong>Involucrado</strong></h3>
                         </th>
                     </tr>
                     <tr class="table-primary" style="text-align: center;">
                         <th>Nombre del Involucrado</th>
                         <th>Correo Electrónico</th>
+                        <th>Estado</th>
+
                         <th width='20%'> <a class="boton_personalizado"
                                 href="{{ route('involucrados.create') }}">Nuevo</a>
                         </th>
@@ -33,12 +35,21 @@
                         <tr>
                             <td>{{ $involucrado->nombreInvolucrado }}</td>
                             <td>{{ $involucrado->correoInvolucrado }}</td>
+
+                            @if ($involucrado->estado == 1)
+                                <td><a href="{{ route('involucrados.change.status', [$involucrado->idInvolucrado]) }}"
+                                        class="btn btn-sm btn-success">Activo</a>
+                                </td>
+                            @else
+                                <td><a href="{{ route('involucrados.change.status', [$involucrado->idInvolucrado]) }}"
+                                        class="btn btn-sm btn-danger">Inactivo</a>
+                                </td>
+                            @endif
+
                             <td style="text-align: center;">
                                 <!-- Edit -->
                                 <a href="{{ route('involucrados.edit', [$involucrado->idInvolucrado]) }}"
                                     class="btn btn-sm btn-info">Modificar</a>
-                                <a href="{{ route('involucrados.delete', $involucrado->idInvolucrado) }}"
-                                    class="btn btn-sm btn-danger">Eliminar</a>
                             </td>
                         </tr>
                     @endforeach

@@ -30,10 +30,10 @@
 
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="tiempoAudiencia">Tiempo de la
-                                    Audiencia<span class="required"></span></label>
+                                    Audiencia</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <input id="tiempoAudiencia" class="form-control col-md-12 col-xs-12"
-                                        name="tiempoAudiencia" required="required" type="time"
+                                        name="tiempoAudiencia" type="time"
                                         value="{{ old('tiempoAudiencia', $audiencias->tiempoAudiencia) }}">
 
                                     @if ($errors->has('tiempoAudiencia'))
@@ -48,11 +48,30 @@
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <input id="observacionesAudiencia" class="form-control col-md-12 col-xs-12"
                                         name="observacionesAudiencia" placeholder="Ingrese la observación de la audiencia"
-                                        required="required" type="text"
+                                        type="text"
                                         value="{{ old('observacionesAudiencia', $audiencias->observacionesAudiencia) }}">
 
                                     @if ($errors->has('observacionesAudiencia'))
                                         <span class="errormsg">{{ $errors->first('observacionesAudiencia') }}</span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12"
+                                    for="idAsignacionFK">Asignacion</label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <select disabled name="idAsignacionFK" class="form-control" >
+                                        @foreach($audiencia_asignacion as $a_a )
+                                            <option value="{{ old('idAsignacion',$a_a->idAsignacion) }}">
+                                               <strong>Notificacion: </strong> {{ $a_a->notificacionEnviada }}
+
+                                            </option>
+                                        @endforeach
+                                    </select>
+
+                                    @if ($errors->has('idAsignacionFK'))
+                                    <strong class="alert-danger">{{ $errors->first('idAsignacionFK') }}</strong>
                                     @endif
                                 </div>
                             </div>

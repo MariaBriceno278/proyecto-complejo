@@ -15,7 +15,7 @@
             <table id="table_id" class="display">
                 <thead>
                     <tr>
-                        <th colspan="4" style="text-align: center;">
+                        <th colspan="5" style="text-align: center;">
                             <h3><strong>Solicitud</strong></h3>
                         </th>
                     </tr>
@@ -23,6 +23,8 @@
                         <th>Fecha de la Solicitud</th>
                         <th>Capacidad</th>
                         <th>Prioridad</th>
+                        <th>Estado</th>
+
                         <th width='20%'> <a class="boton_personalizado" href="{{ route('solicituds.create') }}">Nuevo</a>
                         </th>
 
@@ -34,12 +36,21 @@
                             <td>{{ $solicitud->fechaSolicitud }}</td>
                             <td>{{ $solicitud->capacidadRequerida }}</td>
                             <td>{{ $solicitud->prioridadNormal }}</td>
+
+                            @if ($solicitud->estado == 1)
+                                <td><a href="{{ route('solicituds.change.status', [$solicitud->idSolicitud]) }}"
+                                        class="btn btn-sm btn-success">Activo</a>
+                                </td>
+                            @else
+                                <td><a href="{{ route('solicituds.change.status', [$solicitud->idSolicitud]) }}"
+                                        class="btn btn-sm btn-danger">Inactivo</a>
+                                </td>
+                            @endif
+
                             <td style="text-align: center;">
                                 <!-- Edit -->
                                 <a href="{{ route('solicituds.edit', [$solicitud->idSolicitud]) }}"
                                     class="btn btn-sm btn-info">Modificar</a>
-                                <a href="{{ route('solicituds.delete', $solicitud->idSolicitud) }}"
-                                    class="btn btn-sm btn-danger">Eliminar</a>
                             </td>
                         </tr>
                     @endforeach

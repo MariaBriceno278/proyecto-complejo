@@ -70,11 +70,33 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="idEspecialidadFK">Especialidad</label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="estado">Estado
+                        </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input id="idEspecialidadFK" class="form-control " name="idEspecialidadFK"
-                                placeholder="Ingrese la especialidad" required="required" type="text">
+                            <select name="estado" class="form-control">
+                                <option value=""> -- Seleccione Estado --</option>
+                                <option value="1">Activo</option>
+                                <option value="0">Inactivo</option>
+                            </select>
 
+                            @if ($errors->has('estado'))
+                                <span class="errormsg">{{ $errors->first('estado') }}</span>
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="idEspecialidad">
+                            Especialidad</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <select name="idEspecialidadFK" class="form-control">
+                                <option value=""> -- Seleccione Especialidad --</option>
+                                @foreach ($despachos_especialidads as $despacho_especialidad)
+                                    <option value="{{ $despacho_especialidad->idEspecialidad }}">
+                                        {{ $despacho_especialidad->denominacionEspecialidad }}
+                                    </option>
+                                @endforeach
+                            </select>
 
                             @if ($errors->has('idEspecialidadFK'))
                                 <span class="errormsg">{{ $errors->first('idEspecialidadFK') }}</span>

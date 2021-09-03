@@ -23,6 +23,7 @@
                         <th>Número de Referencia</th>
                         <th>Fecha de Registro</th>
                         <th>Estado</th>
+
                         <th width='20%'> <a class="boton_personalizado" href="{{ route('casos.create') }}">
                                 Nuevo</a></th>
 
@@ -33,13 +34,21 @@
                         <tr>
                             <td>{{ $caso->nReferenciaCaso }}</td>
                             <td>{{ $caso->fechaRegistro }}</td>
-                            <td>{{ $caso->estadoCaso }}</td>
+
+                            @if ($caso->estado == 1)
+                                <td><a href="{{ route('casos.change.status', [$caso->idCaso]) }}"
+                                        class="btn btn-sm btn-success">Activo</a>
+                                </td>
+                            @else
+                                <td><a href="{{ route('casos.change.status', [$caso->idCaso]) }}"
+                                        class="btn btn-sm btn-danger">Inactivo</a>
+                                </td>
+                            @endif
+
                             <td style="text-align: center;">
                                 <!-- Edit -->
                                 <a href="{{ route('casos.edit', [$caso->idCaso]) }}" class="btn btn-sm btn-info">
                                     Modificar</a>
-                                <a href="{{ route('casos.delete', $caso->idCaso) }}" class="btn btn-sm btn-danger">
-                                    Eliminar</a>
                             </td>
                         </tr>
                     @endforeach

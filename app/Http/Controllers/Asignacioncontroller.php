@@ -3,8 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Asignacion;
+use App\Sala;
+use App\Solicitud;
+use Facade\IgnitionContracts\Solution;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Validator as FacadesValidator;
 
 class AsignacionController extends Controller
@@ -16,7 +21,12 @@ class AsignacionController extends Controller
      */
     public function index()
     {
-        $asignacions = Asignacion::select('idAsignacion', 'fechaHoraInicio', 'fechaHoraFin', 'notificacionEnviada', 'idSalaFK', 'idSolicitudFK')->get();
+        $asignacions = Asignacion::select('asignacion.idAsignacion', 'asignacion.fechaInicio', 'asignacion.horaInicio',
+                                        'asignacion.fechaFin', 'asignacion.horaFin', 'asignacion.notificacionEnviada', 'asignacion.estado',
+                                        'sala.numeroSala','sala.bloqueSala', 'sala.pisoSala', 'asignacion.idSolicitudFK')
+                                        ->join('sala','asignacion.idSalaFK','=','sala.idSala')
+                                         ->get();
+
         return view('asignacions.index')->with('asignacions', $asignacions);
     }
 
@@ -27,7 +37,11 @@ class AsignacionController extends Controller
      */
     public function create()
     {
-        return view('asignacions.create');
+        $asignacion_sala = Sala::select(['numeroSala', 'pisoSala','bloqueSala','idSala'])->get();
+        $asignacion_solicitud = Solicitud::select(['fechaSolicitud','capacidadRequerida', 'prioridadNormal','estado','idSolicitud'])
+                                        ->orderby('fechaSolicitud','ASC')
+                                        ->get();
+        return view('asignacions.create',compact('asignacion_solicitud',$asignacion_solicitud))->with('asignacion_sala',$asignacion_sala);
     }
 
     /**
@@ -40,13 +54,26 @@ class AsignacionController extends Controller
     {
         $data = $request->except('_method', '_token', 'submit');
 
-        $validator = FacadesValidator::make($request->all(), [
-            'fechaHoraInicio' => 'required|string',
-            'fechaHoraFin' => 'string',
-            'notificacionEnviada' => 'string',
-            'idSalaFK' => 'string',
-            'idSolicitudFK' => 'string',
-        ]);
+        $mensajes =[
+            "unique" => "el numero de solicitud ya tiene una asignacion",
+            "required" => "Campo requerido ",
+            "after" => "Fecha posterior o igual a la actual",
+            "after_or_equal" => "Fecha posterior o igual a la actual",
+
+            ];
+        $rules = [
+            "fechaInicio" => 'required|after:yesterday',
+            'horaInicio' => 'required',
+            'fechaFin' => 'required|date|after_or_equal:fechaInicio',
+            'horaFin' => 'required',
+            'notificacionEnviada' => 'required',
+            'estado' => 'required|string',
+            'idSalaFK'=> 'required',
+            'idSolicitudFK' => 'required|unique:asignacion,idSolicitudFK',
+
+        ];
+
+        $validator = Validator::make($request->all(),  $rules,$mensajes);
 
         if ($validator->fails()) {
             return redirect()->Back()->withInput()->withErrors($validator);
@@ -83,9 +110,12 @@ class AsignacionController extends Controller
      */
     public function edit($idAsignacion)
     {
-        $asignacions = Asignacion::find($idAsignacion);
 
-        return view('asignacions.edit')->with('asignacions', $asignacions);
+        $asignacions = Asignacion::find($idAsignacion);
+        $asignacion_sala = Sala::select(['numeroSala', 'pisoSala','bloqueSala','idSala'])->get();
+        $asignacion_solicitud = Solicitud::select(['fechaSolicitud','capacidadRequerida', 'prioridadNormal','estado','idSolicitud'])->get();
+
+        return view('asignacions.edit')->with('asignacions', $asignacions)->with('asignacion_solicitud',$asignacion_solicitud)->with('asignacion_sala',$asignacion_sala);
     }
 
     /**
@@ -99,11 +129,24 @@ class AsignacionController extends Controller
     {
         $data = $request->except('_method', '_token', 'submit');
 
-        $validator = FacadesValidator::make($request->all(), [
-            'fechaHoraInicio' => 'required|string',
-            'fechaHoraFin' => 'string',
-            'notificacionEnviada' => 'string',
-        ]);
+        $mensajes =[
+            "required" => "Campo requerido ",
+            "after" => "Fecha posterior o igual a la actual",
+            "after_or_equal" => "Fecha posterior o igual a la actual",
+
+            ];
+        $rules = [
+            "fechaInicio" => 'required|after:yesterday',
+            'horaInicio' => 'required',
+            'fechaFin' => 'required|date|after_or_equal:fechaInicio',
+            'horaFin' => 'required',
+            'notificacionEnviada' => 'required',
+            'idSalaFK'=> '',
+            'idSolicitudFK' => '',
+
+        ];
+
+        $validator = Validator::make($request->all(),  $rules,$mensajes);
 
         if ($validator->fails()) {
             return redirect()->Back()->withInput()->withErrors($validator);
@@ -123,18 +166,21 @@ class AsignacionController extends Controller
         return Back()->withInput();
     }
 
-    /**
+        /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function change_status($idAsignacion)
     {
-        Asignacion::destroy($id);
-
-        Session::flash('message', 'Eliminado con exito!');
-        Session::flash('alert-class', 'alert-success');
-        return redirect()->route('asignacions');
+        $asignacion = Asignacion::find($idAsignacion);
+        if ($asignacion->estado == 1) {
+            $asignacion->update(['estado' => 0]);
+            return redirect()->back();
+        } else {
+            $asignacion->update(['estado' => 1]);
+            return redirect()->back();
+        }
     }
 }

@@ -9,65 +9,73 @@
                     {{ Session::get('message') }}
                 </div>
             @endif
+            <div class="main-content container-fluid">
+                <div class="page-title">
+                    <div class="row">
+                        <div class="col-12 col-md-6 order-md-1 order-last">
+                            <h3>Usuario</h3>
+                        </div>
+
+                        <div class="col-12 col-md-6 order-md-2 order-first">
+                            <nav aria-label="breadcrumb" class='breadcrumb-header'>
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="">Inicio</a></li>
+                                    <li class="breadcrumb-item"><a href="">Usuarios</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Usuario</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+                <section class="section">
+                    <div class="card">
+
+                        <div class="card-body">
+                            <table class='table table-striped' id="table1">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Apellido</th>
+                                        <th>Correo Electrónico</th>
+                                        <th>Número de Documento</th>
+                                        <th></th>
+                                        <th>Estado</th>
+                                        <th>Modificar</th>
+                                        <a class="btn btn-sm btn-info" href="{{ route('usuarios.create') }}">Nuevo</a>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($usuarios as $usuario)
+                                        <tr>
+                                            <td>{{ $usuario->nombreUsuario }}</td>
+                                            <td>{{ $usuario->apellidoUsuario }}</td>
+                                            <td>{{ $usuario->correoUsuario }}</td>
+                                            <td>{{ $usuario->documentoUsuario }}</td>
+                                            <td>{{ $usuario->telefonoUsuario }}</td>
+
+                                            @if ($usuario->estado == 1)
+                                                <td><a href="{{ route('usuarios.change.status', [$usuario->idUsuario]) }}"
+                                                        class="btn btn-sm btn-success">Activo</a>
+                                                </td>
+                                            @else
+                                                <td><a href="{{ route('usuarios.change.status', [$usuario->idUsuario]) }}"
+                                                        class="btn btn-sm btn-danger">Inactivo</a>
+                                                </td>
+                                            @endif
+
+                                            <td style="text-align: center;">
+                                                <!-- Edit -->
+                                                <a href="{{ route('usuarios.edit', [$usuario->idUsuario]) }}"
+                                                    class="btn btn-primary round"><i data-feather="edit"></i></a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+            </div>
             <!-- Alert message (end) -->
-
-
-            <table id="table_id" class="display">
-                <thead>
-                    <tr>
-                        <th colspan="7" style="text-align: center;">
-                            <h3><strong>Usuario</strong></h3>
-                        </th>
-                    </tr>
-                    <tr class="table-primary" style="text-align: center;">
-                        <th>Nombre del Usuario</th>
-                        <th>Apellido del Usuario</th>
-                        <th>Correo Electrónico</th>
-                        <th>Número de Documento</th>
-                        <th>Teléfono del Usuario</th>
-                        <th>Estado</th>
-
-                        <th width='20%'> <a class="boton_personalizado" href="{{ route('usuarios.create') }}">Nuevo</a>
-                        </th>
-
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($usuarios as $usuario)
-                        <tr>
-                            <td>{{ $usuario->nombreUsuario }}</td>
-                            <td>{{ $usuario->apellidoUsuario }}</td>
-                            <td>{{ $usuario->correoUsuario }}</td>
-                            <td>{{ $usuario->documentoUsuario }}</td>
-                            <td>{{ $usuario->telefonoUsuario }}</td>
-
-                            @if ($usuario->estado == 1)
-                                <td><a href="{{ route('usuarios.change.status', [$usuario->idUsuario]) }}"
-                                        class="btn btn-sm btn-success">Activo</a>
-                                </td>
-                            @else
-                                <td><a href="{{ route('usuarios.change.status', [$usuario->idUsuario]) }}"
-                                        class="btn btn-sm btn-danger">Inactivo</a>
-                                </td>
-                            @endif
-
-                            <td style="text-align: center;">
-                                <!-- Edit -->
-                                <a href="{{ route('usuarios.edit', [$usuario->idUsuario]) }}"
-                                    class="btn btn-sm btn-info">Modificar</a>
-                            </td>
-                        </tr>
-
-                    @endforeach
-                </tbody>
-            </table>
-
-        </div>
-    </div>
-
-    </body>
-
-    </html>
-
-
-@endsection()
+        @endsection()

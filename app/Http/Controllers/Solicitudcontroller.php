@@ -29,10 +29,10 @@ class SolicitudController extends Controller
      */
     public function create()
     {
-        $solicitud_caso = Caso::select('nReferenciaCaso','idCaso')->get();
+        $solicitud_caso = Caso::select('nReferenciaCaso', 'idCaso')->where('estado','=','1')->get();
 
-        $solicitud_usuario = Usuario::select('nombreUsuario','idUsuario')->get();
-        return view('solicituds.create')->with('solicitud_caso',$solicitud_caso)->with('solicitud_usuario',$solicitud_usuario);
+        $solicitud_usuario = Usuario::select('nombreUsuario', 'idUsuario')->get();
+        return view('solicituds.create')->with('solicitud_caso', $solicitud_caso)->with('solicitud_usuario', $solicitud_usuario);
     }
 
     /**
@@ -45,21 +45,21 @@ class SolicitudController extends Controller
     {
         $data = $request->except('_method', '_token', 'submit');
 
-        $mensajes =[
+        $mensajes = [
             "unique" => "el numero de solicitud ya tiene una asignacion",
             "required" => "Campo requerido ",
             "after" => "Fecha posterior o igual a la actual",
-            ];
-            $rules = [
-                'fechaSolicitud' => 'required|after:yesterday',
-                'capacidadRequerida' => 'required',
-                'prioridadNormal' => 'required',
-                'estado' => 'required',
-                'idCasoFK' => 'required',
-                'idUsuarioFK' => 'required',
-            ];
+        ];
+        $rules = [
+            'fechaSolicitud' => 'required|after:yesterday',
+            'capacidadRequerida' => 'required',
+            'prioridadNormal' => 'required',
+            'estado' => 'required',
+            'idCasoFK' => 'required',
+            'idUsuarioFK' => 'required',
+        ];
 
-        $validator = Validator::make($request->all(), $rules,$mensajes);
+        $validator = Validator::make($request->all(), $rules, $mensajes);
 
         if ($validator->fails()) {
             return redirect()->Back()->withInput()->withErrors($validator);
@@ -97,9 +97,9 @@ class SolicitudController extends Controller
     public function edit($idSolicitud)
     {
         $solicituds = Solicitud::find($idSolicitud);
-        $solicitud_caso = Caso::select('nReferenciaCaso','idCaso')->get();
+        $solicitud_caso = Caso::select('nReferenciaCaso', 'idCaso')->get();
 
-        $solicitud_usuario = Usuario::select('nombreUsuario','idUsuario')->get();
+        $solicitud_usuario = Usuario::select('nombreUsuario', 'idUsuario')->get();
 
         return view('solicituds.edit')->with('solicituds', $solicituds)->with('solicitud_caso', $solicitud_caso)->with('solicitud_usuario', $solicitud_usuario);
     }
@@ -115,20 +115,20 @@ class SolicitudController extends Controller
     {
         $data = $request->except('_method', '_token', 'submit');
 
-        $mensajes =[
+        $mensajes = [
             "unique" => "el numero de solicitud ya tiene una asignacion",
             "required" => "Campo requerido ",
             "after" => "Fecha posterior o igual a la actual",
-            ];
-            $rules = [
-                'fechaSolicitud' => '',
-                'capacidadRequerida' => 'required',
-                'prioridadNormal' => 'required',
-                'idCasoFK' => '',
-                'idUsuarioFK' => '',
-            ];
+        ];
+        $rules = [
+            'fechaSolicitud' => '',
+            'capacidadRequerida' => 'required',
+            'prioridadNormal' => 'required',
+            'idCasoFK' => '',
+            'idUsuarioFK' => '',
+        ];
 
-        $validator = Validator::make($request->all(), $rules,$mensajes);
+        $validator = Validator::make($request->all(), $rules, $mensajes);
         if ($validator->fails()) {
             return redirect()->Back()->withInput()->withErrors($validator);
         }
@@ -163,5 +163,10 @@ class SolicitudController extends Controller
             $solicitud->update(['estado' => 1]);
             return redirect()->back();
         }
+    }
+
+    public function solicitudCompleta()
+    {
+        return view('solicituds.solicitudcompleta');
     }
 }

@@ -174,4 +174,13 @@ class SalaController extends Controller
             return redirect()->back();
         }
     }
+
+    public function vistasala(){
+
+
+
+        $sedepaloquemao=Sala::where('idSedeFK','=','1')->select('numeroSala','pisoSala','bloqueSala','reserva')->orderby('bloqueSala','asc')->get();
+        $sedeconvida=Sala::where('idSedeFK','=','2');
+        return view('salas.sala')->with('sedepaloquemao',$sedepaloquemao)->with('sedeconvida',$sedeconvida);
+    }
 }

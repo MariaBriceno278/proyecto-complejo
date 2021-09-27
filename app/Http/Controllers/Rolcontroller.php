@@ -16,7 +16,7 @@ class RolController extends Controller
      */
     public function index()
     {
-        $rols = Rol::select('idRol', 'nombreRol', 'estadoRol')->get();
+        $rols = Rol::select('idRol', 'nombreRol')->get();
         return view('rols.index')->with('rols', $rols);
     }
 
@@ -74,28 +74,7 @@ class RolController extends Controller
      */
     public function update(Request $request, $idRol)
     {
-        $data = $request->except('_method', '_token', 'submit');
-
-        $validator = FacadesValidator::make($request->all(), [
-            'estadoRol' => 'required|string',
-        ]);
-
-        if ($validator->fails()) {
-            return redirect()->Back()->withInput()->withErrors($validator);
-        }
-        $rols = Rol::find($idRol);
-
-        if ($rols->update($data)) {
-
-            Session::flash('message', 'Modificado con exito!');
-            Session::flash('alert-class', 'alert-success');
-            return redirect()->route('rols');
-        } else {
-            Session::flash('message', 'No se pudo modificar!');
-            Session::flash('alert-class', 'alert-danger');
-        }
-
-        return Back()->withInput();
+        //
     }
 
     /**

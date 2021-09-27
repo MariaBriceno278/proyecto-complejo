@@ -9,35 +9,45 @@
                     {{ Session::get('message') }}
                 </div>
             @endif
+            <div class="main-content container-fluid">
+                <div class="page-title">
+                    <div class="row">
+                        <div class="col-12 col-md-6 order-md-1 order-last">
+                            <h3>Especialidad</h3>
+                        </div>
+
+                        <div class="col-12 col-md-6 order-md-2 order-first">
+                            <nav aria-label="breadcrumb" class='breadcrumb-header'>
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="">Inicio</a></li>
+                                    <li class="breadcrumb-item"><a href="">Usuarios</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Especialidad</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+                <section class="section">
+                    <div class="card">
+
+                        <div class="card-body">
+                            <table class='table table-striped' id="table1">
+                                <thead>
+                                    <tr>
+                                        <th>Denominación de la Especialidad</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($especialidads as $especialidad)
+                                        <tr>
+                                            <td>{{ $especialidad->denominacionEspecialidad }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+            </div>
             <!-- Alert message (end) -->
-
-
-            <table id="table_id" class="display">
-                <thead>
-                    <tr>
-                        <th colspan="1" style="text-align: center;">
-                            <h3><strong>Especialidad</strong></h3>
-                        </th>
-                    </tr>
-                    <tr class="table-primary" style="text-align: center;">
-                        <th>Denominación de la Especialidad</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($especialidads as $especialidad)
-                        <tr>
-                            <td>{{ $especialidad->denominacionEspecialidad }}</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-
-        </div>
-    </div>
-
-    </body>
-
-    </html>
-
-
-@endsection()
+        @endsection()

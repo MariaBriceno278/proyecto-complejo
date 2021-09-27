@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('layouts.layouthome');
 });
 
 /*ASIGNACIÓN*/
@@ -136,6 +136,7 @@ Route::get('salas', 'SalaController@index')->name('salas');
 
 ## Create
 Route::get('salas/create', 'SalaController@create')->name('salas.create');
+Route::get('salas/vistasala', 'SalaController@vistasala')->name('vista');
 Route::post('salas/store', 'SalaController@store')->name('salas.store');
 
 ## Update

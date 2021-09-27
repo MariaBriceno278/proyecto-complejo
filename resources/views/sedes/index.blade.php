@@ -9,57 +9,67 @@
                     {{ Session::get('message') }}
                 </div>
             @endif
+            <div class="main-content container-fluid">
+                <div class="page-title">
+                    <div class="row">
+                        <div class="col-12 col-md-6 order-md-1 order-last">
+                            <h3>Sede</h3>
+                        </div>
+
+                        <div class="col-12 col-md-6 order-md-2 order-first">
+                            <nav aria-label="breadcrumb" class='breadcrumb-header'>
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="">Inicio</a></li>
+                                    <li class="breadcrumb-item"><a href="">Salas</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Sede</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+                <section class="section">
+                    <div class="card">
+
+                        <div class="card-body">
+                            <table class='table table-striped' id="table1">
+                                <thead>
+                                    <tr>
+                                        <th>Dirección de Sede</th>
+                                        <th>Nombre de Sede</th>
+                                        <th>Estado</th>
+                                        <th>Modificar</th>
+                                        <a class="btn btn-sm btn-info" href="{{ route('sedes.create') }}">Nuevo</a>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($sedes as $sede)
+                                        <tr>
+                                            <td>{{ $sede->direccionSede }}</td>
+                                            <td>{{ $sede->nombreSede }}</td>
+
+                                            @if ($sede->estado == 1)
+                                                <td><a href="{{ route('sedes.change.status', [$sede->idSede]) }}"
+                                                        class="btn icon icon-left btn-info">Activo</a>
+                                                </td>
+                                            @else
+                                                <td><a href="{{ route('sedes.change.status', [$sede->idSede]) }}"
+                                                        class="btn icon icon-left btn-light">Inactivo</a>
+                                                </td>
+                                            @endif
+
+                                            <td style="text-align: center;">
+                                                <!-- Edit -->
+                                                <a href="{{ route('sedes.edit', [$sede->idSede]) }}"
+                                                    class="btn btn-primary round"><i data-feather="edit"></i></a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+            </div>
             <!-- Alert message (end) -->
-
-            <table id="table_id" class="display">
-                <thead>
-                    <tr>
-                        <th colspan="4" style="text-align: center;">
-                            <h3><strong>Sede</strong></h3>
-                        </th>
-                    </tr>
-                    <tr class="table-primary" style="text-align: center;">
-                        <th>Dirección de Sede</th>
-                        <th>Nombre de Sede</th>
-                        <th>Estado</th>
-
-                        <th width='20%'> <a class="boton_personalizado" href="{{ route('sedes.create') }}">Nuevo</a></th>
-
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($sedes as $sede)
-                        <tr>
-                            <td>{{ $sede->direccionSede }}</td>
-                            <td>{{ $sede->nombreSede }}</td>
-
-                            @if ($sede->estado == 1)
-                                <td><a href="{{ route('sedes.change.status', [$sede->idSede]) }}"
-                                        class="btn btn-sm btn-success">Activo</a>
-                                </td>
-                            @else
-                                <td><a href="{{ route('sedes.change.status', [$sede->idSede]) }}"
-                                        class="btn btn-sm btn-danger">Inactivo</a>
-                                </td>
-                            @endif
-
-                            <td style="text-align: center;">
-                                <!-- Edit -->
-                                <a href="{{ route('sedes.edit', [$sede->idSede]) }}"
-                                    class="btn btn-sm btn-info">Modificar</a>
-                            </td>
-
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-
-        </div>
-    </div>
-
-    </body>
-
-    </html>
-
-
-@endsection()
+        @endsection()

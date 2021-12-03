@@ -8,6 +8,10 @@ use App\Rol;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\UsuarioCreadoMail;
 
 class UsuarioController extends Controller
 {
@@ -32,7 +36,8 @@ class UsuarioController extends Controller
         $usuarios_despachos = Despacho::select(['numeroDespacho', 'nombreDespacho', 'idDespacho'])->get();
         $usuarios_rols = Rol::select(['nombreRol', 'idRol'])->get();
 
-        return view('usuarios.create')->with('usuarios_despachos', $usuarios_despachos)->with('usuarios_rols', $usuarios_rols);    }
+        return view('usuarios.create')->with('usuarios_despachos', $usuarios_despachos)->with('usuarios_rols', $usuarios_rols);
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -44,43 +49,51 @@ class UsuarioController extends Controller
     {
         $data = $request->except('_method', '_token', 'submit');
 
-        $mensajes =[
-            "unique" => "ya se encuntra registrado",
-            "required" => "Campo requerido ",
-            "alpha" => "Solo ingrese letras",
-            "numeric" => "Solo ingrese numeros",
-            "email" => "Solo correo electronico valido",
+        $mensajes = [
+            "unique" => "El correo ya ha sido tomado",
+            "required" => "El campo es obligatorio",
+            "email" => "El campo debe ser una dirección de correo electrónico válida",
+            "between" => "El campo deben tener entre :min y :max caracteres",
+            "regex" => "El campo solo puede contener letras",
+            "digits_between" => "El campo debe tener entre :min y :max dígitos",
+        ];
 
-            ];
-
-            $rules = [
-                'nombreUsuario' => 'required|string|min:3',
-            'apellidoUsuario' => 'required|string|min:3',
-            'correoUsuario' => 'required|email|unique:usuario,correoUsuario',
-            'documentoUsuario' => 'required|numeric|min:10|unique:usuario,documentoUsuario',
-            'telefonoUsuario' => 'required|numeric|min:6|unique:usuario,telefonoUsuario',
+        $rules = [
+            'nombreUsuario' => 'required|regex:/^[\pL\s\-]+$/u|between:3, 20',
+            'apellidoUsuario' => 'required|regex:/^[\pL\s\-]+$/u|between:5, 20',
+            'correoUsuario' => 'required|email:rfc,dns|unique:usuario,correoUsuario',
+            'documentoUsuario' => 'required|digits_between: 8 , 10|unique:usuario,documentoUsuario',
+            'telefonoUsuario' => 'required|digits_between: 7 , 10|unique:usuario,telefonoUsuario',
             'idDespachoFK' => 'required',
-            'idRolFK' => 'required'
+            'idRolFK' => 'required',
+            'estado' => 'required',
+        ];
 
-
-            ];
-
-        $validator = Validator::make($request->all(), $rules,$mensajes);
+        $validator = Validator::make($request->all(), $rules, $mensajes);
 
         if ($validator->fails()) {
-            return redirect()->Back()->withInput()->withErrors($validator);
+            return redirect('usuarios/create')
+                ->withErrors($validator)
+                ->withInput();
         }
+        $password = Str::random(10);
 
-        if ($record = Usuario::firstOrCreate($data)) {
-            Session::flash('message', 'Creado con exito!');
-            Session::flash('alert-class', 'alert-success');
-            return redirect()->route('usuarios');
-        } else {
-            Session::flash('message', 'Data not saved!');
-            Session::flash('alert-class', 'alert-danger');
-        }
+        $u = new Usuario();
+        $u->nombreUsuario = $request->input("nombreUsuario");
+        $u->apellidoUsuario = $request->input("apellidoUsuario");
+        $u->correoUsuario = $request->input("correoUsuario");
+        $u->documentoUsuario = $request->input("documentoUsuario");
+        $u->telefonoUsuario = $request->input("telefonoUsuario");
+        $u->estado = $request->input("estado");
+        $u->idDespachoFK = $request->input("idDespachoFK");
+        $u->idRolFK = $request->input("idRolFK");
+        $u->password = Hash::make($password);
+        $u->save();
+        Session::flash('message', 'Creado con exito!');
+        Session::flash('alert-class', 'alert-success');
+        Mail::to($request->input("correoUsuario"))->send(new UsuarioCreadoMail($password, $u));
 
-        return Back();
+        return redirect()->route('usuarios');
     }
 
     /**
@@ -124,28 +137,22 @@ class UsuarioController extends Controller
     {
         $data = $request->except('_method', '_token', 'submit');
 
-        $mensajes =[
-            "unique" => "ya se encuntra registrado",
-            "required" => "Campo requerido ",
-            "alpha" => "Solo ingrese letras",
-            "numeric" => "Solo ingrese numeros",
-            "email" => "Solo correo electronico valido",
+        $mensajes = [
+            "unique" => "El correo ya ha sido tomado",
+            "required" => "El campo es obligatorio",
+            "email" => "El campo debe ser una dirección de correo electrónico válida",
+            "between" => "El campo deben tener entre :min y :max caracteres",
+            "regex" => "El campo solo puede contener letras",
+            "digits_between" => "El campo debe tener entre :min y :max dígitos",
+        ];
 
-            ];
+        $rules = [
 
-            $rules = [
-                'nombreUsuario' => 'required|string|min:3',
-            'apellidoUsuario' => 'required|string|min:3',
-            'correoUsuario' => 'required|email',
-            'documentoUsuario' => 'required|numeric|min:10',
-            'telefonoUsuario' => 'required|numeric|min:6',
-            'idDespachoFK' => 'required',
-            'idRolFK' => 'required'
+            'telefonoUsuario' => 'required|digits_between: 7 , 10|unique:usuario,telefonoUsuario',
 
+        ];
 
-            ];
-
-        $validator = Validator::make($request->all(), $rules,$mensajes);
+        $validator = Validator::make($request->all(), $rules, $mensajes);
 
         if ($validator->fails()) {
             return redirect()->Back()->withInput()->withErrors($validator);

@@ -22,6 +22,11 @@ class SolicitudController extends Controller
         return view('solicituds.index')->with('solicituds', $solicituds);
     }
 
+    public function pre_solicitud()
+    {
+        return view('solicituds.create');
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -29,7 +34,7 @@ class SolicitudController extends Controller
      */
     public function create()
     {
-        $solicitud_caso = Caso::select('nReferenciaCaso', 'idCaso')->where('estado','=','1')->get();
+        $solicitud_caso = Caso::select('nReferenciaCaso', 'idCaso')->where('estado', '=', '1')->get();
 
         $solicitud_usuario = Usuario::select('nombreUsuario', 'idUsuario')->get();
         return view('solicituds.create')->with('solicitud_caso', $solicitud_caso)->with('solicitud_usuario', $solicitud_usuario);
@@ -46,13 +51,14 @@ class SolicitudController extends Controller
         $data = $request->except('_method', '_token', 'submit');
 
         $mensajes = [
-            "unique" => "el numero de solicitud ya tiene una asignacion",
-            "required" => "Campo requerido ",
-            "after" => "Fecha posterior o igual a la actual",
+            "required" => "El campo es obligatorio",
+            "after" => "La fecha debe ser posterior a ayer",
+            "digits_between" => "El campo debe tener entre :min y :max dígitos",
         ];
+
         $rules = [
             'fechaSolicitud' => 'required|after:yesterday',
-            'capacidadRequerida' => 'required',
+            'capacidadRequerida' => 'required|digits_between: 1 , 3',
             'prioridadNormal' => 'required',
             'estado' => 'required',
             'idCasoFK' => 'required',
@@ -116,19 +122,22 @@ class SolicitudController extends Controller
         $data = $request->except('_method', '_token', 'submit');
 
         $mensajes = [
-            "unique" => "el numero de solicitud ya tiene una asignacion",
-            "required" => "Campo requerido ",
-            "after" => "Fecha posterior o igual a la actual",
+            "required" => "El campo es obligatorio",
+            "after" => "La fecha debe ser posterior a ayer",
+            "digits_between" => "El campo debe tener entre :min y :max dígitos",
         ];
+
         $rules = [
-            'fechaSolicitud' => '',
-            'capacidadRequerida' => 'required',
+            'fechaSolicitud' => 'required|after:yesterday',
+            'capacidadRequerida' => 'required|digits_between: 1 , 3',
             'prioridadNormal' => 'required',
-            'idCasoFK' => '',
-            'idUsuarioFK' => '',
+            'estado' => 'required',
+            'idCasoFK' => 'required',
+            'idUsuarioFK' => 'required',
         ];
 
         $validator = Validator::make($request->all(), $rules, $mensajes);
+
         if ($validator->fails()) {
             return redirect()->Back()->withInput()->withErrors($validator);
         }

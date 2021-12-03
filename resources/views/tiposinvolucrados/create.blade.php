@@ -1,70 +1,66 @@
 @extends('layouts.layout')
 
 @section('content')
-    <center>
-        <div class="main-content container-fluid">
-            <section id="basic-horizontal-layouts">
-                <div class="row match-height">
-                    <div class="col-md-10 col-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title">Nuevo Tipo Involucrado</h4>
-                            </div>
-                            <div class="card-content">
-                                <div class="card-body">
-                                    <form action="{{ route('tiposinvolucrados.store') }}" method="post"
-                                        class="form form-horizontal">
-                                        {{ csrf_field() }}
-                                        <div class="form-body">
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <label>Nombre Tipo de Involucrado</label>
-                                                </div>
-                                                <div class="col-md-8 form-group">
 
-                                                    <input value="{{ old('nombreTipoInvolucrado') }}"
-                                                        id="nombreTipoInvolucrado" class="form-control "
-                                                        name="nombreTipoInvolucrado"
-                                                        placeholder="Ingrese el nombre del tipo involucrado" type="text">
 
-                                                    @if ($errors->has('nombreTipoInvolucrado'))
-                                                        <span
-                                                            class="errormsg">{{ $errors->first('nombreTipoInvolucrado') }}</span>
-                                                    @endif
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <label>Estado</label>
-                                                </div>
-                                                <div class="col-md-8 form-group">
-                                                    <select class="form-select" id="basicSelect" name="estado"
-                                                        class="form-control">
-                                                        <option value=""> -- Seleccione Estado --</option>
-                                                        <option value="1">Activo</option>
-                                                        <option value="0">Inactivo</option>
-                                                    </select>
+    <div class="main-content container-fluid">
+        <section id="multiple-column-form">
+            <div class="row match-height">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">NUEVO TIPO INVOLUCRADO</h4>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-body">
+                                <form action="{{ route('tiposinvolucrados.store') }}" method="post">
+                                    {{ csrf_field() }}
+                                    <div class="row">
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-group">
+                                                <label for="first-name-column">Nombre Tipo de Involucrado</label>
+                                                <input value="{{ old('nombreTipoInvolucrado') }}"
+                                                    id="nombreTipoInvolucrado" class="form-control "
+                                                    name="nombreTipoInvolucrado"
+                                                    placeholder="Ingrese el nombre del tipo involucrado">
 
-                                                    @if ($errors->has('estado'))
-                                                        <span class="errormsg">{{ $errors->first('estado') }}</span>
-                                                    @endif
-                                                </div>
-
-                                                <div class="col-sm-12 d-flex justify-content-end">
-                                                    <button type="submit" class="btn btn-primary me-1 mb-1">Guardar</button>
-                                                    <a class="btn btn-light-secondary me-1 mb-1"
-                                                        href="{{ route('tiposinvolucradoss') }}">Volver</a>
-
-                                                </div>
+                                                @if ($errors->has('nombreTipoInvolucrado'))
+                                                    <span class="text-danger"
+                                                        class="errormsg">{{ $errors->first('nombreTipoInvolucrado') }}</span>
+                                                @endif
                                             </div>
                                         </div>
-                                    </form>
-                                </div>
+
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-group">
+                                                <label for="country-floating">Estado</label>
+                                                <select class="form-select" id="basicSelect" name="estado"
+                                                    class="form-control">
+                                                    <option value=""> -- Seleccione Estado --</option>
+                                                    <option value="1" {{ old('estado') == 1 ? 'selected' : '' }}>Activo
+                                                    </option>
+                                                    <option value="0" {{ old('estado') == 0 ? 'selected' : '' }}>Inactivo
+                                                    </option>
+                                                </select>
+
+                                                @if ($errors->has('estado'))
+                                                    <span class="text-danger"
+                                                        class="errormsg">{{ $errors->first('estado') }}</span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 d-flex justify-content-end">
+                                        <a  class="btn btn-light me-1 mb-1" href="{{ route('tiposinvolucrados') }}">Volver</a>
+                                        <button onclick="return confirm('Esta seguro de registrar?') ,myFunction()" type="submit" class="btn btn-primary me-1 mb-1">Guardar</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
-
                 </div>
-            </section>
-        </div>
-    </center>
-
+            </div>
+        </section>
+    </div>
 @endsection()

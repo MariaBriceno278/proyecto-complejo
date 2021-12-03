@@ -19,9 +19,9 @@ class SalaController extends Controller
     public function index()
     {
 
-        $salas = Sala::select('sala.idSala', 'sala.numeroSala', 'sala.capacidadSala', 'sala.bloqueSala', 'sala.pisoSala','sala.estado', 'sede.nombreSede','sede.direccionSede')
-                        ->join('sede','sala.idSedeFK','=','sede.idSede')
-                        ->get();
+        $salas = Sala::select('sala.idSala', 'sala.numeroSala', 'sala.capacidadSala', 'sala.bloqueSala', 'sala.pisoSala', 'sala.estado', 'sede.nombreSede', 'sede.direccionSede')
+            ->join('sede', 'sala.idSedeFK', '=', 'sede.idSede')
+            ->get();
         return view('salas.index')->with('salas', $salas);
     }
 
@@ -32,10 +32,10 @@ class SalaController extends Controller
      */
     public function create()
     {
-        $salas_sedes = Sede::select(['nombreSede', 'direccionSede','idSede'])->get();
+        $salas_sedes = Sede::select(['nombreSede', 'direccionSede', 'idSede'])->get();
         //$salas_sedes = Sede::pluck['nombreSede','direccionSede','idSede'];
 
-        return view('salas.create')->with('salas_sedes',$salas_sedes);
+        return view('salas.create')->with('salas_sedes', $salas_sedes);
     }
 
     /**
@@ -48,29 +48,39 @@ class SalaController extends Controller
     {
         $data = $request->except('_method', '_token', 'submit');
 
-        $mensajes =[
-            "required" => "Campo requerido ",
-            "alpha" => "solo letras",
-            'unique' => 'Numero de Sala ya registrado',
-
-            ];
-
-        $rules =[
-            'numeroSala' => 'required|numeric|unique:sala,numeroSala',
-            'capacidadSala' => 'required|string',
-            'bloqueSala' => 'required|string',
-            'pisoSala' => 'required|string',
-            'estado' => 'required|string',
-            'idSedeFK' => 'required|string',
+        $mensajes = [
+            "required" => "El campo es obligatorio",
+            "unique" => "El número sala ya ha sido tomado",
+            "digits_between" => "El campo debe tener entre :min y :max dígitos",
         ];
 
+        $rules = [
+            'numeroSala' => 'required|digits_between: 1 , 3|unique:sala,numeroSala',
+            'capacidadSala' => 'required|digits_between: 1 , 3',
+            'bloqueSala' => 'required',
+            'pisoSala' => 'required|digits_between: 1 , 2',
+            'estado' => 'required',
+            'idSedeFK' => 'required',
+        ];
 
-        $validator = Validator::make($request->all(), $rules,$mensajes);
+        $validator = Validator::make($request->all(), $rules, $mensajes);
+
         if ($validator->fails()) {
             return redirect()->Back()->withInput()->withErrors($validator);
         }
+        $s = new Sala();
+        $s->numeroSala = $request->input("numeroSala");
+        $s->capacidadSala = $request->input("capacidadSala");
+        $s->bloqueSala = $request->input("bloqueSala");
+        $s->pisoSala = $request->input("pisoSala");
+        $s->idSedeFK = $request->input("idSedeFK");
+        $s->estado = $request->input("estado");
+        $s->reserva = "0";
+
+        $s->save();
 
         if ($record = Sala::firstOrCreate($data)) {
+
             Session::flash('message', 'Creado con exito!');
             Session::flash('alert-class', 'alert-success');
             return redirect()->route('salas');
@@ -105,11 +115,11 @@ class SalaController extends Controller
 
         $salas = Sala::find($idSala);
 
-        $salas_sedes = Sede::select(['nombreSede', 'direccionSede','idSede'])
+        $salas_sedes = Sede::select(['nombreSede', 'direccionSede', 'idSede'])
 
-                            ->get();
+            ->get();
 
-        return view('salas.edit',compact('salas_sedes',$salas_sedes))->with('salas', $salas);
+        return view('salas.edit', compact('salas_sedes', $salas_sedes))->with('salas', $salas);
     }
 
     /**
@@ -122,22 +132,22 @@ class SalaController extends Controller
     public function update(Request $request, $idSala)
     {
         $data = $request->except('_method', '_token', 'submit');
-        $mensajes =[
-            "required" => "Campo requerido ",
 
-
-            ];
-
-        $rules =[
-            'numeroSala' => 'required|numeric',
-            'capacidadSala' => 'required|string',
-            'bloqueSala' => 'required|string',
-            'pisoSala' => 'required|string',
-            'idSedeFK' => 'required|string',
+        $mensajes = [
+            "required" => "El campo es obligatorio",
+            "unique" => "El número sala ya ha sido tomado",
+            "digits_between" => "El campo debe tener entre :min y :max dígitos",
         ];
 
+        $rules = [
 
-        $validator = Validator::make($request->all(), $rules,$mensajes);
+            'capacidadSala' => 'required|digits_between: 1 , 3',
+            'bloqueSala' => 'required',
+            'pisoSala' => 'required|digits_between: 1 , 2',
+
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $mensajes);
 
         if ($validator->fails()) {
             return redirect()->Back()->withInput()->withErrors($validator);
@@ -175,12 +185,13 @@ class SalaController extends Controller
         }
     }
 
-    public function vistasala(){
+    public function vistasala()
+    {
 
 
 
-        $sedepaloquemao=Sala::where('idSedeFK','=','1')->select('numeroSala','pisoSala','bloqueSala','reserva')->orderby('bloqueSala','asc')->get();
-        $sedeconvida=Sala::where('idSedeFK','=','2');
-        return view('salas.sala')->with('sedepaloquemao',$sedepaloquemao)->with('sedeconvida',$sedeconvida);
+        $sedepaloquemao = Sala::select('numeroSala', 'pisoSala', 'bloqueSala', 'reserva')->orderby('bloqueSala', 'asc')->get();
+        $sedeconvida = Sala::where('idSedeFK', '=', '2');
+        return view('salas.sala')->with('sedepaloquemao', $sedepaloquemao)->with('sedeconvida', $sedeconvida);
     }
 }

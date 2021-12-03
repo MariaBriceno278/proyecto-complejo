@@ -3,92 +3,62 @@
 @section('content')
 
 
-    <div class="row">
+    <div class="main-content container-fluid">
+        <section id="multiple-column-form">
+            <div class="row match-height">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">EDITAR AUDIENCIA</h4>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-body">
+                                <form action="{{ route('audiencias.update', [$audiencias->idAudiencia]) }}" method="post">
+                                    {{ csrf_field() }}
+                                    <div class="row">
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-group">
+                                                <label for="first-name-column">Tiempo de la Audiencia</label>
+                                                <input value="{{ old('tiempoAudiencia', $audiencias->tiempoAudiencia) }}"
+                                                    id="tiempoAudiencia" class="form-control " name="tiempoAudiencia"
+                                                    type="time">
 
-        <div class="col-md-12 col-sm-12 col-xs-12">
+                                                @if ($errors->has('tiempoAudiencia'))
+                                                    <span class="text-danger"
+                                                        class="errormsg">{{ $errors->first('tiempoAudiencia') }}</span>
+                                                @endif
+                                            </div>
+                                        </div>
 
-            <!-- Alert message (start) -->
-            @if (Session::has('message'))
-                <div class="alert {{ Session::get('alert-class') }}">
-                    {{ Session::get('message') }}
-                </div>
-            @endif
-            <!-- Alert message (end) -->
 
-            <div class="card">
-                <div class="card-header">
-                    <strong> Editar Audiencia</strong>
-                </div>
-                <div class="card-body">
 
-                    <a class='btn btn-info float-right' href="{{ route('audiencias') }}">Volver</a>
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-group">
+                                                <label for="first-name-column">Observación de la Audiencia</label>
+                                                <textarea
+                                                    value="{{ old('observacionesAudiencia', $audiencias->observacionesAudiencia) }}"
+                                                    id="observacionesAudiencia" class="form-control "
+                                                    name="observacionesAudiencia" placeholder="Ingrese la observación"
+                                                    type="text"></textarea>
 
-                    <center>
+                                                @if ($errors->has('observacionesAudiencia'))
+                                                    <span class="text-danger"
+                                                        class="errormsg">{{ $errors->first('observacionesAudiencia') }}</span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
 
-                        <form action="{{ route('audiencias.update', [$audiencias->idAudiencia]) }}" method="post">
-                            {{ csrf_field() }}
-
-                            <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="tiempoAudiencia">Tiempo de la
-                                    Audiencia</label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input id="tiempoAudiencia" class="form-control col-md-12 col-xs-12"
-                                        name="tiempoAudiencia" type="time"
-                                        value="{{ old('tiempoAudiencia', $audiencias->tiempoAudiencia) }}">
-
-                                    @if ($errors->has('tiempoAudiencia'))
-                                        <span class="errormsg">{{ $errors->first('tiempoAudiencia') }}</span>
-                                    @endif
-                                </div>
+                                    <div class="col-12 d-flex justify-content-end">
+                                        <a class="btn btn-light me-1 mb-1" href="{{ route('audiencias') }}">Volver</a>
+                                        <button onclick="return confirm('Esta seguro de Modificar?')" type="submit" class="btn btn-primary me-1 mb-1">Guardar</button>
+                                    </div>
+                                </form>
                             </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12"
-                                    for="observacionesAudiencia">Observación de la Audiencia</label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input id="observacionesAudiencia" class="form-control col-md-12 col-xs-12"
-                                        name="observacionesAudiencia" placeholder="Ingrese la observación de la audiencia"
-                                        type="text"
-                                        value="{{ old('observacionesAudiencia', $audiencias->observacionesAudiencia) }}">
-
-                                    @if ($errors->has('observacionesAudiencia'))
-                                        <span class="errormsg">{{ $errors->first('observacionesAudiencia') }}</span>
-                                    @endif
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12"
-                                    for="idAsignacionFK">Asignacion</label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <select disabled name="idAsignacionFK" class="form-control" >
-                                        @foreach($audiencia_asignacion as $a_a )
-                                            <option value="{{ old('idAsignacion',$a_a->idAsignacion) }}">
-                                               <strong>Notificacion: </strong> {{ $a_a->notificacionEnviada }}
-
-                                            </option>
-                                        @endforeach
-                                    </select>
-
-                                    @if ($errors->has('idAsignacionFK'))
-                                    <strong class="alert-danger">{{ $errors->first('idAsignacionFK') }}</strong>
-                                    @endif
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="col-md-6">
-                                    <input type="submit" name="submit" value='Guardar' class="boton_personalizado">
-                                </div>
-                            </div>
-
-                        </form>
-
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            </center>
-
-        </div>
+        </section>
     </div>
 @endsection()

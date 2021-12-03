@@ -18,9 +18,9 @@ class AudienciaController extends Controller
      */
     public function index()
     {
-        $audiencias = Audiencia::select('audiencia.idAudiencia', 'audiencia.tiempoAudiencia', 'audiencia.observacionesAudiencia','audiencia.estado','asignacion.notificacionEnviada')
-        ->join('asignacion','audiencia.idAsignacionFK','=','asignacion.idAsignacion')
-        ->get();
+        $audiencias = Audiencia::select('audiencia.idAudiencia', 'audiencia.tiempoAudiencia', 'audiencia.observacionesAudiencia', 'audiencia.estado', 'asignacion.fechaInicio')
+            ->join('asignacion', 'audiencia.idAsignacionFK', '=', 'asignacion.idAsignacion')
+            ->get();
         return view('audiencias.index')->with('audiencias', $audiencias);
     }
 
@@ -31,8 +31,8 @@ class AudienciaController extends Controller
      */
     public function create()
     {
-        $audeincia_asignacion = Asignacion::select(['fechaInicio','horaInicio','fechaFin','horaFin','notificacionEnviada','idAsignacion'])->get();
-        return view('audiencias.create')->with('audeincia_asignacion',$audeincia_asignacion);
+        $audiencia_asignacion = Asignacion::select(['fechaInicio', 'horaInicio', 'fechaFin', 'horaFin', 'notificacionEnviada', 'idAsignacion'])->get();
+        return view('audiencias.create')->with('audiencia_asignacion', $audiencia_asignacion);
     }
 
     /**
@@ -47,22 +47,19 @@ class AudienciaController extends Controller
 
         $rules =  [
             'tiempoAudiencia' => 'required',
-            'observacionesAudiencia' => 'required',
+            'observacionesAudiencia' => 'required|between:7, 1500|regex:/^[\pL\s\-]+$/u',
             'estado' => 'required',
-            'idAsignacionFK'=>'required|unique:audiencia,idAsignacionFK',
-
+            'idAsignacionFK' => 'required|unique:audiencia,idAsignacionFK',
         ];
-        $mensajes =[
-            "unique" => "el la asignacion ya tine una audiencia registrada",
-            "required" => "Campo requerido ",
 
+        $mensajes = [
+            "required" => "El campo es obligatorio",
+            "between" => "El campo debe tener al menos :min y no puede tener más :max caracteres",
+            "regex" => "El campo solo puede contener letras",
+            "unique" => "La asignación ya ha sido tomada.",
+        ];
 
-            ];
-
-
-
-
-        $validator = Validator::make($request->all(), $rules,$mensajes);
+        $validator = Validator::make($request->all(), $rules, $mensajes);
 
         if ($validator->fails()) {
             return redirect()->Back()->withInput()->withErrors($validator);
@@ -102,9 +99,9 @@ class AudienciaController extends Controller
     public function edit($idAudiencia)
     {
         $audiencias = Audiencia::find($idAudiencia);
-        $audiencia_asignacion = Asignacion::select(['fechaInicio','horaInicio','fechaFin','horaFin','notificacionEnviada','idAsignacion'])->get();
+        $audiencia_asignacion = Asignacion::select(['fechaInicio', 'horaInicio', 'fechaFin', 'horaFin', 'notificacionEnviada', 'idAsignacion'])->get();
 
-        return view('audiencias.edit')->with('audiencias', $audiencias)->with('audiencia_asignacion',$audiencia_asignacion);
+        return view('audiencias.edit')->with('audiencias', $audiencias)->with('audiencia_asignacion', $audiencia_asignacion);
     }
 
     /**
@@ -117,24 +114,22 @@ class AudienciaController extends Controller
     public function update(Request $request, $idAudiencia)
     {
         $data = $request->except('_method', '_token', 'submit');
+
         $rules =  [
-            'tiempoAudiencia' => '',
-            'observacionesAudiencia' => 'required',
-            'estado' => '',
-            'idAsignacionFK'=>'',
+            'tiempoAudiencia' => 'required',
+            'observacionesAudiencia' => 'required|between:7, 1500|regex:/^[\pL\s\-]+$/u',
 
         ];
-        $mensajes =[
 
-            "required" => "Campo requerido ",
+        $mensajes = [
+            "required" => "El campo es obligatorio",
+            "between" => "El campo debe tener al menos :min y no puede tener más :max caracteres",
+            "regex" => "El campo solo puede contener letras",
+            "unique" => "La asignación ya ha sido tomada.",
+        ];
 
+        $validator = Validator::make($request->all(), $rules, $mensajes);
 
-            ];
-
-
-
-
-        $validator = Validator::make($request->all(), $rules,$mensajes);
         if ($validator->fails()) {
             return redirect()->Back()->withInput()->withErrors($validator);
         }

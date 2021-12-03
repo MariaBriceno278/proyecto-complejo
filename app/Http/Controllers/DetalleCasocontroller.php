@@ -8,7 +8,7 @@ use App\Involucrado;
 use App\TipoInvolucrado;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Validator as FacadesValidator;
+use Illuminate\Support\Facades\Validator;
 
 class DetalleCasoController extends Controller
 {
@@ -51,13 +51,21 @@ class DetalleCasoController extends Controller
     {
         $data = $request->except('_method', '_token', 'submit');
 
-        $validator = FacadesValidator::make($request->all(), [
-            'observacionesDetalleCaso' => 'required|string',
-            'estado' => 'required|string',
-            'idCasoFK' => 'string',
-            'idTipoInvolucradoFK' => 'string',
-            'idInvolucradoFK' => 'string'
-        ]);
+        $mensajes = [
+            "required" => "El campo es obligatorio",
+            "regex" => "El campo solo puede contener letras",
+            "between" => "El campo deben tener entre :min y :max caracteres"
+        ];
+
+        $rules = [
+            'observacionesDetalleCaso' => 'required|between:0, 1500|regex:/^[\pL\s\-]+$/u',
+            'estado' => 'required',
+            'idCasoFK' => 'required',
+            'idTipoInvolucradoFK' => 'required',
+            'idInvolucradoFK' => 'required',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $mensajes);
 
         if ($validator->fails()) {
             return redirect()->Back()->withInput()->withErrors($validator);
@@ -116,9 +124,18 @@ class DetalleCasoController extends Controller
     {
         $data = $request->except('_method', '_token', 'submit');
 
-        $validator = FacadesValidator::make($request->all(), [
-            'observacionesDetalleCaso' => 'required|string',
-        ]);
+        $mensajes = [
+            "required" => "El campo es obligatorio",
+            "regex" => "El campo solo puede contener letras",
+            "between" => "El campo deben tener entre :min y :max caracteres"
+        ];
+
+        $rules = [
+            'observacionesDetalleCaso' => 'required|between:0, 1500|regex:/^[\pL\s\-]+$/u',
+
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $mensajes);
 
         if ($validator->fails()) {
             return redirect()->Back()->withInput()->withErrors($validator);

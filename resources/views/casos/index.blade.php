@@ -19,8 +19,8 @@
                         <div class="col-12 col-md-6 order-md-2 order-first">
                             <nav aria-label="breadcrumb" class='breadcrumb-header'>
                                 <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="">Inicio</a></li>
-                                    <li class="breadcrumb-item"><a href="">Salas</a></li>
+                                    <li class="breadcrumb-item"><a href="{{route('vista_dashboard')}}">Inicio</a></li>
+
                                     <li class="breadcrumb-item active" aria-current="page">Caso</li>
                                 </ol>
                             </nav>
@@ -39,7 +39,6 @@
                                         <th>Estado</th>
                                         <th>Modificar</th>
                                         <a class="btn btn-sm btn-info" href="{{ route('casos.create') }}">Nuevo</a>
-
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -49,12 +48,14 @@
                                             <td>{{ $caso->fechaRegistro }}</td>
 
                                             @if ($caso->estado == 1)
-                                                <td><a href="{{ route('casos.change.status', [$caso->idCaso]) }}"
-                                                        class="btn btn-sm btn-success">Activo</a>
+                                                <td><a style="color:#09A626"
+                                                        href="{{ route('casos.change.status', [$caso->idCaso]) }}"
+                                                        class="badge bg-success"><strong>Activo</strong> </a>
                                                 </td>
                                             @else
-                                                <td><a href="{{ route('casos.change.status', [$caso->idCaso]) }}"
-                                                        class="btn btn-sm btn-danger">Inactivo</a>
+                                                <td><a style="color:#B93922"
+                                                        href="{{ route('casos.change.status', [$caso->idCaso]) }}"
+                                                        class="badge bg-danger"><strong>Inactivo</strong></a>
                                                 </td>
                                             @endif
 

@@ -19,8 +19,8 @@
                         <div class="col-12 col-md-6 order-md-2 order-first">
                             <nav aria-label="breadcrumb" class='breadcrumb-header'>
                                 <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="">Inicio</a></li>
-                                    <li class="breadcrumb-item"><a href="">Usuarios</a></li>
+                                    <li class="breadcrumb-item"><a href="{{route('vista_dashboard')}}">Inicio</a></li>
+
                                     <li class="breadcrumb-item active" aria-current="page">Tipo Involucrado</li>
                                 </ol>
                             </nav>
@@ -38,6 +38,7 @@
                                         <th>Estado</th>
                                         <a class="btn btn-sm btn-info"
                                             href="{{ route('tiposinvolucrados.create') }}">Nuevo</a>
+
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -46,12 +47,14 @@
                                             <td>{{ $tipoinvolucrado->nombreTipoInvolucrado }}</td>
 
                                             @if ($tipoinvolucrado->estado == 1)
-                                                <td><a href="{{ route('tiposinvolucrados.change.status', [$tipoinvolucrado->idTipoInvolucrado]) }}"
-                                                        class="btn btn-sm btn-success">Activo</a>
+                                                <td><a style="color:#09A626"
+                                                        href="{{ route('tiposinvolucrados.change.status', [$tipoinvolucrado->idTipoInvolucrado]) }}"
+                                                        class="badge bg-success"><strong>Activo</strong> </a>
                                                 </td>
                                             @else
-                                                <td><a href="{{ route('tiposinvolucrados.change.status', [$tipoinvolucrado->idTipoInvolucrado]) }}"
-                                                        class="btn btn-sm btn-danger">Inactivo</a>
+                                                <td><a style="color:#B93922"
+                                                        href="{{ route('tiposinvolucrados.change.status', [$tipoinvolucrado->idTipoInvolucrado]) }}"
+                                                        class="badge bg-danger"><strong>Inactivo</strong></a>
                                                 </td>
                                             @endif
                                         </tr>

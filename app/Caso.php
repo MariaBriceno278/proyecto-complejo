@@ -8,7 +8,7 @@ class Caso extends Model
 {
     protected $table = "CASO";
     protected $primaryKey = "idCaso";
-    protected $fillable = ['nReferenciaCaso', 'fechaRegistro', 'estadoCaso'];
+    protected $fillable = ['nReferenciaCaso', 'fechaRegistro', 'estado'];
     public $timestamps = false;
 
     public function caso_solicitud()

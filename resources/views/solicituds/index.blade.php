@@ -19,8 +19,8 @@
                         <div class="col-12 col-md-6 order-md-2 order-first">
                             <nav aria-label="breadcrumb" class='breadcrumb-header'>
                                 <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="">Inicio</a></li>
-                                    <li class="breadcrumb-item"><a href="">Salas</a></li>
+                                    <li class="breadcrumb-item"><a href="{{route('vista_dashboard')}}">Inicio</a></li>
+
                                     <li class="breadcrumb-item active" aria-current="page">Solicitud</li>
                                 </ol>
                             </nav>
@@ -39,7 +39,8 @@
                                         <th>Prioridad</th>
                                         <th>Estado</th>
                                         <th>Modificar</th>
-                                        <a class="btn btn-sm btn-info" href="{{ route('solicituds.create') }}">Nuevo</a>
+                                        <a class="btn btn-sm btn-info" href="{{ route('solicituds.create') }}">Nueva Solicitud con Caso Existente</a>
+                                        <a class="btn btn-sm btn-info" href="{{ route('casos.create') }}">Nueva solicitud con Caso Nuevo</a>
 
                                     </tr>
                                 </thead>
@@ -51,11 +52,13 @@
                                             <td>{{ $solicitud->prioridadNormal }}</td>
 
                                             @if ($solicitud->estado == 1)
-                                                <td><a style="color:#09A626" href="{{ route('solicituds.change.status', [$solicitud->idSolicitud]) }}"
+                                                <td><a style="color:#09A626"
+                                                        href="{{ route('solicituds.change.status', [$solicitud->idSolicitud]) }}"
                                                         class="badge bg-success"><strong>Activo</strong> </a>
                                                 </td>
                                             @else
-                                                <td><a  style="color:#B93922"href="{{ route('solicituds.change.status', [$solicitud->idSolicitud]) }}"
+                                                <td><a style="color:#B93922"
+                                                        href="{{ route('solicituds.change.status', [$solicitud->idSolicitud]) }}"
                                                         class="badge bg-danger"><strong>Inactivo</strong></a>
                                                 </td>
                                             @endif

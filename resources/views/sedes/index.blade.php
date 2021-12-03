@@ -19,8 +19,8 @@
                         <div class="col-12 col-md-6 order-md-2 order-first">
                             <nav aria-label="breadcrumb" class='breadcrumb-header'>
                                 <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="">Inicio</a></li>
-                                    <li class="breadcrumb-item"><a href="">Salas</a></li>
+                                    <li class="breadcrumb-item"><a href="{{route('vista_dashboard')}}">Inicio</a></li>
+
                                     <li class="breadcrumb-item active" aria-current="page">Sede</li>
                                 </ol>
                             </nav>
@@ -49,12 +49,14 @@
                                             <td>{{ $sede->nombreSede }}</td>
 
                                             @if ($sede->estado == 1)
-                                                <td><a href="{{ route('sedes.change.status', [$sede->idSede]) }}"
-                                                        class="btn icon icon-left btn-info">Activo</a>
+                                                <td><a style="color:#09A626"
+                                                        href="{{ route('sedes.change.status', [$sede->idSede]) }}"
+                                                        class="badge bg-success"><strong>Activo</strong> </a>
                                                 </td>
                                             @else
-                                                <td><a href="{{ route('sedes.change.status', [$sede->idSede]) }}"
-                                                        class="btn icon icon-left btn-light">Inactivo</a>
+                                                <td><a style="color:#B93922"
+                                                        href="{{ route('sedes.change.status', [$sede->idSede]) }}"
+                                                        class="badge bg-danger"><strong>Inactivo</strong></a>
                                                 </td>
                                             @endif
 

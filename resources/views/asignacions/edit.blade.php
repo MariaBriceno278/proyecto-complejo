@@ -3,152 +3,170 @@
 @section('content')
 
 
-    <div class="row">
+    <div class="main-content container-fluid">
+        <section id="multiple-column-form">
+            <div class="row match-height">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">EDITAR ASIGNACIÓN DE SALA</h4>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-body">
+                                <form action="{{ route('asignacions.update', [$asignacions->idAsignacion]) }}"
+                                    method="post">
+                                    {{ csrf_field() }}
+                                    <div class="row">
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-group">
+                                                <label for="first-name-column">Fecha de Inicio</label>
+                                                <input value="{{ old('fechaInicio', $asignacions->fechaInicio) }}"
+                                                    id="fechaInicio" class="form-control " name="fechaInicio" type="date">
 
-        <div class="col-md-12 col-sm-12 col-xs-12">
+                                                @if ($errors->has('fechaInicio'))
+                                                    <span class="text-danger"
+                                                        class="errormsg">{{ $errors->first('fechaInicio') }}</span>
+                                                @endif
+                                            </div>
+                                        </div>
 
-            <!-- Alert message (start) -->
-            @if (Session::has('message'))
-                <div class="alert {{ Session::get('alert-class') }}">
-                    {{ Session::get('message') }}
-                </div>
-            @endif
-            <!-- Alert message (end) -->
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-group">
+                                                <label for="last-name-column">Hora de Inicio</label>
+                                                <input value="{{ old('horaInicio', $asignacions->horaInicio) }}"
+                                                    id="horaInicio" class="form-control " name="horaInicio" type="time">
 
-            <div class="card">
-                <div class="card-header">
-                    <strong> Editar Asignación
-                    </strong>
-                </div>
-                <div class="card-body">
+                                                @if ($errors->has('horaInicio'))
+                                                    <span class="text-danger"
+                                                        class="errormsg">{{ $errors->first('horaInicio') }}</span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
 
-                    <a class='btn btn-info float-right' href="{{ route('asignacions') }}">Volver</a></a>
 
-                    <center>
+                                    <div class="row">
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-group">
+                                                <label for="first-name-column">Fecha de Fin</label>
+                                                <input value="{{ old('fechaFin', $asignacions->fechaFin) }}" id="fechaFin"
+                                                    class="form-control " name="fechaFin" type="date">
 
-                        <form action="{{ route('asignacions.update', [$asignacions->idAsignacion]) }}" method="post">
-                            {{ csrf_field() }}
+                                                @if ($errors->has('fechaFin'))
+                                                    <span class="text-danger"
+                                                        class="errormsg">{{ $errors->first('fechaFin') }}</span>
+                                                @endif
+                                            </div>
+                                        </div>
 
-                            <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="fechaInicio">Fecha de Inicio</label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input id="fechaInicio" class="form-control col-md-12 col-xs-12"
-                                        name="fechaInicio" type="date"
-                                        value="{{ old('fechaInicio', $asignacions->fechaInicio) }}">
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-group">
+                                                <label for="last-name-column">Hora de Fin</label>
+                                                <input value="{{ old('horaFin', $asignacions->horaFin) }}" id="horaFin"
+                                                    class="form-control " name="horaFin" type="time">
 
-                                    @if ($errors->has('fechaInicio'))
-                                        <span class="errormsg">{{ $errors->first('fechaInicio') }}</span>
-                                    @endif
-                                </div>
+                                                @if ($errors->has('horaFin'))
+                                                    <span class="text-danger"
+                                                        class="errormsg">{{ $errors->first('horaFin') }}</span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row">
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-group">
+                                                <label for="city-column">Notificación</label>
+                                                <select class="form-select" id="basicSelect" name="notificacionEnviada"
+                                                    value="{{ old('notificacionEnviada', $asignacions->notificacionEnviada) }}"
+                                                    class="form-control">
+                                                    <option value=""> -- Seleccione Notificación --</option>
+                                                    <option value="0"
+                                                        {{ old('notificacionEnviada') == 0 ? 'selected' : '' }}>
+                                                        Enviada</option>
+                                                    <option value="1"
+                                                        {{ old('notificacionEnviada') == 1 ? 'selected' : '' }}>
+                                                        No Enviada</option>
+                                                </select>
+
+                                                @if ($errors->has('notificacionEnviada'))
+                                                    <span class="text-danger"
+                                                        class="errormsg">{{ $errors->first('notificacionEnviada') }}</span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-group">
+                                                <label for="company-column">Sala</label>
+                                                <select disabled class="form-select" id="basicSelect" name="idSalaFK"
+                                                    class="form-control">
+                                                    <option value=""> -- Seleccione Sala --</option>
+                                                    @foreach ($asignacion_sala as $a_s)
+                                                        <option value="{{ old('idSala', $a_s->idSala) }}"
+                                                            {{ old('idSalaFK') == 0 ? 'selected' : '' }}>
+                                                            <strong>Número de la Sala: </strong>
+                                                            {{ $a_s->numeroSala }}
+                                                            {{ old('idSalaFK') == 1 ? 'selected' : '' }}-
+                                                            <strong>Piso de la Sala: </strong>
+                                                            {{ $a_s->pisoSala }}
+                                                            {{ old('idSalaFK') == 2 ? 'selected' : '' }}-
+                                                            <strong>Bloque de la Sala: </strong>
+                                                            {{ $a_s->bloqueSala }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+
+                                                @if ($errors->has('idSalaFK'))
+                                                    <span class="text-danger"
+                                                        class="errormsg">{{ $errors->first('idSalaFK') }}</span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-group">
+                                                <label for="email-id-column">Solicitud</label>
+                                                <select disabled class="form-select" id="basicSelect"
+                                                    name="idSolicitudFK" class="form-control">
+                                                    <option value=""> -- Seleccione Solicitud --</option>
+                                                    @foreach ($asignacion_solicitud as $a_solicitud)
+                                                        <option
+                                                            value="{{ old('idSolicitud', $a_solicitud->idSolucitud) }}"
+                                                            {{ old('idSolicitudFK') == 0 ? 'selected' : '' }}>
+                                                            <strong>Fecha Solicitud: </strong>
+                                                            {{ $a_solicitud->fechaSolicitud }}
+                                                            {{ old('idSolicitudFK') == 1 ? 'selected' : '' }}-
+                                                            <strong>Capacidad Requerida: </strong>
+                                                            {{ $a_solicitud->capacidadRequerida }}
+                                                            {{ old('idSolicitudFK') == 2 ? 'selected' : '' }}-
+                                                            <strong>Prioridad: </strong>
+                                                            {{ $a_solicitud->prioridadNormal }}-
+                                                            {{ old('idSolicitudFK') == 3 ? 'selected' : '' }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+
+                                                @if ($errors->has('idSolicitudFK'))
+                                                    <span class="text-danger"
+                                                        class="errormsg">{{ $errors->first('idSolicitudFK') }}</span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+
+                            <div class="col-12 d-flex justify-content-end">
+                                <a class="btn btn-light me-1 mb-1" href="{{ route('asignacions') }}">Volver</a>
+                                <button onclick="return confirm('Esta seguro de Modificar?')" type="submit" class="btn btn-primary me-1 mb-1">Guardar</button>
                             </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="horaInicio">Hora de Inicio</label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input id="horaInicio" class="form-control col-md-12 col-xs-12"
-                                        name="horaInicio" type="time"
-                                        value="{{ old('horaInicio', $asignacions->horaInicio) }}">
-
-                                    @if ($errors->has('horaInicio'))
-                                        <span class="errormsg">{{ $errors->first('horaInicio') }}</span>
-                                    @endif
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="fechaFin">Fecha de Fin</label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input id="fechaFin" class="form-control col-md-12 col-xs-12"
-                                        name="fechaFin" type="date"
-                                        value="{{ old('fechaFin', $asignacions->fechaFin) }}">
-
-                                    @if ($errors->has('fechaFin'))
-                                        <span class="errormsg">{{ $errors->first('fechaFin') }}</span>
-                                    @endif
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="horaFin">Hora
-                                    de Fin</label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input id="horaFin" class="form-control col-md-12 col-xs-12" name="horaFin"
-                                        type="time"
-                                        value="{{ old('horaFin', $asignacions->horaFin) }}">
-
-                                    @if ($errors->has('horaFin'))
-                                        <span class="errormsg">{{ $errors->first('horaFin') }}</span>
-                                    @endif
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12"
-                                    for="notificacionEnviada">Notificación</label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input id="notificacionEnviada" class="form-control col-md-12 col-xs-12"
-                                        name="notificacionEnviada" placeholder="Ingrese la notificación"
-                                        type="text"
-                                        value="{{ old('notificacionEnviada', $asignacions->notificacionEnviada) }}">
-
-                                    @if ($errors->has('notificacionEnviada'))
-                                        <span class="errormsg">{{ $errors->first('notificacionEnviada') }}</span>
-                                    @endif
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12"
-                                    for="idSalaFK">Sala</label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <select disabled name="idSalaFK" class="form-control" >
-                                        @foreach($asignacion_sala as $a_s )
-                                            <option value="{{ old('idSala',$a_s->idSala) }}">
-                                               <strong>Numero Sala: </strong> {{ $a_s->numeroSala }}
-                                               <strong>Piso Sala: </strong>{{ $a_s->pisoSala }}
-                                               <strong>Bloque Sala: </strong>{{ $a_s->bloqueSala }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-
-                                    @if ($errors->has('idSalaFK'))
-                                    <strong class="alert-danger">{{ $errors->first('idSalaFK') }}</strong>
-                                    @endif
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12"
-                                    for="idSolicitudFK">Solicitud</label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-
-                                        <select disabled name="idSolicitudFK" class="form-control" >
-
-                                            @foreach($asignacion_solicitud as $a_solicitud )
-                                                <option value="{{ old('idSolicitud',$a_solicitud->idSolucitud) }}">
-                                                   <strong>Fecha Solicitud: </strong> {{ $a_solicitud->fechaSolicitud }}
-
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    @if ($errors->has('idSolicitudFK'))
-                                    <strong class="alert-danger">{{ $errors->first('idSolicitudFK') }}</strong>
-                                    @endif
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="col-md-6">
-                                    <input type="submit" name="submit" value='Guardar' class="boton_personalizado">
-                                </div>
-                            </div>
-
-                        </form>
-
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            </center>
-
-        </div>
+    </div>
+    </section>
     </div>
 @endsection()

@@ -44,23 +44,25 @@ class DespachoController extends Controller
     {
         $data = $request->except('_method', '_token', 'submit');
 
-        $rules = [
-            'numeroDespacho' => 'required|numeric|min:1|unique:despacho,numerodespacho',
-            'nombreDespacho' => 'required|string|min:1|unique:despacho,nombredespacho',
-            'telefonoDespacho' => 'required|numeric|min:6|unique:despacho,telefonoDespacho',
-            'correoDespacho' => 'required|email|unique:despacho,correoDespacho',
-            'idEspecialidadFK' => 'required',
-
+        $mensajes = [
+            "unique" => "El número despacho ya está tomado",
+            "required" => "El campo es obligatorio",
+            "email" => "El campo debe ser una dirección de correo electrónico válida",
+            "between" => "El campo :attribute debe tener al menos :min y no puede tener más :max caracteres",
+            "digits_between" => "El campo debe tener entre :min y :max dígitos"
         ];
-                $mensajes =[
-            "unique" => "ya se encuntra registrado",
-            "required" => "Campo requerido ",
-            "alpha" => "Solo ingrese letras",
-            "numeric" => "Solo ingrese numeros",
-            "email" => "Solo correo electronico valido",
 
-            ];
-            $validator = Validator::make($request->all(), $rules,$mensajes);
+        $rules = [
+            'numeroDespacho' => 'required|digits_between: 8 , 10|unique:despacho,numerodespacho',
+            'nombreDespacho' => 'required|between:5, 20|unique:despacho,nombredespacho',
+            'telefonoDespacho' => 'required|digits_between: 8 , 10|unique:despacho,telefonoDespacho',
+            'correoDespacho' => 'required|email:rfc,dns|unique:despacho,correoDespacho',
+            'idEspecialidadFK' => 'required',
+            'estado' => 'required'
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $mensajes);
+
         if ($validator->fails()) {
             return redirect()->Back()->withInput()->withErrors($validator);
         }
@@ -118,24 +120,31 @@ class DespachoController extends Controller
     {
         $data = $request->except('_method', '_token', 'submit');
 
-        $mensajes =[
+        $mensajes = [
+            "unique" => "El número despacho ya está tomado",
+            "required" => "El campo es obligatorio",
+            "email" => "El campo debe ser una dirección de correo electrónico válida",
+            "between" => "El campo :attribute debe tener al menos :min y no puede tener más :max caracteres",
+            "digits_between" => "El campo debe tener entre :min y :max dígitos"
+        ];
 
-            "required" => "Campo requerido ",
-            "numeric" => "Solo ingrese numeros",
-            "email" => "Solo correo electronico valido",
+        $rules = [
+            'numeroDespacho' => 'required|digits_between: 8 , 10',
+            'nombreDespacho' => 'required|between:5, 20',
+            'telefonoDespacho' => 'required|digits_between: 8 , 10',
+            'correoDespacho' => 'required|email:rfc,dns',
 
-            ];
+        ];
+        $validator = Validator::make($request->all(), $rules, $mensajes);
 
-            $rules = [
-                'numeroDespacho' => 'required|numeric|min:1',
-                'nombreDespacho' => 'required|string|min:1',
-                'telefonoDespacho' => 'required|numeric|min:6',
-                'correoDespacho' => 'required|email',
-                'estado' => 'required|string',
+        if ($validator->fails()) {
+            return redirect()->Back()->withInput()->withErrors($validator);
+        }
 
+        if ($validator->fails()) {
+            return redirect()->Back()->withInput()->withErrors($validator);
+        }
 
-            ];
-            $validator = Validator::make($request->all(), $rules,$mensajes);
         $despachos = Despacho::find($idDespacho);
 
         if ($despachos->update($data)) {

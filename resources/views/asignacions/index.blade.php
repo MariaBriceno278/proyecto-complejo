@@ -1,6 +1,7 @@
 @extends('layouts.layout')
 
 @section('content')
+
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
             <!-- Alert message (start) -->
@@ -13,14 +14,14 @@
                 <div class="page-title">
                     <div class="row">
                         <div class="col-12 col-md-6 order-md-1 order-last">
-                            <h3>Asignación</h3>
-
+                            <h3>Asignación Sala</h3>
                         </div>
+
                         <div class="col-12 col-md-6 order-md-2 order-first">
                             <nav aria-label="breadcrumb" class='breadcrumb-header'>
                                 <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="">Inicio</a></li>
-                                    <li class="breadcrumb-item"><a href="">Salas</a></li>
+                                    <li class="breadcrumb-item"><a href="{{route('vista_dashboard')}}">Inicio</a></li>
+
                                     <li class="breadcrumb-item active" aria-current="page">Asignación</li>
                                 </ol>
                             </nav>
@@ -41,7 +42,6 @@
                                         <th>Notificación</th>
                                         <th>Estado</th>
                                         <th>Modificar</th>
-
                                         <a class="btn btn-sm btn-info" href="{{ route('asignacions.create') }}">Nuevo</a>
 
                                     </tr>
@@ -56,12 +56,14 @@
                                             <td>{{ $asignacion->notificacionEnviada }}</td>
 
                                             @if ($asignacion->estado == 1)
-                                                <td><a href="{{ route('asignacions.change.status', [$asignacion->idAsignacion]) }}"
-                                                        class="btn btn-sm btn-success">Activo</a>
+                                                <td><a style="color:#09A626"
+                                                        href="{{ route('asignacions.change.status', [$asignacion->idAsignacion]) }}"
+                                                        class="badge bg-success"><strong>Activo</strong> </a>
                                                 </td>
                                             @else
-                                                <td><a href="{{ route('asignacions.change.status', [$asignacion->idAsignacion]) }}"
-                                                        class="btn btn-sm btn-danger">Inactivo</a>
+                                                <td><a style="color:#B93922"
+                                                        href="{{ route('asignacions.change.status', [$asignacion->idAsignacion]) }}"
+                                                        class="badge bg-danger"><strong>Inactivo</strong></a>
                                                 </td>
                                             @endif
 
@@ -74,11 +76,9 @@
                                     @endforeach
                                 </tbody>
                             </table>
-
                         </div>
                     </div>
                 </section>
             </div>
             <!-- Alert message (end) -->
-
         @endsection()

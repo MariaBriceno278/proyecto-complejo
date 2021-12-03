@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Caso;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Validator as FacadesValidator;
+use Illuminate\Support\Facades\Validator;
 
 class CasoController extends Controller
 {
@@ -38,18 +38,25 @@ class CasoController extends Controller
      */
     public function store(Request $request)
     {
-        $r=["fechaRegistro" => 'after:yesterday'];
-
         $data = $request->except('_method', '_token', 'submit');
 
-        $validator = FacadesValidator::make($request->all(), [
-            'nReferenciaCaso' => 'required|string',
-            'estado' => 'string',
-        ]);
+        $mensajes = [
+            "required" => "El campo es obligatorio",
+            "after" => "La fecha de registro debe ser posterior a ayer",
+            "digits_between" => "El campo debe tener entre :min y :max dígitos",
+        ];
 
-        $val = FacadesValidator::make($request->only("fechaRegistro") , $r);
-        if($val->fails()){
-            return redirect()->Back()->withInput()->withErrors($val);
+        $rules = [
+            "fechaRegistro" => 'required|after:yesterday',
+            'nReferenciaCaso' => 'required|digits_between: 3 , 10',
+            'estado' => 'required',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $mensajes);
+
+
+        if ($validator->fails()) {
+            return redirect()->Back()->withInput()->withErrors($validator);
         }
 
         if ($validator->fails()) {
@@ -101,18 +108,24 @@ class CasoController extends Controller
      */
     public function update(Request $request, $idCaso)
     {
-        $r=["fechaRegistro" => 'after:yesterday'];
-
         $data = $request->except('_method', '_token', 'submit');
 
-        $validator = FacadesValidator::make($request->all(), [
-            'nReferenciaCaso' => 'required|string',
-            'estado' => 'required|string',
-        ]);
+        $mensajes = [
+            "required" => "El campo es obligatorio",
+            "after" => "La fecha de registro debe ser posterior a ayer",
+            "digits_between" => "El campo debe tener entre :min y :max dígitos",
+        ];
 
-        $val = FacadesValidator::make($request->only("fechaRegistro") , $r);
-        if($val->fails()){
-            return redirect()->Back()->withInput()->withErrors($val);
+        $rules = [
+            "fechaRegistro" => 'required|after:yesterday',
+            'nReferenciaCaso' => 'required|digits_between: 3 , 10',
+
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $mensajes);
+
+        if ($validator->fails()) {
+            return redirect()->Back()->withInput()->withErrors($validator);
         }
 
         if ($validator->fails()) {

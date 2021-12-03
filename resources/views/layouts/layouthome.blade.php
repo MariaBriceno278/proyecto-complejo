@@ -7,7 +7,6 @@
     <title>Civilibus</title>
 
     <link rel="stylesheet" href="{{asset('css/bootstrap.css')}}">
-
     <link rel="stylesheet" href="{{asset('/vendors/chartjs/Chart.min.css')}}">
     <link rel="shortcut icon" href="{{asset('/img/Recurso 10.png')}}">
     <link rel="stylesheet" href="{{asset('/vendors/perfect-scrollbar/perfect-scrollbar.css')}}">
@@ -22,320 +21,226 @@
                 <div class="sidebar-header">
                     <img src="{{asset('/img/Recurso 16.png')}}" alt="" srcset="">
                 </div>
+
+
                 <div class="sidebar-menu">
                     <ul class="menu">
 
 
-                        <li class='sidebar-title'>Main Menu</li>
+                        <li class='sidebar-title'> Menu</li>
 
 
 
                         <li class="sidebar-item active ">
-                            <a href="index.html" class='sidebar-link'>
+                            <a href="{{route('vista_dashboard')}}" class='sidebar-link'>
                                 <i data-feather="home" width="20"></i>
-                                <span>Dashboard</span>
+                                <span>Inicio</span>
                             </a>
 
                         </li>
-
 
 
 
                         <li class="sidebar-item  has-sub">
                             <a href="#" class='sidebar-link'>
-                                <i data-feather="triangle" width="20"></i>
-                                <span>Components</span>
+
+                                <?xml version="1.0"?>
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                    xmlns:svgjs="http://svgjs.com/svgjs" version="1.1" width="20" x="0" y="0"
+                                    viewBox="0 0 512 512" style="enable-background:new 0 0 512 512" xml:space="preserve"
+                                    class=""><g><g xmlns=" http://www.w3.org/2000/svg">
+                                    <path
+                                        d="m482.284 482h-39.573v-467c0-8.284-6.716-15-15-15h-343.423c-8.284 0-15 6.716-15 15v467h-39.572c-8.284 0-15 6.716-15 15s6.716 15 15 15h452.569c8.284 0 15-6.716 15-15s-6.716-15-15.001-15zm-277.415 0v-102.261h102.261v102.261zm132.261 0v-117.261c0-8.284-6.716-15-15-15h-132.261c-8.284 0-15 6.716-15 15v117.261h-75.581v-452h313.423v452z"
+                                        fill="#415e87" data-original="#000000" style="" class=""/><path d=" m223.748
+                                        66.309h-73.508c-8.284 0-15 6.716-15 15v73.508c0 8.284 6.716 15 15
+                                        15h73.508c8.284 0 15-6.716 15-15v-73.508c0-8.284-6.716-15-15-15zm-15
+                                        73.508h-43.508v-43.508h43.508z" fill="#415e87" data-original="#000000" style=""
+                                        class=""/><path d=" m361.76 66.309h-73.508c-8.284 0-15 6.716-15 15v73.508c0
+                                        8.284 6.716 15 15 15h73.508c8.284 0 15-6.716
+                                        15-15v-73.508c0-8.284-6.716-15-15-15zm-15 73.508h-43.508v-43.508h43.508z"
+                                        fill="#415e87" data-original="#000000" style="" class=""/><path d=" m223.748
+                                        205.954h-73.508c-8.284 0-15 6.716-15 15v73.508c0 8.284 6.716 15 15
+                                        15h73.508c8.284 0 15-6.716 15-15v-73.508c0-8.284-6.716-15-15-15zm-15
+                                        73.508h-43.508v-43.508h43.508z" fill="#415e87" data-original="#000000" style=""
+                                        class=""/><path d=" m361.76 205.954h-73.508c-8.284 0-15 6.716-15 15v73.508c0
+                                        8.284 6.716 15 15 15h73.508c8.284 0 15-6.716
+                                        15-15v-73.508c0-8.284-6.716-15-15-15zm-15 73.508h-43.508v-43.508h43.508z"
+                                        fill="#415e87" data-original="#000000" style=""
+                                        class=""/></g></g></svg>
+
+                                <span>Salas</span>
                             </a>
 
-                            <ul class="submenu ">
+                            <ul class="submenu">
 
+                                @if(Auth::check() && Auth::user()->idRolFK=='1' )
                                 <li>
-                                    <a href="component-alert.html">Alert</a>
-                                </li>
-
-                                <li>
-                                    <a href="component-badge.html">Badge</a>
-                                </li>
-
-                                <li>
-                                    <a href="component-breadcrumb.html">Breadcrumb</a>
-                                </li>
-
-                                <li>
-                                    <a href="component-buttons.html">Buttons</a>
-                                </li>
-
-                                <li>
-                                    <a href="component-card.html">Card</a>
-                                </li>
-
-                                <li>
-                                    <a href="component-carousel.html">Carousel</a>
-                                </li>
-
-                                <li>
-                                    <a href="component-dropdowns.html">Dropdowns</a>
-                                </li>
-
-                                <li>
-                                    <a href="component-list-group.html">List Group</a>
-                                </li>
-
-                                <li>
-                                    <a href="component-modal.html">Modal</a>
-                                </li>
-
-                                <li>
-                                    <a href="component-navs.html">Navs</a>
-                                </li>
-
-                                <li>
-                                    <a href="component-pagination.html">Pagination</a>
-                                </li>
-
-                                <li>
-                                    <a href="component-progress.html">Progress</a>
-                                </li>
-
-                                <li>
-                                    <a href="component-spinners.html">Spinners</a>
-                                </li>
-
-                                <li>
-                                    <a href="component-tooltips.html">Tooltips</a>
-                                </li>
-
-                            </ul>
-
-                        </li>
-
-
-
-
-                        <li class="sidebar-item  has-sub">
-                            <a href="#" class='sidebar-link'>
-                                <i data-feather="briefcase" width="20"></i>
-                                <span>Extra Components</span>
+                                    <a href="{{ route('asignacions') }}">Asignación
                             </a>
-
-                            <ul class="submenu ">
-
-                                <li>
-                                    <a href="component-extra-avatar.html">Avatar</a>
-                                </li>
-
-                                <li>
-                                    <a href="component-extra-divider.html">Divider</a>
-                                </li>
-
-                            </ul>
-
                         </li>
 
-
-
-
-                        <li class='sidebar-title'>Forms &amp; Tables</li>
-
-
-
-                        <li class="sidebar-item  has-sub">
-                            <a href="#" class='sidebar-link'>
-                                <i data-feather="file-text" width="20"></i>
-                                <span>Form Elements</span>
-                            </a>
-
-                            <ul class="submenu ">
-
-                                <li>
-                                    <a href="form-element-input.html">Input</a>
-                                </li>
-
-                                <li>
-                                    <a href="form-element-input-group.html">Input Group</a>
-                                </li>
-
-                                <li>
-                                    <a href="form-element-select.html">Select</a>
-                                </li>
-
-                                <li>
-                                    <a href="form-element-radio.html">Radio</a>
-                                </li>
-
-                                <li>
-                                    <a href="form-element-checkbox.html">Checkbox</a>
-                                </li>
-
-                                <li>
-                                    <a href="form-element-textarea.html">Textarea</a>
-                                </li>
-
-                            </ul>
-
+                        <li>
+                            <a href="{{ route('audiencias') }}">Audiencia</a>
                         </li>
 
-
-
-
-                        <li class="sidebar-item  ">
-                            <a href="form-layout.html" class='sidebar-link'>
-                                <i data-feather="layout" width="20"></i>
-                                <span>Form Layout</span>
-                            </a>
-
+                        <li>
+                            <a href="{{ route('casos') }}">Caso</a>
                         </li>
 
-
-
-
-                        <li class="sidebar-item  ">
-                            <a href="form-editor.html" class='sidebar-link'>
-                                <i data-feather="layers" width="20"></i>
-                                <span>Form Editor</span>
-                            </a>
-
+                        <li>
+                            <a href="{{route('detallescasos')}}">Detalle Caso</a>
                         </li>
 
-
-
-
-                        <li class="sidebar-item  ">
-                            <a href="table.html" class='sidebar-link'>
-                                <i data-feather="grid" width="20"></i>
-                                <span>Table</span>
-                            </a>
-
+                        <li>
+                            <a href="{{ route('salas') }}">Sala</a>
                         </li>
 
-
-
-
-                        <li class="sidebar-item  ">
-                            <a href="table-datatable.html" class='sidebar-link'>
-                                <i data-feather="file-plus" width="20"></i>
-                                <span>Datatable</span>
-                            </a>
-
+                        <li>
+                            <a  href="{{ route('sedes') }}">Sede</a>
                         </li>
 
-
-
-
-                        <li class='sidebar-title'>Extra UI</li>
-
-
-
-                        <li class="sidebar-item  has-sub">
-                            <a href="#" class='sidebar-link'>
-                                <i data-feather="user" width="20"></i>
-                                <span>Widgets</span>
-                            </a>
-
-                            <ul class="submenu ">
-
-                                <li>
-                                    <a href="ui-chatbox.html">Chatbox</a>
-                                </li>
-
-                                <li>
-                                    <a href="ui-pricing.html">Pricing</a>
-                                </li>
-
-                                <li>
-                                    <a href="ui-todolist.html">To-do List</a>
-                                </li>
-
-                            </ul>
-
+                        <li>
+                            <a href="{{ route('solicituds') }}">Solicitud</a>
                         </li>
 
+                        @elseif(Auth::check() && Auth::user()->idRolFK=='2' )
+                        <li>
+                            <a href="{{ route('asignacions') }}">Asignación
+                    </a>
+                </li>
 
+                <li>
+                    <a href="{{ route('audiencias') }}">Audiencia</a>
+                </li>
+                <li>
+                    <a href="{{ route('salas') }}">Sala</a>
+                </li>
 
+                <li>
+                    <a  href="{{ route('sedes') }}">Sede</a>
+                </li>
+                @elseif(Auth::check() && Auth::user()->idRolFK=='3' or Auth::user()->idRolFK=='4' or Auth::user()->idRolFK=='5' )
+                <li>
+                    <a href="{{ route('audiencias') }}">Audiencia</a>
+                </li>
 
-                        <li class="sidebar-item  has-sub">
-                            <a href="#" class='sidebar-link'>
-                                <i data-feather="trending-up" width="20"></i>
-                                <span>Charts</span>
-                            </a>
+                <li>
+                    <a href="{{ route('casos') }}">Caso</a>
+                </li>
 
-                            <ul class="submenu ">
-
-                                <li>
-                                    <a href="ui-chart-chartjs.html">ChartJS</a>
-                                </li>
-
-                                <li>
-                                    <a href="ui-chart-apexchart.html">Apexchart</a>
-                                </li>
-
-                            </ul>
-
-                        </li>
-
-
-
-
-                        <li class='sidebar-title'>Pages</li>
-
-
-
-                        <li class="sidebar-item  has-sub">
-                            <a href="#" class='sidebar-link'>
-                                <i data-feather="user" width="20"></i>
-                                <span>Authentication</span>
-                            </a>
-
-                            <ul class="submenu ">
-
-                                <li>
-                                    <a href="auth-login.html">Login</a>
-                                </li>
-
-                                <li>
-                                    <a href="auth-register.html">Register</a>
-                                </li>
-
-                                <li>
-                                    <a href="auth-forgot-password.html">Forgot Password</a>
-                                </li>
-
-                            </ul>
-
-                        </li>
-
-
-
-
-                        <li class="sidebar-item  has-sub">
-                            <a href="#" class='sidebar-link'>
-                                <i data-feather="alert-circle" width="20"></i>
-                                <span>Errors</span>
-                            </a>
-
-                            <ul class="submenu ">
-
-                                <li>
-                                    <a href="error-403.html">403</a>
-                                </li>
-
-                                <li>
-                                    <a href="error-404.html">404</a>
-                                </li>
-
-                                <li>
-                                    <a href="error-500.html">500</a>
-                                </li>
-
-                            </ul>
-
-                        </li>
-
-
-
-
+                <li>
+                    <a href="{{route('detallescasos')}}">Detalle Caso</a>
+                </li>
+                <li>
+                    <a href="{{ route('solicituds') }}">Solicitud</a>
+                </li>
+                @endif
                     </ul>
+
+                    </li>
+
+
+
+
+
+
+
+                    @if(Auth::check() && Auth::user()->idRolFK=='1'   )
+                    <li class="sidebar-item  has-sub">
+
+                        <a href="#" class='sidebar-link'>
+                            <i data-feather="user" width="20"></i>
+                            <span>Usuarios</span>
+                        </a>
+
+                        <ul class="submenu ">
+
+                            <li>
+                                <a href="{{ route('despachos') }}">Despacho</a>
+                            </li>
+
+                            <li>
+                                <a href="{{ route('especialidads') }}">Especialidad</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('involucrados') }}">Involucrado</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('rols') }}">Rol</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('tiposinvolucrados') }}">Tipo Involucrado</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('usuarios') }}">Usuario</a>
+                            </li>
+
+                        </ul>
+
+                    </li>
+                    @endif
+
+                    @if(Auth::check() && Auth::user()->idRolFK=='3' )
+                    <li class="sidebar-item  has-sub">
+
+                        <a href="#" class='sidebar-link'>
+                            <i data-feather="user" width="20"></i>
+                            <span>Usuarios</span>
+                        </a>
+
+                        <ul class="submenu ">
+
+                    <li>
+                        <a href="{{ route('despachos') }}">Despacho</a>
+                    </li>
+
+                    <li>
+                        <a href="{{ route('especialidads') }}">Especialidad</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('involucrados') }}">Involucrado</a>
+                    </li>
+
+                    <li>
+                        <a href="{{ route('tiposinvolucrados') }}">Tipo Involucrado</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('usuarios') }}">Usuario</a>
+                    </li>
+                </ul>
+
+            </li>
+            @endif
+
+                    <li class="sidebar-item  has-sub">
+                        <a href="#" class='sidebar-link'>
+                            <i data-feather="file-text" width="20"></i>
+                            <span>Informes</span>
+                        </a>
+
+                        <ul class="submenu ">
+
+                            <li>
+                                <a href="{{route('informeasignacion')}}">Asignación y Asistencia</a>
+                            </li>
+
+                            <li>
+                                <a href="{{route('informeestadisticodiario')}}">Estadísticas Diaria</a>
+                            </li>
+                            <li>
+                                <a href="{{route('informeestadisticosemanal')}}">Estadísticas Semanal</a>
+                            </li>
+
+
+                        </ul>
+
+                    </li>
+
+
+
+                    <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
                 </div>
+
                 <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
             </div>
         </div>
@@ -373,36 +278,27 @@
                                 </ul>
                             </div>
                         </li>
-                        <li class="dropdown nav-icon me-2">
-                            <a href="#" data-bs-toggle="dropdown"
-                                class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-                                <div class="d-lg-inline-block">
-                                    <i data-feather="mail"></i>
-                                </div>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-end">
-                                <a class="dropdown-item" href="#"><i data-feather="user"></i> Account</a>
-                                <a class="dropdown-item active" href="#"><i data-feather="mail"></i> Messages</a>
-                                <a class="dropdown-item" href="#"><i data-feather="settings"></i> Settings</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#"><i data-feather="log-out"></i> Logout</a>
-                            </div>
-                        </li>
+
                         <li class="dropdown">
                             <a href="#" data-bs-toggle="dropdown"
                                 class="nav-link dropdown-toggle nav-link-lg nav-link-user">
                                 <div class="avatar me-1">
-                                    <img src="{{asset('/img/avatar/avatar-1.png')}}" alt="" srcset="">
+                                    <img src="{{asset('/img/user.png')}}" alt="" srcset="">
 
                                 </div>
-                                <div class="d-none d-md-block d-lg-inline-block">Hi, Saugi</div>
+                                <div class="d-none d-md-block d-lg-inline-block">Hola @if(Auth::user()->idRolFK=='1')Jefe Administrador
+                                    @elseif(Auth::user()->idRolFK=='2')Administrador
+                                    @elseif(Auth::user()->idRolFK=='3')Juez
+                                    @elseif(Auth::user()->idRolFK=='4')Secretario
+                                    @elseif(Auth::user()->idRolFK=='5')Oficial
+                                    @endif
+                                    , {{ Auth::user()->nombreUsuario }}</div>
                             </a>
                             <div class="dropdown-menu dropdown-menu-end">
                                 <a class="dropdown-item" href="#"><i data-feather="user"></i> Account</a>
-                                <a class="dropdown-item active" href="#"><i data-feather="mail"></i> Messages</a>
-                                <a class="dropdown-item" href="#"><i data-feather="settings"></i> Settings</a>
+
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#"><i data-feather="log-out"></i> Logout</a>
+                                <a class="dropdown-item active" href="{{url('logout')}}"><i data-feather="log-out"></i> Logout</a>
                             </div>
                         </li>
                     </ul>
@@ -410,25 +306,24 @@
             </nav>
 
             <div class="main-content container-fluid">
-                <div class="page-title">
-                    <h3>Dashboard</h3>
-                    <p class="text-subtitle text-muted">A good dashboard to display your statistics</p>
-                </div>
+
                 <section class="section">
                     <div class="row mb-2">
+
+
+
+
                         <div class="col-12 col-md-3">
                             <div class="card card-statistic">
                                 <div class="card-body p-0">
                                     <div class="d-flex flex-column">
                                         <div class='px-3 py-3 d-flex justify-content-between'>
-                                            <h3 class='card-title'>BALANCE</h3>
+                                            <h3 class='card-title'>SOLICITUDES PENDIENTES</h3>
                                             <div class="card-right d-flex align-items-center">
-                                                <p>$50 </p>
+                                                <p>{{$sp}} </p>
                                             </div>
                                         </div>
-                                        <div class="chart-wrapper">
-                                            <canvas id="canvas1" style="height:100px !important"></canvas>
-                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -438,14 +333,12 @@
                                 <div class="card-body p-0">
                                     <div class="d-flex flex-column">
                                         <div class='px-3 py-3 d-flex justify-content-between'>
-                                            <h3 class='card-title'>Revenue</h3>
+                                            <h3 class='card-title'>SOLICITUDES REALIZADAS HOY</h3>
                                             <div class="card-right d-flex align-items-center">
-                                                <p>$532,2 </p>
+                                                <p>{{$solicitudes_hoy}} </p>
                                             </div>
                                         </div>
-                                        <div class="chart-wrapper">
-                                            <canvas id="canvas2" style="height:100px !important"></canvas>
-                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -455,14 +348,12 @@
                                 <div class="card-body p-0">
                                     <div class="d-flex flex-column">
                                         <div class='px-3 py-3 d-flex justify-content-between'>
-                                            <h3 class='card-title'>ORDERS</h3>
+                                            <h3 class='card-title'>SOLICITUDES URGENTES</h3>
                                             <div class="card-right d-flex align-items-center">
-                                                <p>1,544 </p>
+                                                <p>{{$solicitudes_urgentes}}</p>
                                             </div>
                                         </div>
-                                        <div class="chart-wrapper">
-                                            <canvas id="canvas3" style="height:100px !important"></canvas>
-                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -472,14 +363,12 @@
                                 <div class="card-body p-0">
                                     <div class="d-flex flex-column">
                                         <div class='px-3 py-3 d-flex justify-content-between'>
-                                            <h3 class='card-title'>Sales Today</h3>
+                                            <h3 class='card-title'>SOLICITUDES NORMALES</h3>
                                             <div class="card-right d-flex align-items-center">
-                                                <p>423 </p>
+                                                <p>{{$solicitudes_normales}} </p>
                                             </div>
                                         </div>
-                                        <div class="chart-wrapper">
-                                            <canvas id="canvas4" style="height:100px !important"></canvas>
-                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -487,134 +376,45 @@
                     </div>
                     <div class="row mb-4">
                         <div class="col-md-8">
+
                             <div class="card">
+
                                 <div class="card-header">
-                                    <h3 class='card-heading p-1 pl-3'>Sales</h3>
+
+                                    <h3 class='card-heading p-1 pl-3'>Solicitudes    </h3>
+
+
+
+
+
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col-md-4 col-12">
-                                            <div class="pl-3">
-                                                <h1 class='mt-5'>$21,102</h1>
-                                                <p class='text-xs'><span class="text-green"><i data-feather="bar-chart"
-                                                            width="15"></i> +19%</span> than last month</p>
-                                                <div class="legends">
-                                                    <div class="legend d-flex flex-row align-items-center">
-                                                        <div class='w-3 h-3 rounded-full bg-info me-2'></div><span
-                                                            class='text-xs'>Last Month</span>
-                                                    </div>
-                                                    <div class="legend d-flex flex-row align-items-center">
-                                                        <div class='w-3 h-3 rounded-full bg-blue me-2'></div><span
-                                                            class='text-xs'>Current Month</span>
-                                                    </div>
-                                                </div>
-                                            </div>
+
+
+                                        <div class=" ">
+                                            <div id="graficoBarrasMitadAnual" style="height: 300px;"></div>
+                                            <div id="graficoBarrasMitadAnual2" style="height: 300px;"></div>
                                         </div>
-                                        <div class="col-md-8 col-12">
-                                            <canvas id="bar"></canvas>
-                                        </div>
+
+
+
+
                                     </div>
                                 </div>
                             </div>
-                            <div class="card">
-                                <div class="card-header d-flex justify-content-between align-items-center">
-                                    <h4 class="card-title">Orders Today</h4>
-                                    <div class="d-flex ">
-                                        <i data-feather="download"></i>
-                                    </div>
-                                </div>
-                                <div class="card-body px-0 pb-0">
-                                    <div class="table-responsive">
-                                        <table class='table mb-0' id="table1">
-                                            <thead>
-                                                <tr>
-                                                    <th>Name</th>
-                                                    <th>Email</th>
-                                                    <th>Phone</th>
-                                                    <th>City</th>
-                                                    <th>Status</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>Graiden</td>
-                                                    <td>vehicula.aliquet@semconsequat.co.uk</td>
-                                                    <td>076 4820 8838</td>
-                                                    <td>Offenburg</td>
-                                                    <td>
-                                                        <span class="badge bg-success">Active</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Dale</td>
-                                                    <td>fringilla.euismod.enim@quam.ca</td>
-                                                    <td>0500 527693</td>
-                                                    <td>New Quay</td>
-                                                    <td>
-                                                        <span class="badge bg-success">Active</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Nathaniel</td>
-                                                    <td>mi.Duis@diam.edu</td>
-                                                    <td>(012165) 76278</td>
-                                                    <td>Grumo Appula</td>
-                                                    <td>
-                                                        <span class="badge bg-danger">Inactive</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Darius</td>
-                                                    <td>velit@nec.com</td>
-                                                    <td>0309 690 7871</td>
-                                                    <td>Ways</td>
-                                                    <td>
-                                                        <span class="badge bg-success">Active</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Ganteng</td>
-                                                    <td>velit@nec.com</td>
-                                                    <td>0309 690 7871</td>
-                                                    <td>Ways</td>
-                                                    <td>
-                                                        <span class="badge bg-success">Active</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Oleg</td>
-                                                    <td>rhoncus.id@Aliquamauctorvelit.net</td>
-                                                    <td>0500 441046</td>
-                                                    <td>Rossignol</td>
-                                                    <td>
-                                                        <span class="badge bg-success">Active</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Kermit</td>
-                                                    <td>diam.Sed.diam@anteVivamusnon.org</td>
-                                                    <td>(01653) 27844</td>
-                                                    <td>Patna</td>
-                                                    <td>
-                                                        <span class="badge bg-success">Active</span>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
+
                         </div>
                         <div class="col-md-4">
                             <div class="card ">
                                 <div class="card-header">
-                                    <h4>Your Earnings</h4>
+                                    <h4>Asignaciones Agendadas Hoy</h4>
                                 </div>
                                 <div class="card-body">
                                     <div id="radialBars"></div>
                                     <div class="text-center mb-5">
-                                        <h6>From last month</h6>
-                                        <h1 class='text-green'>+$2,134</h1>
+                                        <h6>{{$inicioFormateado}}</h6>
+                                        <h1 class='text-green'>{{$asignanacions_hoy}}</h1>
                                     </div>
                                 </div>
                             </div>
@@ -622,62 +422,23 @@
                                 <div
                                     class="card-header border-bottom d-flex justify-content-between align-items-center">
                                     <h4 class="card-title d-flex">
-                                        <i class='bx bx-check font-medium-5 pl-25 pr-75'></i>Progress
+                                        <i class='bx bx-check font-medium-5 pl-25 pr-75'></i>Salas Inhabilitadas<h4 class='text-green'>{{$csi}}</h4>
                                     </h4>
 
                                 </div>
                                 <div class="card-body px-0 py-1">
                                     <table class='table table-borderless'>
+
                                         <tr>
-                                            <td class='col-3'>UI Design</td>
-                                            <td class='col-6'>
-                                                <div class="progress progress-info">
-                                                    <div class="progress-bar" role="progressbar" style="width: 60%"
-                                                        aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                                </div>
-                                            </td>
-                                            <td class='col-3 text-center'>60%</td>
+                                            @foreach ($salas_inhabilitadas as $si)
+                                            <td class='col-3 text-center'>{{$si->numeroSala}}</td>
+
+
+
                                         </tr>
-                                        <tr>
-                                            <td class='col-3'>VueJS</td>
-                                            <td class='col-6'>
-                                                <div class="progress progress-success">
-                                                    <div class="progress-bar" role="progressbar" style="width: 35%"
-                                                        aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                                </div>
-                                            </td>
-                                            <td class='col-3 text-center'>30%</td>
-                                        </tr>
-                                        <tr>
-                                            <td class='col-3'>Laravel</td>
-                                            <td class='col-6'>
-                                                <div class="progress progress-danger">
-                                                    <div class="progress-bar" role="progressbar" style="width: 50%"
-                                                        aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                                </div>
-                                            </td>
-                                            <td class='col-3 text-center'>50%</td>
-                                        </tr>
-                                        <tr>
-                                            <td class='col-3'>ReactJS</td>
-                                            <td class='col-6'>
-                                                <div class="progress progress-primary">
-                                                    <div class="progress-bar" role="progressbar" style="width: 80%"
-                                                        aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                                </div>
-                                            </td>
-                                            <td class='col-3 text-center'>80%</td>
-                                        </tr>
-                                        <tr>
-                                            <td class='col-3'>Go</td>
-                                            <td class='col-6'>
-                                                <div class="progress progress-secondary">
-                                                    <div class="progress-bar" role="progressbar" style="width: 65%"
-                                                        aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                                </div>
-                                            </td>
-                                            <td class='col-3 text-center'>65%</td>
-                                        </tr>
+                                        @endforeach
+
+
                                     </table>
                                 </div>
                             </div>
@@ -689,16 +450,36 @@
             <footer>
                 <div class="footer clearfix mb-0 text-muted">
                     <div class="float-start">
-                        <p>2020 &copy; Voler</p>
+                        <p>2021 Civilibus</p>
                     </div>
-                    <div class="float-end">
-                        <p>Crafted with <span class='text-danger'><i data-feather="heart"></i></span> by <a
-                                href="http://ahmadsaugi.com">Ahmad Saugi</a></p>
-                    </div>
+
                 </div>
             </footer>
         </div>
     </div>
+    <!-- Charting library -->
+<script src="https://unpkg.com/echarts/dist/echarts.min.js"></script>
+<!-- Chartisan -->
+<script src="https://unpkg.com/@chartisan/echarts/dist/chartisan_echarts.js"></script>
+<!-- Your application script -->
+<script>
+
+
+  const graficoBarrasMitadAnual = new Chartisan({
+    el: '#graficoBarrasMitadAnual',
+    url: "@chart('mitad_anual')",
+    hooks: new ChartisanHooks()
+    .colors(['#44b8f8', '#4299E1'])
+  });
+
+  const graficoBarrasMitadAnual2 = new Chartisan({
+    el: '#graficoBarrasMitadAnual2',
+    url: "@chart('mitad_anual2')",
+    hooks: new ChartisanHooks()
+    .colors(['#415e87', '#4299E1'])
+  });
+
+</script>
     <script src="{{asset('/js/feather-icons/feather.min.js')}}"></script>
     <script src="{{asset('/vendors/perfect-scrollbar/perfect-scrollbar.min.js')}}"></script>
     <script src="{{asset('/js/app.js')}}"></script>

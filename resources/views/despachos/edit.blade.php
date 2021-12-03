@@ -3,123 +3,112 @@
 @section('content')
 
 
-    <div class="row">
+    <div class="main-content container-fluid">
+        <section id="multiple-column-form">
+            <div class="row match-height">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">EDITAR DESPACHO</h4>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-body">
+                                <form action="{{ route('despachos.update', [$despachos->idDespacho]) }}" method="post">
+                                    {{ csrf_field() }}
+                                    <div class="row">
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-group">
+                                                <label for="first-name-column">Número del Despacho</label>
+                                                <input value="{{ old('numeroDespacho', $despachos->numeroDespacho) }}"
+                                                    id="numeroDespacho" class="form-control " name="numeroDespacho"
+                                                    placeholder="Ingrese el número del despacho">
 
-        <div class="col-md-12 col-sm-12 col-xs-12">
+                                                @if ($errors->has('numeroDespacho'))
+                                                    <span class="text-danger"
+                                                        class="errormsg">{{ $errors->first('numeroDespacho') }}</span>
+                                                @endif
+                                            </div>
+                                        </div>
 
-            <!-- Alert message (start) -->
-            @if (Session::has('message'))
-                <div class="alert {{ Session::get('alert-class') }}">
-                    {{ Session::get('message') }}
-                </div>
-            @endif
-            <!-- Alert message (end) -->
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-group">
+                                                <label for="last-name-column">Nombre del Despacho</label>
+                                                <input value="{{ old('nombreDespacho', $despachos->nombreDespacho) }}"
+                                                    id="nombreDespacho" class="form-control " name="nombreDespacho"
+                                                    placeholder="Ingrese el nombre del despacho">
 
-            <div class="card">
-                <div class="card-header">
-                    <strong> Editar Despacho </strong>
-                </div>
-                <div class="card-body">
+                                                @if ($errors->has('nombreDespacho'))
+                                                    <span class="text-danger"
+                                                        class="errormsg">{{ $errors->first('nombreDespacho') }}</span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
 
-                    <a class='btn btn-info float-right' href="{{ route('despachos') }}">Volver</a>
+                                    <div class="row">
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-group">
+                                                <label for="first-name-column">Número de Teléfono</label>
+                                                <input value="{{ old('telefonoDespacho', $despachos->telefonoDespacho) }}"
+                                                    id="telefonoDespacho" class="form-control " name="telefonoDespacho"
+                                                    placeholder="Ingrese el número de teléfono">
 
-                    <center>
+                                                @if ($errors->has('telefonoDespacho'))
+                                                    <span class="text-danger"
+                                                        class="errormsg">{{ $errors->first('telefonoDespacho') }}</span>
+                                                @endif
+                                            </div>
+                                        </div>
 
-                        <form action="{{ route('despachos.update', [$despachos->idDespacho]) }}" method="post">
-                            {{ csrf_field() }}
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-group">
+                                                <label for="last-name-column">Correo Electrónico</label>
+                                                <input value="{{ old('correoDespacho', $despachos->correoDespacho) }}"
+                                                    id="correoDespacho" class="form-control " name="correoDespacho"
+                                                    placeholder="Ingrese el correo electrónico">
 
-                            <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="numeroDespacho">Número de
-                                    Despacho<span class="required"></span></label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input id="numeroDespacho" class="form-control col-md-12 col-xs-12"
-                                        name="numeroDespacho" placeholder="Ingrese el número de despacho"
-                                        required="required" type="int"
-                                        value="{{ old('numeroDespacho', $despachos->numeroDespacho) }}">
+                                                @if ($errors->has('correoDespacho'))
+                                                    <span class="text-danger"
+                                                        class="errormsg">{{ $errors->first('correoDespacho') }}</span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
 
-                                    @if ($errors->has('numeroDespacho'))
-                                        <span class="errormsg">{{ $errors->first('numeroDespacho') }}</span>
-                                    @endif
-                                </div>
+                                    <div class="row">
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-group">
+                                                <label for="company-column">Especialidad</label>
+                                                <select disabled class="form-select" id="basicSelect"
+                                                    name="idEspecialidadFK" class="form-control">
+                                                    <option value=""> -- Seleccione Especialidad --</option>
+                                                    @foreach ($despachos_especialidads as $despacho_especialidad)
+                                                        <option value="{{ $despacho_especialidad->idEspecialidad }}"
+                                                            {{ old('idEspecialidadFK') == 0 ? 'selected' : '' }}>
+                                                            <strong>Nombre Especialidad: </strong>
+                                                            {{ $despacho_especialidad->denominacionEspecialidad }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+
+                                                @if ($errors->has('idEspecialidadFK'))
+                                                    <span class="text-danger"
+                                                        class="errormsg">{{ $errors->first('idEspecialidadFK') }}</span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 d-flex justify-content-end">
+                                        <a class="btn btn-light me-1 mb-1" href="{{ route('despachos') }}">Volver</a>
+                                        <button onclick="return confirm('Esta seguro de Modificar?')" type="submit" class="btn btn-primary me-1 mb-1">Guardar</button>
+                                    </div>
+                                </form>
                             </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nombreDespacho">Nombre
-                                    Despacho</label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input id="nombreDespacho" class="form-control col-md-12 col-xs-12"
-                                        name="nombreDespacho" placeholder="Ingrese el nombre del despacho"
-                                        required="required" type="text"
-                                        value="{{ old('nombreDespacho', $despachos->nombreDespacho) }}">
-
-                                    @if ($errors->has('nombreDespacho'))
-                                        <span class="errormsg">{{ $errors->first('nombreDespacho') }}</span>
-                                    @endif
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="telefonoDespacho">Número de
-                                    Teléfono</label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input id="telefonoDespacho" class="form-control col-md-12 col-xs-12"
-                                        name="telefonoDespacho" placeholder="Ingrese el número de teléfono"
-                                        required="required" type="int"
-                                        value="{{ old('telefonoDespacho', $despachos->telefonoDespacho) }}">
-
-                                    @if ($errors->has('telefonoDespacho'))
-                                        <span class="errormsg">{{ $errors->first('telefonoDespacho') }}</span>
-                                    @endif
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="correoDespacho">Correo
-                                    Electrónico</label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input id="correoDespacho" class="form-control col-md-12 col-xs-12"
-                                        name="correoDespacho" placeholder="Ingrese el correo electrónico"
-                                        required="required" type="text"
-                                        value="{{ old('correoDespacho', $despachos->correoDespacho) }}">
-
-                                    @if ($errors->has('correoDespacho'))
-                                        <span class="errormsg">{{ $errors->first('correoDespacho') }}</span>
-                                    @endif
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="idEspecialidad">
-                                    Especialidad</label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <select name="idEspecialidadFK" class="form-control">
-
-                                        @foreach ($despachos_especialidads as $despacho_especialidad)
-                                            <option value="{{ $despacho_especialidad->idEspecialidad }}"
-                                                {{ old('idEspecialidadFK') == 1 ? 'select' : '' }}>
-                                                {{ $despacho_especialidad->denominacionEspecialidad }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-
-                                    @if ($errors->has('idEspecialidadFK'))
-                                        <span class="errormsg">{{ $errors->first('idEspecialidadFK') }}</span>
-                                    @endif
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="col-md-6">
-                                    <input type="submit" name="submit" value='Guardar' class="boton_personalizado">
-                                </div>
-                            </div>
-
-                        </form>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            </center>
-
-        </div>
+        </section>
     </div>
 @endsection()

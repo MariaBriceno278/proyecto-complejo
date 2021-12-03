@@ -19,8 +19,8 @@
                         <div class="col-12 col-md-6 order-md-2 order-first">
                             <nav aria-label="breadcrumb" class='breadcrumb-header'>
                                 <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="">Inicio</a></li>
-                                    <li class="breadcrumb-item"><a href="">Salas</a></li>
+                                    <li class="breadcrumb-item"><a href="{{route('vista_dashboard')}}">Inicio</a></li>
+
                                     <li class="breadcrumb-item active" aria-current="page">Audiencia</li>
                                 </ol>
                             </nav>
@@ -47,13 +47,16 @@
                                         <tr>
                                             <td>{{ $audiencia->tiempoAudiencia }}</td>
                                             <td>{{ $audiencia->observacionesAudiencia }}</td>
+
                                             @if ($audiencia->estado == 1)
-                                                <td><a href="{{ route('audiencias.change.status', [$audiencia->idAudiencia]) }}"
-                                                        class="btn btn-sm btn-success">Activo</a>
+                                                <td><a style="color:#09A626"
+                                                        href="{{ route('audiencias.change.status', [$audiencia->idAudiencia]) }}"
+                                                        class="badge bg-success"><strong>Activo</strong> </a>
                                                 </td>
                                             @else
-                                                <td><a href="{{ route('audiencias.change.status', [$audiencia->idAudiencia]) }}"
-                                                        class="btn btn-sm btn-danger">Inactivo</a>
+                                                <td><a style="color:#B93922"
+                                                        href="{{ route('audiencias.change.status', [$audiencia->idAudiencia]) }}"
+                                                        class="badge bg-danger"><strong>Inactivo</strong></a>
                                                 </td>
                                             @endif
 

@@ -16,7 +16,7 @@ class TipoInvolucradoController extends Controller
      */
     public function index()
     {
-        $tiposinvolucrados = TipoInvolucrado::select('idTipoInvolucrado', 'nombreTipoInvolucrado' , 'estado')->get();
+        $tiposinvolucrados = TipoInvolucrado::select('idTipoInvolucrado', 'nombreTipoInvolucrado', 'estado')->get();
         return view('tiposinvolucrados.index')->with('tiposinvolucrados', $tiposinvolucrados);
     }
 
@@ -39,21 +39,20 @@ class TipoInvolucradoController extends Controller
     public function store(Request $request)
     {
         $data = $request->except('_method', '_token', 'submit');
-        $mensajes =[
-            "unique" => "Este tipo de involucrado ya se encuentra registardo",
-            "required" => "Campo requerido ",
-            "string" => "Solo ingrese letras",
 
-            ];
-        $rules = [
-            'nombreTipoInvolucrado' => 'required|string|min:3|unique:TipoInvolucrado,nombreTipoInvolucrado',
-            'estado' => 'required'
-
-
+        $mensajes = [
+            "unique" => "El nombre tipo involucrado ya está tomado.",
+            "required" => "El campo es obligatorio",
+            "regex" => "El campo solo puede contener letras",
+            "between" => "El campo deben tener entre :min y :max caracteres",
         ];
 
+        $rules = [
+            'nombreTipoInvolucrado' => 'required|regex:/^[\pL\s\-]+$/u|between:3, 20|unique:TipoInvolucrado,nombreTipoInvolucrado',
+            'estado' => 'required'
+        ];
 
-        $validator = Validator::make($request->all(), $rules,$mensajes);
+        $validator = Validator::make($request->all(), $rules, $mensajes);
 
         if ($validator->fails()) {
             return redirect()->Back()->withInput()->withErrors($validator);
@@ -106,7 +105,7 @@ class TipoInvolucradoController extends Controller
      */
     public function update(Request $request, $idTipoInvolucrado)
     {
-
+        //
     }
 
     /**

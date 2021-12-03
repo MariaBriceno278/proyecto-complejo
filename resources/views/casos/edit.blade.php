@@ -3,86 +3,57 @@
 @section('content')
 
 
-    <div class="row">
+    <div class="main-content container-fluid">
+        <section id="multiple-column-form">
+            <div class="row match-height">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">EDITAR CASO</h4>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-body">
+                                <form action="{{ route('casos.update', [$casos->idCaso]) }}" method="post">
+                                    {{ csrf_field() }}
+                                    <div class="row">
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-group">
+                                                <label for="first-name-column">Número de Referencia</label>
+                                                <input value="{{ old('nReferenciaCaso', $casos->nReferenciaCaso) }}"
+                                                    id="nReferenciaCaso" class="form-control " name="nReferenciaCaso"
+                                                    placeholder="Ingrese el número de referencia">
 
-        <div class="col-md-12 col-sm-12 col-xs-12">
+                                                @if ($errors->has('nReferenciaCaso'))
+                                                    <span class="text-danger"
+                                                        class="errormsg">{{ $errors->first('nReferenciaCaso') }}</span>
+                                                @endif
+                                            </div>
+                                        </div>
 
-            <!-- Alert message (start) -->
-            @if (Session::has('message'))
-                <div class="alert {{ Session::get('alert-class') }}">
-                    {{ Session::get('message') }}
-                </div>
-            @endif
-            <!-- Alert message (end) -->
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-group">
+                                                <label for="last-name-column">Fecha de Registro</label>
+                                                <input value="{{ old('fechaRegistro', $casos->fechaRegistro) }}"
+                                                    class="form-control " name="fechaRegistro" type="date">
 
-            <div class="card">
-                <div class="card-header">
-                    <strong> Editar Caso</strong>
-                </div>
-                <div class="card-body">
+                                                @if ($errors->has('fechaRegistro'))
+                                                    <span class="text-danger"
+                                                        class="errormsg">{{ $errors->first('fechaRegistro') }}</span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
 
-                    <a class='btn btn-info float-right' href="{{ route('casos') }}">Volver</a>
-
-                    <center>
-
-                        <form action="{{ route('casos.update', [$casos->idCaso]) }}" method="post">
-                            {{ csrf_field() }}
-
-                            <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nReferenciaCaso">Número de
-                                    Referencia</label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input id="nReferenciaCaso" class="form-control col-md-12 col-xs-12"
-                                        name="nReferenciaCaso" placeholder="Ingrese el número de referencia"
-                                         type="int"
-                                        value="{{ old('nReferenciaCaso', $casos->nReferenciaCaso) }}">
-
-                                    @if ($errors->has('nReferenciaCaso'))
-                                        <span class="errormsg">{{ $errors->first('nReferenciaCaso') }}</span>
-                                    @endif
-                                </div>
+                                    <div class="col-12 d-flex justify-content-end">
+                                        <a class="btn btn-light me-1 mb-1" href="{{ route('casos') }}">Volver</a>
+                                        <button onclick="return confirm('Esta seguro de Modificar?')" type="submit" class="btn btn-primary me-1 mb-1">Guardar</button>
+                                    </div>
+                                </form>
                             </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="fechaRegistro">Fecha de
-                                    Registro</label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input id="fechaRegistro" class="form-control col-md-12 col-xs-12" name="fechaRegistro"
-                                         type="date"
-                                        value="{{ old('fechaRegistro', $casos->fechaRegistro) }}">
-
-                                    @if ($errors->has('fechaRegistro'))
-                                        <span class="errormsg">{{ $errors->first('fechaRegistro') }}</span>
-                                    @endif
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="estadoCaso">Estado</label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input id="estadoCaso" class="form-control col-md-12 col-xs-12" name="estadoCaso"
-                                        placeholder="ingrese el estado del caso" required="required" type="text"
-                                        value="{{ old('estadoCaso', $casos->estadoCaso) }}">
-
-                                    @if ($errors->has('estadoCaso'))
-                                        <span class="errormsg">{{ $errors->first('estadoCaso') }}</span>
-                                    @endif
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="col-md-6">
-                                    <input type="submit" name="submit" value='Guardar' class="boton_personalizado">
-                                </div>
-                            </div>
-
-                        </form>
-
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            </center>
-
-        </div>
+        </section>
     </div>
 @endsection()

@@ -16,7 +16,7 @@ class SedeController extends Controller
      */
     public function index()
     {
-        $sedes = Sede::select('idSede', 'direccionSede', 'nombreSede','estado')->get();
+        $sedes = Sede::select('idSede', 'direccionSede', 'nombreSede', 'estado')->get();
         return view('sedes.index')->with('sedes', $sedes);
     }
 
@@ -40,21 +40,21 @@ class SedeController extends Controller
     {
         $data = $request->except('_method', '_token', 'submit');
 
-
-        $rules=[
-            'direccionSede' => 'required|string|min:3|unique:sede,direccionSede',
-            'nombreSede' => 'required|string|min:3',
-
+        $rules = [
+            'direccionSede' => 'required|between:5, 20|unique:sede,direccionSede',
+            'nombreSede' => 'required|between:5, 20|regex:/^[\pL\s\-]+$/u',
+            'estado' => 'required',
         ];
 
-        $mensajes =[
-            "required" => "Campo requerido ",
-            "string" => "solo letras",
-            'unique' => 'Sede ya registrada',
+        $mensajes = [
+            "required" => "El campo es obligatorio",
+            'unique' => "La dirección sede ya está tomada",
+            "between" => "El campo deben tener entre :min y :max caracteres",
+            "regex" => "El campo solo puede contener letras",
+        ];
 
-            ];
+        $validator = Validator::make($request->all(), $rules, $mensajes);
 
-            $validator = Validator::make($request->all(), $rules,$mensajes);
         if ($validator->fails()) {
             return redirect()->Back()->withInput()->withErrors($validator);
         }
@@ -106,23 +106,20 @@ class SedeController extends Controller
     {
         $data = $request->except('_method', '_token', 'submit');
 
-
-        $rules=[
-            'direccionSede' => 'required|string|min:3|unique:sede,direccionSede',
-            'nombreSede' => 'required|string|min:3',
+        $rules = [
+            'direccionSede' => 'required|between:5, 20|unique:sede,direccionSede',
+            'nombreSede' => 'required|between:5, 20|regex:/^[\pL\s\-]+$/u',
 
         ];
 
+        $mensajes = [
+            "required" => "El campo es obligatorio",
+            'unique' => "La dirección sede ya está tomada",
+            "between" => "El campo deben tener entre :min y :max caracteres",
+            "regex" => "El campo solo puede contener letras",
+        ];
 
-
-        $mensajes =[
-            "required" => "Campo requerido ",
-            "string" => "solo letras",
-            'unique' => 'Sede ya registrada',
-
-            ];
-
-            $validator = Validator::make($request->all(), $rules,$mensajes);
+        $validator = Validator::make($request->all(), $rules, $mensajes);
 
         if ($validator->fails()) {
             return redirect()->Back()->withInput()->withErrors($validator);

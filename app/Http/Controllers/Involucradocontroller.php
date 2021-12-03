@@ -39,21 +39,22 @@ class InvolucradoController extends Controller
     public function store(Request $request)
     {
         $data = $request->except('_method', '_token', 'submit');
-        $mensajes =[
-            "unique" => "el correo ya se encuntra registrado, ingrese otro correo",
-            "required" => "Campo requerido ",
-            "string" => "Solo ingrese letras",
 
-            ];
-        $rules = [
-            'nombreInvolucrado' => 'required|string|min:3',
-            'correoInvolucrado' => 'required|email|unique:involucrado,correoInvolucrado',
-
-
+        $mensajes = [
+            "unique" => "El correo involucrado ya está tomado",
+            "required" => "El campo es obligatorio",
+            "between" => "El campo deben tener entre :min y :max caracteres",
+            "regex" => "El campo solo puede contener letras",
+            "email" => "El campo debe ser una dirección de correo electrónico válida",
         ];
 
+        $rules = [
+            'nombreInvolucrado' => 'required|between:3, 20|regex:/^[\pL\s\-]+$/u',
+            'correoInvolucrado' => 'required|email:rfc,dns|unique:involucrado,correoInvolucrado',
+            'estado' => 'required'
+        ];
 
-        $validator = Validator::make($request->all(), $rules,$mensajes);
+        $validator = Validator::make($request->all(), $rules, $mensajes);
 
         if ($validator->fails()) {
             return redirect()->Back()->withInput()->withErrors($validator);
@@ -106,29 +107,7 @@ class InvolucradoController extends Controller
      */
     public function update(Request $request, $idInvolucrado)
     {
-        $data = $request->except('_method', '_token', 'submit');
-
-        $validator = Validator::make($request->all(), [
-            'nombreInvolucrado' => 'required|string|min:3',
-            'correoInvolucrado' => 'required|string|min:3',
-        ]);
-
-        if ($validator->fails()) {
-            return redirect()->Back()->withInput()->withErrors($validator);
-        }
-        $involucrados = Involucrado::find($idInvolucrado);
-
-        if ($involucrados->update($data)) {
-
-            Session::flash('message', 'Modificado con Exito!');
-            Session::flash('alert-class', 'alert-success');
-            return redirect()->route('involucrados');
-        } else {
-            Session::flash('message', 'No se pudo modificar!');
-            Session::flash('alert-class', 'alert-danger');
-        }
-
-        return Back()->withInput();
+        //
     }
 
     /**
